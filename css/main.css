@@ -1069,7 +1069,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #74bf00;
+  background: #c925c4;
 }
 .links-of-friendly a {
   display: inline-block;
@@ -1087,7 +1087,7 @@ body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #09be3e;
+  background: #f187ff;
 }
 .sidebar-nav {
   margin: 0;
@@ -2291,4 +2291,20 @@ a:hover {
   #assist_btn {
     display: none;
   }
+}
+code {
+  color: #ff7600;
+  background: #fbf7f8;
+  margin: 2px;
+}
+.highlight,
+pre {
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 3px;
+}
+.highlight,
+code,
+pre {
+  border: 1px solid #d6d6d6;
 }
