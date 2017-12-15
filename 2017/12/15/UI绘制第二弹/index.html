@@ -29,7 +29,7 @@
 
 
 
-  <meta name="keywords" content="Kotlin," />
+  <meta name="keywords" content="Hexo,Mala" />
 
 
 
@@ -38,24 +38,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
-<meta name="keywords" content="Kotlin">
+<meta name="description" content="上一章我们从setContentView为出发点研究了DecorView的创建过程和显示过程，本章将继续进行研究UI的绘制流程 ##正文上一章一步一步的走到了performTraversals方法，开启了View的绘制 private void performTraversals() {     // cache mView since it is used so much below...">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta property="og:url" content="http://andlollipop.github.io/2017/12/12/Kotlin_mvp_dagger2_retrofit/index.html">
+<meta property="og:title" content="花花世界博客">
+<meta property="og:url" content="http://andlollipop.github.io/2017/12/15/UI绘制第二弹/index.html">
 <meta property="og:site_name" content="花花世界博客">
-<meta property="og:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
+<meta property="og:description" content="上一章我们从setContentView为出发点研究了DecorView的创建过程和显示过程，本章将继续进行研究UI的绘制流程 ##正文上一章一步一步的走到了performTraversals方法，开启了View的绘制 private void performTraversals() {     // cache mView since it is used so much below...">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/hG2R6qg.png">
-<meta property="og:image" content="https://i.imgur.com/wXXrpDy.png">
-<meta property="og:image" content="https://i.imgur.com/k0GOOed.png">
-<meta property="og:image" content="https://i.imgur.com/Td4O8Op.png">
-<meta property="og:image" content="https://i.imgur.com/FtHgC68.png">
-<meta property="og:updated_time" content="2017-12-15T10:28:49.033Z">
+<meta property="og:updated_time" content="2017-11-23T05:26:00.270Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta name="twitter:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
-<meta name="twitter:image" content="https://i.imgur.com/hG2R6qg.png">
+<meta name="twitter:title" content="花花世界博客">
+<meta name="twitter:description" content="上一章我们从setContentView为出发点研究了DecorView的创建过程和显示过程，本章将继续进行研究UI的绘制流程 ##正文上一章一步一步的走到了performTraversals方法，开启了View的绘制 private void performTraversals() {     // cache mView since it is used so much below...">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -65,7 +58,7 @@
   };
 </script>
 
-  <title> Kotlin_mvp_dagger2_retrofit | 花花世界博客 </title>
+  <title>  | 花花世界博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -195,7 +188,7 @@
           
           
             
-              Kotlin_mvp_dagger2_retrofit
+              
             
           
         </h1>
@@ -204,26 +197,11 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2017-12-12T19:03:25+08:00" content="2017-12-12">
-            2017-12-12
+          <time itemprop="dateCreated" datetime="2017-12-15T18:20:50+08:00" content="2017-12-15">
+            2017-12-15
           </time>
         </span>
 
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/Kotlin/" itemprop="url" rel="index">
-                  <span itemprop="name">Kotlin</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
         
 
         
@@ -238,213 +216,273 @@
       
 
       
-        <span itemprop="articleBody"><p>上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！<br>那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码</p>
-<p>在学习这篇文章之前需要掌握下面的知识，如下：</p>
+        <span itemprop="articleBody"><p>上一章我们从setContentView为出发点研究了DecorView的创建过程和显示过程，本章将继续进行研究UI的绘制流程</p>
+<p>##正文<br>上一章一步一步的走到了performTraversals方法，开启了View的绘制</p>
+<pre><code>private void performTraversals() {
+    // cache mView since it is used so much below...
+    final View host = mView; //将DecorView赋值给了host
+    ......//一些简单的赋值
+    WindowManager.LayoutParams lp = mWindowAttributes;
+    .....
+    int childWidthMeasureSpec = getRootMeasureSpec(mWidth, lp.width);
+    int childHeightMeasureSpec = getRootMeasureSpec(mHeight, lp.height);
+
+     // Ask host how big it wants to be
+    performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);（1）
+
+    int width = host.getMeasuredWidth();
+    int height = host.getMeasuredHeight();
+    boolean measureAgain = false;
+    // lp是否设置了权重，如果设置了则将measureAgain置为true
+    if (measureAgain) {
+        performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+    layoutRequested = true;
+}
+    final boolean didLayout = layoutRequested &amp;&amp; !mStopped;
+    if (didLayout) {
+        performLayout(lp, desiredWindowWidth, desiredWindowHeight);（2）
+     }
+    ......
+    boolean cancelDraw = attachInfo.mTreeObserver.dispatchOnPreDraw() ||
+            viewVisibility != View.VISIBLE;
+    if (!cancelDraw &amp;&amp; !newSurface) {
+    ......
+            performDraw();（3）
+    }
+}
+</code></pre><p>在方法中分别调用了performMeasure、performLayout、performDraw方法，分别对应测量、布局、绘制。getRootMeasureSpec的作用就是得到根View的测量规格</p>
+<pre><code>private static int getRootMeasureSpec(int windowSize, int rootDimension) {
+    int measureSpec;
+    switch (rootDimension) {
+    case ViewGroup.LayoutParams.MATCH_PARENT:
+        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.EXACTLY);
+        break;
+    case ViewGroup.LayoutParams.WRAP_CONTENT:
+        measureSpec = MeasureSpec.makeMeasureSpec(windowSize, MeasureSpec.AT_MOST);
+        break;
+    default:
+        measureSpec = MeasureSpec.makeMeasureSpec(rootDimension, MeasureSpec.EXACTLY);
+        break;
+    }
+    return measureSpec;
+}
+</code></pre><p>要想知道measureSpec的值就需要知道rootDimension是什么，一步步可以查到rootDimension是ViewGroup.LayoutParams.MATCH_PARENT,它是通过mWindowAttributes得到，mWindowAttributes又是WindowManager.LayoutParams的对象</p>
+<pre><code>public LayoutParams() {
+        super(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        type = TYPE_APPLICATION;
+        format = PixelFormat.OPAQUE;
+ }
+</code></pre><p>所以performMeasure向下传递的是EXACTLY模式的，ok，进入performMeasure方法</p>
+<pre><code>private void performMeasure(int childWidthMeasureSpec, int childHeightMeasureSpec) {
+    Trace.traceBegin(Trace.TRACE_TAG_VIEW, &quot;measure&quot;);
+    try {
+        mView.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    } finally {
+        Trace.traceEnd(Trace.TRACE_TAG_VIEW);
+    }
+}
+</code></pre><p>这里调用了DecorView的measure方法，因为DecorView没有这个方法，它会调用View里面的measure方法</p>
+<pre><code>public final void measure(int widthMeasureSpec, int heightMeasureSpec) {
+    boolean optical = isLayoutModeOptical(this);
+    if (optical != isLayoutModeOptical(mParent)) {//为View加入阴影的效果
+        Insets insets = getOpticalInsets();
+        int oWidth  = insets.left + insets.right;
+        int oHeight = insets.top  + insets.bottom;
+        widthMeasureSpec  = MeasureSpec.adjust(widthMeasureSpec,  optical ? -oWidth  : oWidth);
+        heightMeasureSpec = MeasureSpec.adjust(heightMeasureSpec, optical ? -oHeight : oHeight);
+    }
+    ......
+    if (forceLayout || needsLayout) {
+        //这里将测量缓存起来，如果缓存中有的话就不进行测量
+        int cacheIndex = forceLayout ? -1 : mMeasureCache.indexOfKey(key);
+        if (cacheIndex &lt; 0 || sIgnoreMeasureCache) {
+            onMeasure(widthMeasureSpec, heightMeasureSpec);
+            mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;
+        } else {
+            long value = mMeasureCache.valueAt(cacheIndex);
+            // Casting a long to int drops the high 32 bits, no mask needed
+            setMeasuredDimensionRaw((int) (value &gt;&gt; 32), (int) value);
+            mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;
+        }
+    }
+</code></pre><p>ok,因为是第一次测量，所以要进入onMeasure方法，由于上面操作的是DecorView对象，所以在onMeasure方法也是调用DecorView的，因为DecorView不具有代表性，这里我们查看FrameLayout方法的onMeasure</p>
+<pre><code>@Override
+protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    int count = getChildCount();
+    for (int i = 0; i &lt; count; i++) {//对ViewGroup进行遍历，分别对子Child进行测量
+        final View child = getChildAt(i);
+        //当child为空的时候则不走测量的操作
+        if (mMeasureAllChildren || child.getVisibility() != GONE) {
+            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
+            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            maxWidth = Math.max(maxWidth,
+                    child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
+            maxHeight = Math.max(maxHeight,
+                    child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);
+        }
+    }
+    //最后要调用setMeasureDimension来确定ViewGroup的大小，如果不调用则会报错
+    //但是平时我们写也不会报错因为我们调用了super.measure()方法，View有一个默认的实现
+    setMeasuredDimension(resolveSizeAndState(maxWidth, widthMeasureSpec, childState),
+            resolveSizeAndState(maxHeight, heightMeasureSpec,
+                    childState &lt;&lt; MEASURED_HEIGHT_STATE_SHIFT));
+}
+</code></pre><p>ok,进入measureChildWithMargins()方法</p>
+<pre><code>protected void measureChild(View child, int parentWidthMeasureSpec,
+        int parentHeightMeasureSpec) {
+    final LayoutParams lp = child.getLayoutParams();
+
+    final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+            mPaddingLeft + mPaddingRight, lp.width);
+    final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+            mPaddingTop + mPaddingBottom, lp.height);
+
+    child.measure(childWidthMeasureSpec, childHeightMeasureSpec);//调用子View的measure的方法，如果子View也为GroupView的时候将重复上述的操作
+}
+</code></pre><p>ViewGroup对子View的测量有三个方法分别是measureChildWithMargins、measureChild、measureChildren，进入getChildMeasureSpec方法用来得到ViewGroup传给子View的测量规格</p>
+<pre><code>   public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+    int specMode = MeasureSpec.getMode(spec);
+    int specSize = MeasureSpec.getSize(spec);
+
+    int size = Math.max(0, specSize - padding);
+
+    int resultSize = 0;
+    int resultMode = 0;
+
+    switch (specMode) {
+    case MeasureSpec.EXACTLY://当父View传过来的mode是Exactly
+        //当子View的尺寸是确定值并且大于0时则传给子View的尺寸为Child尺寸，mode为EXACTLY
+        if (childDimension &gt;= 0) {
+            resultSize = childDimension;
+            resultMode = MeasureSpec.EXACTLY;
+        //当child的尺寸为Match_parent的时候则将传给子View的尺寸为父View的尺寸，mode为EXACTLY
+        } else if (childDimension == LayoutParams.MATCH_PARENT) {
+            resultSize = size;
+            resultMode = MeasureSpec.EXACTLY;
+        //当Child的尺寸为Wrap_content的时候则传给子View的尺寸为父View的尺寸，mode为AT_MOST
+        } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+            // bigger than us.
+            resultSize = size;
+            resultMode = MeasureSpec.AT_MOST;
+        }
+        break;
+    ......下面的类似，不多说
+    return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
+}
+</code></pre><p>tips:</p>
+<ol>
+<li>EXACTLY ：父容器已经测量出所需要的精确大小，这也是childview的最终大小  match_parent，精确值</li>
+<li>ATMOST : child view最终的大小不能超过父容器的给的   wrap_content</li>
+<li>UNSPECIFIED: 不确定，源码内部使用   一般在ScrollView，ListView</li>
+</ol>
+<p>ok,View的测量方法就完了，performLayout、performDraw套路是一样的</p>
+<p>我们在自定义View或者ViewGroup的时候不要在onMeasure方法里面用getWidth/getHeight/getMeasureWidth得到View的尺寸，因为在measure的最后会调用View的setMeasuredDimensionRaw方法</p>
+<pre><code>private void setMeasuredDimensionRaw(int measuredWidth, int measuredHeight) {
+    mMeasuredWidth = measuredWidth;
+    mMeasuredHeight = measuredHeight;
+
+    mPrivateFlags |= PFLAG_MEASURED_DIMENSION_SET;
+}
+</code></pre><p>所以只能在onMeasure方法之后使用getMeasureWidth方法，另外getWidth/getHeight则应该在onLayout方法之后</p>
+<pre><code>@ViewDebug.ExportedProperty(category = &quot;layout&quot;)
+public final int getWidth() {
+    return mRight - mLeft;
+}
+</code></pre><p>所以当布局确定了之后才能得到View的尺寸。</p>
+<p>对上面来个总结：</p>
+<p>当我们使用自定义View的时候最终调用setMeasuredDimession方法来保存自己的测量宽高</p>
+<pre><code>final int specMode = MeasureSpec.getMode(measureSpec);
+        final int specSize =  MeasureSpec.getSize(measureSpec);
+        switch (specMode) {
+        case MeasureSpec.UNSPECIFIED:
+            /* Parent says we can be as big as we want. Just don&apos;t be larger
+               than max size imposed on ourselves.
+            */
+            result = Math.min(desiredSize, maxSize);
+            break;
+        case MeasureSpec.AT_MOST:
+            // Parent says we can be as big as we want, up to specSize.
+            // Don&apos;t be larger than specSize, and don&apos;t be larger than
+            // the max size imposed on ourselves.
+            result = Math.min(Math.min(desiredSize, specSize), maxSize);
+            break;
+        case MeasureSpec.EXACTLY:
+            // No choice. Do what we are told.
+            result = specSize;
+            break;
+    }
+    return result;
+</code></pre><p>当我们使用ViewGroup的时候</p>
+<ol>
+<li>测量子view的规格大小measureChildWithMargins、measureChild、measureChildren</li>
+<li>通过子view的规格大小来确定自己的大小 setMeasuredDimession</li>
+</ol>
+<p>通过上面的学习，我们可以做出自己的流式布局，效果如下：</p>
+<ol>
+<li><p>获取父容器设置的测量模式和大小</p>
+<pre><code>int iWidthMode = MeasureSpec.getMode(widthMeasureSpec);
+int iHeightMode = MeasureSpec.getMode(heightMeasureSpec);
+int iWidthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
+int iHeightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
+</code></pre></li>
+<li><p>核心代码</p>
+<pre><code>if(iCurLineW + iChildWidth &gt; iWidthSpecSize){
+       //记录当前行的最大宽度，高度累加
+       measuredWith = Math.max(measuredWith,iCurLineW);
+       measuredHeight += iCurLineH;
+       //将当前行的viewList添加至总的mViewsList，将行高添加至总的行高List
+       mViewLinesList.add(viewList);
+       mLineHeights.add(iCurLineH);
+
+       iCurLineW = iChildWidth;
+       iCurLineH = iChildHeight;
+
+       viewList = new ArrayList&lt;View&gt;();
+       viewList.add(childView);
+   }else{
+       iCurLineW += iChildWidth;
+       iCurLineH = Math.max(iCurLineH, iChildHeight);
+       viewList.add(childView);
+   }
+</code></pre></li>
+<li><p>最后一行需要进行换行操作</p>
+<pre><code>if(i == childCount - 1){
+    measuredWith = Math.max(measuredWith,iCurLineW);
+    measuredHeight += iCurLineH;
+
+    mViewLinesList.add(viewList);
+    mLineHeights.add(iCurLineH);
+}
+</code></pre></li>
+<li><p>设置最终的大小</p>
+<pre><code>setMeasuredDimension(measuredWith,measuredHeight);
+</code></pre></li>
+<li><p>对子View进行布局</p>
+<pre><code>int cusTop = 0;
+int cusLeft = 0;
+for (int i = 0; i &lt; totalViews.size(); i++) {
+    List&lt;View&gt; lineViews = totalViews.get(i);
+    int lineHeight = mLineHeights.get(i);
+    for (int j = 0; j &lt; lineViews.size(); j++) {
+        View childView = lineViews.get(j);
+        MarginLayoutParams layoutParams = (MarginLayoutParams) childView.getLayoutParams();
+        int childLeft = cusLeft + layoutParams.leftMargin;
+        int childTop = cusTop + layoutParams.topMargin;
+        int childRight = childLeft + childView.getMeasuredWidth();
+        int childBottom = childTop + childView.getMeasuredHeight();
+        childView.layout(childLeft, childTop, childRight, childBottom);
+        cusLeft += childView.getMeasuredWidth() + layoutParams.leftMargin + layoutParams.rightMargin;
+    }
+    cusLeft = 0;
+    cusTop += lineHeight;
+}
+</code></pre></li>
+</ol>
 <blockquote>
-<p>dagger2 <a href="http://www.jianshu.com/p/39d1df6c877d" target="_blank" rel="noopener">http://www.jianshu.com/p/39d1df6c877d</a></p>
-<p>retrofit <a href="http://www.jianshu.com/p/308f3c54abdd" target="_blank" rel="noopener">http://www.jianshu.com/p/308f3c54abdd</a></p>
-<p>API <a href="http://gank.io/api" target="_blank" rel="noopener">http://gank.io/api</a></p>
+<p>凡不能毁灭我的，必使我强大</p>
 </blockquote>
-<p>##正文<br>因为项目中用的Dagger2比较多，这里来讲解一下项目中用到的几个注解，更多的详情可以看上面的地址</p>
-<h2 id="Component-组件、管理器、注入器"><a href="#Component-组件、管理器、注入器" class="headerlink" title="Component:组件、管理器、注入器"></a>Component:组件、管理器、注入器</h2><p>功能就是将类中使用@Inject标记的属性和在对应属性类中使用@Inject标记的构造方法，然后将它们关联起来。</p>
-<p>而如果构造方法需要参数，或者我们没法再需要注入的对象的构造方法加入@Inject注解的时候就需要使用Module</p>
-<p>该注解里面的参数有两个，一个是设置modules所关联的Module类，第二个是dependency所依赖的Component</p>
-<p><img src="https://i.imgur.com/hG2R6qg.png" alt=""></p>
-<h2 id="Module：提供者、依赖对象工厂"><a href="#Module：提供者、依赖对象工厂" class="headerlink" title="Module：提供者、依赖对象工厂"></a>Module：提供者、依赖对象工厂</h2><p>功能是与被@Inject标记的构造方法一样提供生成依赖的对象</p>
-<p>因为对于第三方库我们没有办法将它的构造方法加入@Inject标记，这时候我们需要使用Module生成，并提供@provide注解，Component会去查找Module类中@provide的方法获取到对象并通过component返回目标类需要的对象并注入到目标类</p>
-<h2 id="Qualifier-限定符"><a href="#Qualifier-限定符" class="headerlink" title="Qualifier:限定符"></a>Qualifier:限定符</h2><p>功能是在同一纬度下存在多个依赖对象的提供方式(多个构造方法)，则会迷失。这时，可以使用Qualifier</p>
-<p>提供依赖对象有两种方式</p>
-<p>（1）通过使用Inject注解标注的构造函数来创建</p>
-<p>（2）通过工厂模式的Module来创建</p>
-<p>如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果</p>
-<pre><code>@Qualifier
-@Documented
-@Retention(RUNTIME)
-public @interface Named {
-
-    /** The name. */
-    String value() default &quot;&quot;;
-}
-</code></pre><h2 id="Scope-作用域"><a href="#Scope-作用域" class="headerlink" title="Scope:作用域"></a>Scope:作用域</h2><p>   管理创建的类实例的生命周期。<br>   可以通过Scope来限定通过Module和Inject方式创建的类的实例的生命周期能够与目标类的生命周期相同。<br>   Scope本身没有制定生命周期的能力，它的存在一是为了可读性,二是更好的管理Component和Module的关系</p>
-<p>如果你想了解Dagger2具体调用的流程可以查看</p>
-<p><img src="https://i.imgur.com/wXXrpDy.png" alt=""></p>
-<p>接下来我们开始看一下要做的小项目的效果图</p>
-<p><img src="https://i.imgur.com/k0GOOed.png" alt=""></p>
-<p><img src="https://i.imgur.com/Td4O8Op.png" alt=""></p>
-<p>ok,项目比较low，废话不多说，开始我们撸代码时间</p>
-<p>我是这样分包的</p>
-<p><img src="https://i.imgur.com/FtHgC68.png" alt=""></p>
-<p>在项目中我定义了一个全局的Component类</p>
-<pre><code>@Singleton
-@Component(modules = arrayOf(DataSourceModule::class)) //注入器对象提供工厂
-interface AppComponent{
-    /**
-     * 全局注入器能够提供的对象
-     */
-    fun dataManager(): DataManager
-}
-</code></pre><p>这个类为DataSourceModule用来提供DataManager对象的生成，使用DataManager来对网络请求<br>会去查询DataSourceModule类中去找生成DataManager对象的方法</p>
-<pre><code>@Module
-class DataSourceModule {
-
-    @Singleton
-    @Provides
-    fun provideGankService(): GankService {
-        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL).build().create(GankService::class.java)
-    }
-
-    @Singleton
-    @Local
-    @Provides
-    fun provideLocal(): IDataSource{
-        return LocalDataSource()
-    }
-
-    @Singleton
-    @Remote
-    @Provides
-    fun provideRemote(service: GankService): IDataSource {
-        return RemoteDataSource(service)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDataManager(@Remote remote: IDataSource, @Local local: IDataSource): DataManager {
-        return DataManager(remote,local)
-    }
-}
-</code></pre><p>这里推荐使用provide开头，在方法参数里面我有定义两个注解Remote和Local用来区分对应哪个一个IDataSource</p>
-<pre><code>@Qualifier
-annotation class Remote
-</code></pre><p>provideGankService方法里面的写法使用了Gson转换用于将json转化为对象、Rxjava回调用来对网络请求的结果做不同的处理</p>
-<p>然后我们在来看一下DataManager类</p>
-<pre><code>fun getWelfareList(page: Int): Flowable&lt;WelfareEntity&gt; {
-    return remote.getWelfareList(page).onErrorResumeNext(local.getWelfareList(page))
-}
-</code></pre><p>主要是定义相应的规则，先在网络请求获取，当失败的时候获取本地的数据</p>
-<p>ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Application自定一个单例</p>
-<pre><code>class MyApplication: Application(){
-
-    /**
-     * 提供全局注入器的获得
-     */
-    lateinit private var appComponent: AppComponent
-
-    companion object {
-        lateinit var app: MyApplication
-        fun getApplication(): MyApplication{
-            return app
-        }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        app = this
-        appComponent = DaggerAppComponent.builder().dataSourceModule(DataSourceModule()).build()
-    }
-
-    fun getAppComponent(): AppComponent = appComponent
-}
-</code></pre><p>开始我们的主界面，当然这个项目也就一个Activity，既然是MVP就少不了Persenter</p>
-<pre><code>@Inject
-lateinit var presenter: MainPersenter
-</code></pre><p>使用Inject注解来自动去创建MainPersenter对象，然后定义MainAppComponent</p>
-<pre><code>@ActivityScope
-@Component(modules = arrayOf(MainActivityModule::class),dependencies = arrayOf(AppComponent::class))
-interface MainAppComponent{
-    fun inject(activity: MainActivity)
-}
-</code></pre><p>这里对APPComponent进行了依赖，因为在MainPersenter类里面使用到了DataManager的对象</p>
-<pre><code>@Module
-class MainActivityModule(val view: MainActivity){
-
-    @ActivityScope
-    @Provides
-    fun provide1Presenter(dataManager: DataManager): MainPersenter{
-        return MainPersenter(view,dataManager)
-    }
-
-}
-</code></pre><p>然后我们在来看一下MainPersenter</p>
-<pre><code>class MainPersenter(val view: MainViews, val dataManager: DataManager) {
-    //福利
-    fun getWelfarmList(page: Int) {
-        dataManager.getWelfareList(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { view.startLoading() }
-                .doOnError { view.stopLoading() }
-                .subscribe {
-                    view.stopLoading()
-                    view.showWefareList(it.results)
-                }
-}
-</code></pre><p>在这个类中主要是使用DataManager的对象用来获取数据并针对获取成功和失败调用View层的方法</p>
-<p>最后我们需要初始化Dagger2注入器</p>
-<pre><code>//初始化Dagger2注入器
-DaggerMainAppComponent.builder()
-        .appComponent(MyApplication.getApplication().getAppComponent())
-        .mainActivityModule(MainActivityModule(this))
-        .build().inject(this)
-</code></pre><p>另外在写生成ItemView的时候写了两种方式，这里也一并贴出来和大家一起分享</p>
-<p>第一种使用with表达式</p>
-<pre><code>val view = with(context){
-verticalLayout {
-    gravity = Gravity.CENTER_HORIZONTAL
-    imageView {
-        id = R.id.welfare_item_iv
-        imageResource = R.mipmap.ic_launcher
-        scaleType = ImageView.ScaleType.FIT_XY
-        lparams {
-            height = dip(250)
-            width = matchParent
-            leftMargin = dip(20)
-            rightMargin = dip(20)
-            topMargin = dip(15)
-            bottomMargin = dip(15)
-                }
-        }
-    }
-}
-</code></pre><p>当然这样写感觉代码太多了，我们需要将生成布局的代码单独使用一个类，我们可以定义一个类来继承AnkoComponent来写独立的一个布局，如果安装插件还可以预览界面的效果</p>
-<pre><code>class RecyclerUI: AnkoComponent&lt;AndroidAdapter&gt;{
-override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
-    verticalLayout {
-        orientation = LinearLayout.HORIZONTAL
-        lparams {
-            topMargin = dip(10)
-            leftMargin = dip(15)
-            rightMargin = dip(15)
-            bottomMargin = dip(10)
-        }
-        imageView {
-            id = R.id.android_item_iv
-            imageResource = R.mipmap.android_icon
-            lparams {
-                width = dip(90)
-                height = dip(90)
-            }
-        }
-        verticalLayout {
-            textView {
-                id = R.id.android_item_tv1
-                textSize = 18.toFloat()
-
-            }
-
-            textView {
-                id = R.id.android_item_tv2
-                textSize = 16.toFloat()
-                textColor = Color.RED
-                }
-            }
-        }
-    }
-}
-</code></pre><p>至此，小项目的讲解就结束了。</p>
-<p>```<br>坚持总会有结果，总会有收获的</p>
+<p>共勉~</p>
 </span>
       
 	  
@@ -462,24 +500,16 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Kotlin/" rel="tag">#Kotlin</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/15/Kotlin_第二弹/" rel="prev">Kotlin基础第二弹</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/Kotlin_anko的简单使用/" rel="next">Kotlin_anko库简单使用</a>
+              <a href="/2017/12/15/ui绘制_Paint篇/" rel="next"></a>
             
           </div>
         </div>
@@ -613,7 +643,7 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Component-组件、管理器、注入器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Component-&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;" class="headerlink" title="Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;"></a>Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Module：提供者、依赖对象工厂"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;" class="headerlink" title="Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;"></a>Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qualifier-限定符"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Qualifier-&#x9650;&#x5B9A;&#x7B26;" class="headerlink" title="Qualifier:&#x9650;&#x5B9A;&#x7B26;"></a>Qualifier:&#x9650;&#x5B9A;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope-作用域"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Scope-&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="Scope:&#x4F5C;&#x7528;&#x57DF;"></a>Scope:&#x4F5C;&#x7528;&#x57DF;</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

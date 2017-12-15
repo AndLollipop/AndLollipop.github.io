@@ -38,24 +38,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
+<meta name="description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些 官方网址 http://kotlinlang.org/docs/reference/ 别人的总结 https://github.com/youxin11544/">
 <meta name="keywords" content="Kotlin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta property="og:url" content="http://andlollipop.github.io/2017/12/12/Kotlin_mvp_dagger2_retrofit/index.html">
+<meta property="og:title" content="Kotlin基础第三弹">
+<meta property="og:url" content="http://andlollipop.github.io/2017/12/15/Kotlin_第三弹/index.html">
 <meta property="og:site_name" content="花花世界博客">
-<meta property="og:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
+<meta property="og:description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些 官方网址 http://kotlinlang.org/docs/reference/ 别人的总结 https://github.com/youxin11544/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/hG2R6qg.png">
-<meta property="og:image" content="https://i.imgur.com/wXXrpDy.png">
-<meta property="og:image" content="https://i.imgur.com/k0GOOed.png">
-<meta property="og:image" content="https://i.imgur.com/Td4O8Op.png">
-<meta property="og:image" content="https://i.imgur.com/FtHgC68.png">
-<meta property="og:updated_time" content="2017-12-15T10:28:49.033Z">
+<meta property="og:updated_time" content="2017-12-15T10:25:49.872Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta name="twitter:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
-<meta name="twitter:image" content="https://i.imgur.com/hG2R6qg.png">
+<meta name="twitter:title" content="Kotlin基础第三弹">
+<meta name="twitter:description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些 官方网址 http://kotlinlang.org/docs/reference/ 别人的总结 https://github.com/youxin11544/">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -65,7 +59,7 @@
   };
 </script>
 
-  <title> Kotlin_mvp_dagger2_retrofit | 花花世界博客 </title>
+  <title> Kotlin基础第三弹 | 花花世界博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -195,7 +189,7 @@
           
           
             
-              Kotlin_mvp_dagger2_retrofit
+              Kotlin基础第三弹
             
           
         </h1>
@@ -204,8 +198,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2017-12-12T19:03:25+08:00" content="2017-12-12">
-            2017-12-12
+          <time itemprop="dateCreated" datetime="2017-12-15T18:20:50+08:00" content="2017-12-15">
+            2017-12-15
           </time>
         </span>
 
@@ -238,213 +232,128 @@
       
 
       
-        <span itemprop="articleBody"><p>上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！<br>那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码</p>
-<p>在学习这篇文章之前需要掌握下面的知识，如下：</p>
+        <span itemprop="articleBody"><p>Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力</p>
 <blockquote>
-<p>dagger2 <a href="http://www.jianshu.com/p/39d1df6c877d" target="_blank" rel="noopener">http://www.jianshu.com/p/39d1df6c877d</a></p>
-<p>retrofit <a href="http://www.jianshu.com/p/308f3c54abdd" target="_blank" rel="noopener">http://www.jianshu.com/p/308f3c54abdd</a></p>
-<p>API <a href="http://gank.io/api" target="_blank" rel="noopener">http://gank.io/api</a></p>
+<p>对于Kotlin的学习网上有好多，现在分享一些</p>
+<p>官方网址 <a href="http://kotlinlang.org/docs/reference/" target="_blank" rel="noopener">http://kotlinlang.org/docs/reference/</a></p>
+<p>别人的总结 <a href="https://github.com/youxin11544/Kotlin-learning" target="_blank" rel="noopener">https://github.com/youxin11544/Kotlin-learning</a></p>
 </blockquote>
-<p>##正文<br>因为项目中用的Dagger2比较多，这里来讲解一下项目中用到的几个注解，更多的详情可以看上面的地址</p>
-<h2 id="Component-组件、管理器、注入器"><a href="#Component-组件、管理器、注入器" class="headerlink" title="Component:组件、管理器、注入器"></a>Component:组件、管理器、注入器</h2><p>功能就是将类中使用@Inject标记的属性和在对应属性类中使用@Inject标记的构造方法，然后将它们关联起来。</p>
-<p>而如果构造方法需要参数，或者我们没法再需要注入的对象的构造方法加入@Inject注解的时候就需要使用Module</p>
-<p>该注解里面的参数有两个，一个是设置modules所关联的Module类，第二个是dependency所依赖的Component</p>
-<p><img src="https://i.imgur.com/hG2R6qg.png" alt=""></p>
-<h2 id="Module：提供者、依赖对象工厂"><a href="#Module：提供者、依赖对象工厂" class="headerlink" title="Module：提供者、依赖对象工厂"></a>Module：提供者、依赖对象工厂</h2><p>功能是与被@Inject标记的构造方法一样提供生成依赖的对象</p>
-<p>因为对于第三方库我们没有办法将它的构造方法加入@Inject标记，这时候我们需要使用Module生成，并提供@provide注解，Component会去查找Module类中@provide的方法获取到对象并通过component返回目标类需要的对象并注入到目标类</p>
-<h2 id="Qualifier-限定符"><a href="#Qualifier-限定符" class="headerlink" title="Qualifier:限定符"></a>Qualifier:限定符</h2><p>功能是在同一纬度下存在多个依赖对象的提供方式(多个构造方法)，则会迷失。这时，可以使用Qualifier</p>
-<p>提供依赖对象有两种方式</p>
-<p>（1）通过使用Inject注解标注的构造函数来创建</p>
-<p>（2）通过工厂模式的Module来创建</p>
-<p>如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果</p>
-<pre><code>@Qualifier
-@Documented
-@Retention(RUNTIME)
-public @interface Named {
+<p>在这里不会像官网那样一一的去讲解，自己也是从官网去学习然后去看别人的博客，对于知识而言可能并不深入，但对于初学者而言也值的一看</p>
+<p>##Start</p>
+<p>####kotlin委托机制<br>委托模式也是代理模式是软件设计模式中的一项基本技巧，在委托模式中，有两个对象参与处理同一个请求，接受请求的对象将请求委托给另一个对象来处理</p>
+<p>在java和Android用到委托机制在AOP里，在java中使用继承InvocationHandler接口的方法来实现代理，而在Android中则使用AspectJ的方式来实现。在这里我们来讲解一下Kotlin的委托模式</p>
+<ol>
+<li><p>类委托<br>也就是上面讲的委托模式定义，然而在Kotlin中实现起来更加的方便更加的灵活，如：</p>
+<pre><code>class MyList(list: ArrayList&lt;String&gt;) : Collection&lt;String&gt; by list {
 
-    /** The name. */
-    String value() default &quot;&quot;;
 }
-</code></pre><h2 id="Scope-作用域"><a href="#Scope-作用域" class="headerlink" title="Scope:作用域"></a>Scope:作用域</h2><p>   管理创建的类实例的生命周期。<br>   可以通过Scope来限定通过Module和Inject方式创建的类的实例的生命周期能够与目标类的生命周期相同。<br>   Scope本身没有制定生命周期的能力，它的存在一是为了可读性,二是更好的管理Component和Module的关系</p>
-<p>如果你想了解Dagger2具体调用的流程可以查看</p>
-<p><img src="https://i.imgur.com/wXXrpDy.png" alt=""></p>
-<p>接下来我们开始看一下要做的小项目的效果图</p>
-<p><img src="https://i.imgur.com/k0GOOed.png" alt=""></p>
-<p><img src="https://i.imgur.com/Td4O8Op.png" alt=""></p>
-<p>ok,项目比较low，废话不多说，开始我们撸代码时间</p>
-<p>我是这样分包的</p>
-<p><img src="https://i.imgur.com/FtHgC68.png" alt=""></p>
-<p>在项目中我定义了一个全局的Component类</p>
-<pre><code>@Singleton
-@Component(modules = arrayOf(DataSourceModule::class)) //注入器对象提供工厂
-interface AppComponent{
-    /**
-     * 全局注入器能够提供的对象
-     */
-    fun dataManager(): DataManager
+</code></pre><p>这种也是替代继承的方式，直接使用by关键字就将Collection的方法委托给list对象</p>
+</li>
+<li><p>属性委托<br>在Kotlin中Delegates类内置了三种委托的方法，分别是lazy、notNull()、observable(“”)、vetoable(“”)、Map形式</p>
+<ul>
+<li><p>lazy 用于进行懒加载，即第一次使用的时候才执行初始化操作</p>
+<pre><code>//当使用的时候才进行初始化（线程安全的）
+val list: ArrayList&lt;String&gt; by lazy {
+    ArrayList&lt;String&gt;()
 }
-</code></pre><p>这个类为DataSourceModule用来提供DataManager对象的生成，使用DataManager来对网络请求<br>会去查询DataSourceModule类中去找生成DataManager对象的方法</p>
-<pre><code>@Module
-class DataSourceModule {
+</code></pre></li>
+<li><p>notNull() 使用于那些无法再初始化阶段就确定属性值的场合</p>
+<pre><code> //初始化str,用于为空属性进行初始化的场景
+var str: String by Delegates.notNull&lt;String&gt;()
+</code></pre></li>
+<li><p>observable() 观察者和java的观察者模式差不多</p>
+<pre><code>//oldValue是变化之前的值  newValue最新的值
+var str: String by Delegates.observable(&quot;&quot;){//初始值
+    property, oldValue, newValue -&gt;
+    println(&quot;${property.name}  old=$oldValue  new=$newValue&quot;)
+}    
+</code></pre></li>
+<li><p>vetoable（）带条件的委托机制，通过返回的true和false来确定oldValue是上一个还是最初的</p>
+<pre><code>//返回true和observable是一样的效果
+var str1: String by Delegates.vetoable(&quot;&quot;){
+    property, oldValue, newValue -&gt;
+    println(&quot;${property.name}  old=$oldValue  new=$newValue&quot;)
+    true   
+}
+//返回false则标志oldValue永远为初始值
+var str2: String by Delegates.vetoable(&quot;&quot;){
+    property, oldValue, newValue -&gt;
+    println(&quot;${property.name}  old=$oldValue  new=$newValue&quot;)
+    false
+}
+</code></pre></li>
+<li><p>Map 通过一种全新的赋值方法给类属性进行赋值</p>
+<pre><code>class User(val map: Map&lt;String,Any?&gt;){
+    val name: String by map
+    val age: Int by map
+}
 
-    @Singleton
-    @Provides
-    fun provideGankService(): GankService {
-        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL).build().create(GankService::class.java)
+val user = User(mapOf(&quot;a&quot; to 1))
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<p>除此之外我们也可以自定义委托，具体定义可仿照notNull()委托</p>
+<pre><code>private class NotNullVar&lt;T: Any&gt;() : ReadWriteProperty&lt;Any?, T&gt; {
+    private var value: T? = null
+
+    public override fun getValue(thisRef: Any?, property: KProperty&lt;*&gt;): T {
+        return value ?: throw IllegalStateException(&quot;Property ${property.name} should be initialized before get.&quot;)
     }
 
-    @Singleton
-    @Local
-    @Provides
-    fun provideLocal(): IDataSource{
-        return LocalDataSource()
-    }
-
-    @Singleton
-    @Remote
-    @Provides
-    fun provideRemote(service: GankService): IDataSource {
-        return RemoteDataSource(service)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDataManager(@Remote remote: IDataSource, @Local local: IDataSource): DataManager {
-        return DataManager(remote,local)
+    public override fun setValue(thisRef: Any?, property: KProperty&lt;*&gt;, value: T) {
+        this.value = value
     }
 }
-</code></pre><p>这里推荐使用provide开头，在方法参数里面我有定义两个注解Remote和Local用来区分对应哪个一个IDataSource</p>
-<pre><code>@Qualifier
-annotation class Remote
-</code></pre><p>provideGankService方法里面的写法使用了Gson转换用于将json转化为对象、Rxjava回调用来对网络请求的结果做不同的处理</p>
-<p>然后我们在来看一下DataManager类</p>
-<pre><code>fun getWelfareList(page: Int): Flowable&lt;WelfareEntity&gt; {
-    return remote.getWelfareList(page).onErrorResumeNext(local.getWelfareList(page))
-}
-</code></pre><p>主要是定义相应的规则，先在网络请求获取，当失败的时候获取本地的数据</p>
-<p>ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Application自定一个单例</p>
-<pre><code>class MyApplication: Application(){
+</code></pre><p>你也可以设置可读的委托机制，继承ReadOnlyProperty类即可</p>
+<p>####kotlin lambda表达式<br>首先先给出一个小例子</p>
+<pre><code>val action = {i: Int, j: Int -&gt; println(&quot;i=$i   j=$j&quot;)};
 
-    /**
-     * 提供全局注入器的获得
-     */
-    lateinit private var appComponent: AppComponent
-
-    companion object {
-        lateinit var app: MyApplication
-        fun getApplication(): MyApplication{
-            return app
-        }
+action(1,2)
+</code></pre><p>注意的是lambda表达式用{}包裹，箭头前面是参数的参数，箭头后面是函数体；从调用上来说比java简单并且优雅了许多，但是实际用途呢？我们可以为一个函数传一个lambda，如：</p>
+<pre><code>fun lambdaTest(arg1: Int, arg2: Int, oper: (a: Int, b: Int) -&gt; Int): Int {
+    var result: Int = Int.MIN_VALUE
+    if (arg2 != 0) {
+        result = oper(arg1, arg2)
     }
-
-    override fun onCreate() {
-        super.onCreate()
-        app = this
-        appComponent = DaggerAppComponent.builder().dataSourceModule(DataSourceModule()).build()
-    }
-
-    fun getAppComponent(): AppComponent = appComponent
+    return result
 }
-</code></pre><p>开始我们的主界面，当然这个项目也就一个Activity，既然是MVP就少不了Persenter</p>
-<pre><code>@Inject
-lateinit var presenter: MainPersenter
-</code></pre><p>使用Inject注解来自动去创建MainPersenter对象，然后定义MainAppComponent</p>
-<pre><code>@ActivityScope
-@Component(modules = arrayOf(MainActivityModule::class),dependencies = arrayOf(AppComponent::class))
-interface MainAppComponent{
-    fun inject(activity: MainActivity)
-}
-</code></pre><p>这里对APPComponent进行了依赖，因为在MainPersenter类里面使用到了DataManager的对象</p>
-<pre><code>@Module
-class MainActivityModule(val view: MainActivity){
 
-    @ActivityScope
-    @Provides
-    fun provide1Presenter(dataManager: DataManager): MainPersenter{
-        return MainPersenter(view,dataManager)
-    }
+fun main(args: Array&lt;String&gt;) {
+    lambdaTest(1, 2, { a: Int, b: Int -&gt; a / b })
+</code></pre><p>既然是传函数当然也可以传递一个函数进去，常使用::，这里延伸出函数的引用，另外还有属性的引用，这里</p>
+<pre><code>listOf(1, 2, 3).forEach(::println)
 
-}
-</code></pre><p>然后我们在来看一下MainPersenter</p>
-<pre><code>class MainPersenter(val view: MainViews, val dataManager: DataManager) {
-    //福利
-    fun getWelfarmList(page: Int) {
-        dataManager.getWelfareList(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { view.startLoading() }
-                .doOnError { view.stopLoading() }
-                .subscribe {
-                    view.stopLoading()
-                    view.showWefareList(it.results)
-                }
-}
-</code></pre><p>在这个类中主要是使用DataManager的对象用来获取数据并针对获取成功和失败调用View层的方法</p>
-<p>最后我们需要初始化Dagger2注入器</p>
-<pre><code>//初始化Dagger2注入器
-DaggerMainAppComponent.builder()
-        .appComponent(MyApplication.getApplication().getAppComponent())
-        .mainActivityModule(MainActivityModule(this))
-        .build().inject(this)
-</code></pre><p>另外在写生成ItemView的时候写了两种方式，这里也一并贴出来和大家一起分享</p>
-<p>第一种使用with表达式</p>
-<pre><code>val view = with(context){
-verticalLayout {
-    gravity = Gravity.CENTER_HORIZONTAL
-    imageView {
-        id = R.id.welfare_item_iv
-        imageResource = R.mipmap.ic_launcher
-        scaleType = ImageView.ScaleType.FIT_XY
-        lparams {
-            height = dip(250)
-            width = matchParent
-            leftMargin = dip(20)
-            rightMargin = dip(20)
-            topMargin = dip(15)
-            bottomMargin = dip(15)
-                }
-        }
+var name = &quot;1&quot;
+val p = ::name
+p.set/get
+</code></pre><p>当最后一个参数为lambda的时候，可以将大括号放在外面，如：</p>
+<pre><code>lambdaTest(1, 2){ a: Int, b: Int -&gt; a / b }
+</code></pre><p>用lambda表达式的情况还是挺多的，例如在集合中遍历等操作</p>
+<pre><code>val list = arrayListOf(1, 2, 3)
+list.forEach { value -&gt; }
+</code></pre><p>####kotlin 运算符重载表达式</p>
+<pre><code>class Rmb(var num: Int) {
+    operator fun plus(rmb: Any?) {
+
     }
 }
-</code></pre><p>当然这样写感觉代码太多了，我们需要将生成布局的代码单独使用一个类，我们可以定义一个类来继承AnkoComponent来写独立的一个布局，如果安装插件还可以预览界面的效果</p>
-<pre><code>class RecyclerUI: AnkoComponent&lt;AndroidAdapter&gt;{
-override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
-    verticalLayout {
-        orientation = LinearLayout.HORIZONTAL
-        lparams {
-            topMargin = dip(10)
-            leftMargin = dip(15)
-            rightMargin = dip(15)
-            bottomMargin = dip(10)
-        }
-        imageView {
-            id = R.id.android_item_iv
-            imageResource = R.mipmap.android_icon
-            lparams {
-                width = dip(90)
-                height = dip(90)
-            }
-        }
-        verticalLayout {
-            textView {
-                id = R.id.android_item_tv1
-                textSize = 18.toFloat()
+</code></pre><p>这样就可以使用Rmb(1) + Rmb(2)进行计算了，是不是很简单。这种操作和前面讲的中缀表达式一样，只不过中间的是运算符了而已</p>
+<p>####kotlin 注解与反射</p>
+<p>Kotlin的注解和java是类似的，先确定注解的类型，然后确定生命周期</p>
+<pre><code>@Target(AnnotationTarget.FIELD,
+        AnnotationTarget.CLASS,
+        AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.SOURCE)
+annotation class Path
+</code></pre><p>使用的话直接在class前 fun前面</p>
+<pre><code>@Path class UsePath(val p: String) {
 
-            }
-
-            textView {
-                id = R.id.android_item_tv2
-                textSize = 16.toFloat()
-                textColor = Color.RED
-                }
-            }
-        }
-    }
 }
-</code></pre><p>至此，小项目的讲解就结束了。</p>
-<p>```<br>坚持总会有结果，总会有收获的</p>
+</code></pre><p>Kotlin反射则通过</p>
+<pre><code>String::class.java
+String.javaClass
+</code></pre><p>这两种方式来得到Class&lt;?&gt;对象，进一步可反射得到相应的属性和方法</p>
 </span>
       
 	  
@@ -473,13 +382,13 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/15/Kotlin_第二弹/" rel="prev">Kotlin基础第二弹</a>
+              <a href="/2017/12/15/Kotlin_第四弹/" rel="prev">Kotlin学习第四弹</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/Kotlin_anko的简单使用/" rel="next">Kotlin_anko库简单使用</a>
+              <a href="/2017/12/15/Kotlin_第二弹/" rel="next">Kotlin基础第二弹</a>
             
           </div>
         </div>
@@ -613,7 +522,7 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Component-组件、管理器、注入器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Component-&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;" class="headerlink" title="Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;"></a>Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Module：提供者、依赖对象工厂"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;" class="headerlink" title="Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;"></a>Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qualifier-限定符"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Qualifier-&#x9650;&#x5B9A;&#x7B26;" class="headerlink" title="Qualifier:&#x9650;&#x5B9A;&#x7B26;"></a>Qualifier:&#x9650;&#x5B9A;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope-作用域"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Scope-&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="Scope:&#x4F5C;&#x7528;&#x57DF;"></a>Scope:&#x4F5C;&#x7528;&#x57DF;</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

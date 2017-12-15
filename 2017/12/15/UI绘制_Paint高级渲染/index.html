@@ -29,7 +29,7 @@
 
 
 
-  <meta name="keywords" content="Kotlin," />
+  <meta name="keywords" content="Hexo,Mala" />
 
 
 
@@ -38,24 +38,17 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
-<meta name="keywords" content="Kotlin">
+<meta name="description" content="上一篇讲解了Paint的基本使用，从初始化到绘制，学好了基本功接下来要开始Paint的高级渲染的部分在开始之前还是要留一下Paint的基本使用的地址  Paint的基本使用 http://www.jianshu.com/p/88d718d1945e  开始撸码~ ##正文先来看一下要搞的效果图 ok,在Android中提供了如下的渲染类  BitmapShader /**  * TileMode.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta property="og:url" content="http://andlollipop.github.io/2017/12/12/Kotlin_mvp_dagger2_retrofit/index.html">
+<meta property="og:title" content="花花世界博客">
+<meta property="og:url" content="http://andlollipop.github.io/2017/12/15/UI绘制_Paint高级渲染/index.html">
 <meta property="og:site_name" content="花花世界博客">
-<meta property="og:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
+<meta property="og:description" content="上一篇讲解了Paint的基本使用，从初始化到绘制，学好了基本功接下来要开始Paint的高级渲染的部分在开始之前还是要留一下Paint的基本使用的地址  Paint的基本使用 http://www.jianshu.com/p/88d718d1945e  开始撸码~ ##正文先来看一下要搞的效果图 ok,在Android中提供了如下的渲染类  BitmapShader /**  * TileMode.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/hG2R6qg.png">
-<meta property="og:image" content="https://i.imgur.com/wXXrpDy.png">
-<meta property="og:image" content="https://i.imgur.com/k0GOOed.png">
-<meta property="og:image" content="https://i.imgur.com/Td4O8Op.png">
-<meta property="og:image" content="https://i.imgur.com/FtHgC68.png">
-<meta property="og:updated_time" content="2017-12-15T10:28:49.033Z">
+<meta property="og:updated_time" content="2017-11-30T05:07:05.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin_mvp_dagger2_retrofit">
-<meta name="twitter:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d retrofit http://www.jianshu.com/p/308f3c54abdd">
-<meta name="twitter:image" content="https://i.imgur.com/hG2R6qg.png">
+<meta name="twitter:title" content="花花世界博客">
+<meta name="twitter:description" content="上一篇讲解了Paint的基本使用，从初始化到绘制，学好了基本功接下来要开始Paint的高级渲染的部分在开始之前还是要留一下Paint的基本使用的地址  Paint的基本使用 http://www.jianshu.com/p/88d718d1945e  开始撸码~ ##正文先来看一下要搞的效果图 ok,在Android中提供了如下的渲染类  BitmapShader /**  * TileMode.">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -65,7 +58,7 @@
   };
 </script>
 
-  <title> Kotlin_mvp_dagger2_retrofit | 花花世界博客 </title>
+  <title>  | 花花世界博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -195,7 +188,7 @@
           
           
             
-              Kotlin_mvp_dagger2_retrofit
+              
             
           
         </h1>
@@ -204,26 +197,11 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2017-12-12T19:03:25+08:00" content="2017-12-12">
-            2017-12-12
+          <time itemprop="dateCreated" datetime="2017-12-15T18:20:50+08:00" content="2017-12-15">
+            2017-12-15
           </time>
         </span>
 
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/Kotlin/" itemprop="url" rel="index">
-                  <span itemprop="name">Kotlin</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
         
 
         
@@ -238,213 +216,77 @@
       
 
       
-        <span itemprop="articleBody"><p>上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！<br>那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码</p>
-<p>在学习这篇文章之前需要掌握下面的知识，如下：</p>
+        <span itemprop="articleBody"><p>上一篇讲解了Paint的基本使用，从初始化到绘制，学好了基本功接下来要开始Paint的高级渲染的部分在开始之前还是要留一下Paint的基本使用的地址</p>
 <blockquote>
-<p>dagger2 <a href="http://www.jianshu.com/p/39d1df6c877d" target="_blank" rel="noopener">http://www.jianshu.com/p/39d1df6c877d</a></p>
-<p>retrofit <a href="http://www.jianshu.com/p/308f3c54abdd" target="_blank" rel="noopener">http://www.jianshu.com/p/308f3c54abdd</a></p>
-<p>API <a href="http://gank.io/api" target="_blank" rel="noopener">http://gank.io/api</a></p>
+<p>Paint的基本使用 <a href="http://www.jianshu.com/p/88d718d1945e" target="_blank" rel="noopener">http://www.jianshu.com/p/88d718d1945e</a></p>
 </blockquote>
-<p>##正文<br>因为项目中用的Dagger2比较多，这里来讲解一下项目中用到的几个注解，更多的详情可以看上面的地址</p>
-<h2 id="Component-组件、管理器、注入器"><a href="#Component-组件、管理器、注入器" class="headerlink" title="Component:组件、管理器、注入器"></a>Component:组件、管理器、注入器</h2><p>功能就是将类中使用@Inject标记的属性和在对应属性类中使用@Inject标记的构造方法，然后将它们关联起来。</p>
-<p>而如果构造方法需要参数，或者我们没法再需要注入的对象的构造方法加入@Inject注解的时候就需要使用Module</p>
-<p>该注解里面的参数有两个，一个是设置modules所关联的Module类，第二个是dependency所依赖的Component</p>
-<p><img src="https://i.imgur.com/hG2R6qg.png" alt=""></p>
-<h2 id="Module：提供者、依赖对象工厂"><a href="#Module：提供者、依赖对象工厂" class="headerlink" title="Module：提供者、依赖对象工厂"></a>Module：提供者、依赖对象工厂</h2><p>功能是与被@Inject标记的构造方法一样提供生成依赖的对象</p>
-<p>因为对于第三方库我们没有办法将它的构造方法加入@Inject标记，这时候我们需要使用Module生成，并提供@provide注解，Component会去查找Module类中@provide的方法获取到对象并通过component返回目标类需要的对象并注入到目标类</p>
-<h2 id="Qualifier-限定符"><a href="#Qualifier-限定符" class="headerlink" title="Qualifier:限定符"></a>Qualifier:限定符</h2><p>功能是在同一纬度下存在多个依赖对象的提供方式(多个构造方法)，则会迷失。这时，可以使用Qualifier</p>
-<p>提供依赖对象有两种方式</p>
-<p>（1）通过使用Inject注解标注的构造函数来创建</p>
-<p>（2）通过工厂模式的Module来创建</p>
-<p>如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果</p>
-<pre><code>@Qualifier
-@Documented
-@Retention(RUNTIME)
-public @interface Named {
+<p>开始撸码~</p>
+<p>##正文<br>先来看一下要搞的效果图</p>
+<p>ok,在Android中提供了如下的渲染类</p>
+<ol>
+<li><p>BitmapShader</p>
+<pre><code>/**
+ * TileMode.CLAMP 拉伸最后一个像素去铺满剩下的地方
+ * TileMode.MIRROR 通过镜像翻转铺满剩下的地方。
+ * TileMode.REPEAT 重复图片平铺整个画面（电脑设置壁纸）
+ */
+BitmapShader bitMapShader = new BitmapShader(mBitMap,Shader.TileMode.MIRROR,Shader.TileMode.MIRROR);
+</code></pre></li>
+<li><p>LinearGradient</p>
+<pre><code>/**线性渐变
+ * x0, y0, 起始点
+ *  x1, y1, 结束点
+ * int[]  mColors, 中间依次要出现的几个颜色
+ * float[] positions,数组大小跟colors数组一样大，中间依次摆放的几个颜色分别放置在那个位置上(参考比例从左往右)
+ *    tile
+ */
+LinearGradient linearGradient = new LinearGradient( 0, 0,800, 800, mColors, null, Shader.TileMode.CLAMP);
+</code></pre></li>
+<li><p>RadialGradient</p>
+<pre><code>RadialGradient mRadialGradient = new RadialGradient(300, 300, 100, mColors, null, Shader.TileMode.REPEAT);
+</code></pre></li>
+<li><p>SweepGradient</p>
+<pre><code>SweepGradient mSweepGradient = new SweepGradient(300, 300, mColors, null);
+</code></pre></li>
+<li><p>ComposeShader</p>
+<pre><code>ComposeShader mComposeShader = new ComposeShader(linearGradient, bitMapShader, PorterDuff.Mode.DST_IN);
+</code></pre></li>
+</ol>
+<p>使用起来非常的简单，首先我们就使用composeShader来实现第二张图的效果</p>
+<pre><code>//图像渲染
+BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+LinearGradient linearGradient = new LinearGradient(0, 0, width, height, Color.GREEN, Color.BLUE, Shader.TileMode.REPEAT);
+RadialGradient radialGradient = new RadialGradient(width / 2, height / 2, width / 2, new int[]{0xffff0000, 0xff00ff00, 0xff0000ff}, null, Shader.TileMode.CLAMP);
+SweepGradient sweepGradient = new SweepGradient(width / 2, height / 2, new int[]{0xffff0000, 0xff00ff00, 0xff0000ff}, null);
+//将图像渲染和环形渐变进行组合，组合的形式是增强
+ComposeShader composeShader = new ComposeShader(bitmapShader, radialGradient, PorterDuff.Mode.MULTIPLY);
 
-    /** The name. */
-    String value() default &quot;&quot;;
-}
-</code></pre><h2 id="Scope-作用域"><a href="#Scope-作用域" class="headerlink" title="Scope:作用域"></a>Scope:作用域</h2><p>   管理创建的类实例的生命周期。<br>   可以通过Scope来限定通过Module和Inject方式创建的类的实例的生命周期能够与目标类的生命周期相同。<br>   Scope本身没有制定生命周期的能力，它的存在一是为了可读性,二是更好的管理Component和Module的关系</p>
-<p>如果你想了解Dagger2具体调用的流程可以查看</p>
-<p><img src="https://i.imgur.com/wXXrpDy.png" alt=""></p>
-<p>接下来我们开始看一下要做的小项目的效果图</p>
-<p><img src="https://i.imgur.com/k0GOOed.png" alt=""></p>
-<p><img src="https://i.imgur.com/Td4O8Op.png" alt=""></p>
-<p>ok,项目比较low，废话不多说，开始我们撸代码时间</p>
-<p>我是这样分包的</p>
-<p><img src="https://i.imgur.com/FtHgC68.png" alt=""></p>
-<p>在项目中我定义了一个全局的Component类</p>
-<pre><code>@Singleton
-@Component(modules = arrayOf(DataSourceModule::class)) //注入器对象提供工厂
-interface AppComponent{
-    /**
-     * 全局注入器能够提供的对象
-     */
-    fun dataManager(): DataManager
-}
-</code></pre><p>这个类为DataSourceModule用来提供DataManager对象的生成，使用DataManager来对网络请求<br>会去查询DataSourceModule类中去找生成DataManager对象的方法</p>
-<pre><code>@Module
-class DataSourceModule {
-
-    @Singleton
-    @Provides
-    fun provideGankService(): GankService {
-        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(BASE_URL).build().create(GankService::class.java)
-    }
-
-    @Singleton
-    @Local
-    @Provides
-    fun provideLocal(): IDataSource{
-        return LocalDataSource()
-    }
-
-    @Singleton
-    @Remote
-    @Provides
-    fun provideRemote(service: GankService): IDataSource {
-        return RemoteDataSource(service)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDataManager(@Remote remote: IDataSource, @Local local: IDataSource): DataManager {
-        return DataManager(remote,local)
-    }
-}
-</code></pre><p>这里推荐使用provide开头，在方法参数里面我有定义两个注解Remote和Local用来区分对应哪个一个IDataSource</p>
-<pre><code>@Qualifier
-annotation class Remote
-</code></pre><p>provideGankService方法里面的写法使用了Gson转换用于将json转化为对象、Rxjava回调用来对网络请求的结果做不同的处理</p>
-<p>然后我们在来看一下DataManager类</p>
-<pre><code>fun getWelfareList(page: Int): Flowable&lt;WelfareEntity&gt; {
-    return remote.getWelfareList(page).onErrorResumeNext(local.getWelfareList(page))
-}
-</code></pre><p>主要是定义相应的规则，先在网络请求获取，当失败的时候获取本地的数据</p>
-<p>ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Application自定一个单例</p>
-<pre><code>class MyApplication: Application(){
-
-    /**
-     * 提供全局注入器的获得
-     */
-    lateinit private var appComponent: AppComponent
-
-    companion object {
-        lateinit var app: MyApplication
-        fun getApplication(): MyApplication{
-            return app
-        }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        app = this
-        appComponent = DaggerAppComponent.builder().dataSourceModule(DataSourceModule()).build()
-    }
-
-    fun getAppComponent(): AppComponent = appComponent
-}
-</code></pre><p>开始我们的主界面，当然这个项目也就一个Activity，既然是MVP就少不了Persenter</p>
-<pre><code>@Inject
-lateinit var presenter: MainPersenter
-</code></pre><p>使用Inject注解来自动去创建MainPersenter对象，然后定义MainAppComponent</p>
-<pre><code>@ActivityScope
-@Component(modules = arrayOf(MainActivityModule::class),dependencies = arrayOf(AppComponent::class))
-interface MainAppComponent{
-    fun inject(activity: MainActivity)
-}
-</code></pre><p>这里对APPComponent进行了依赖，因为在MainPersenter类里面使用到了DataManager的对象</p>
-<pre><code>@Module
-class MainActivityModule(val view: MainActivity){
-
-    @ActivityScope
-    @Provides
-    fun provide1Presenter(dataManager: DataManager): MainPersenter{
-        return MainPersenter(view,dataManager)
-    }
-
-}
-</code></pre><p>然后我们在来看一下MainPersenter</p>
-<pre><code>class MainPersenter(val view: MainViews, val dataManager: DataManager) {
-    //福利
-    fun getWelfarmList(page: Int) {
-        dataManager.getWelfareList(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { view.startLoading() }
-                .doOnError { view.stopLoading() }
-                .subscribe {
-                    view.stopLoading()
-                    view.showWefareList(it.results)
-                }
-}
-</code></pre><p>在这个类中主要是使用DataManager的对象用来获取数据并针对获取成功和失败调用View层的方法</p>
-<p>最后我们需要初始化Dagger2注入器</p>
-<pre><code>//初始化Dagger2注入器
-DaggerMainAppComponent.builder()
-        .appComponent(MyApplication.getApplication().getAppComponent())
-        .mainActivityModule(MainActivityModule(this))
-        .build().inject(this)
-</code></pre><p>另外在写生成ItemView的时候写了两种方式，这里也一并贴出来和大家一起分享</p>
-<p>第一种使用with表达式</p>
-<pre><code>val view = with(context){
-verticalLayout {
-    gravity = Gravity.CENTER_HORIZONTAL
-    imageView {
-        id = R.id.welfare_item_iv
-        imageResource = R.mipmap.ic_launcher
-        scaleType = ImageView.ScaleType.FIT_XY
-        lparams {
-            height = dip(250)
-            width = matchParent
-            leftMargin = dip(20)
-            rightMargin = dip(20)
-            topMargin = dip(15)
-            bottomMargin = dip(15)
-                }
-        }
-    }
-}
-</code></pre><p>当然这样写感觉代码太多了，我们需要将生成布局的代码单独使用一个类，我们可以定义一个类来继承AnkoComponent来写独立的一个布局，如果安装插件还可以预览界面的效果</p>
-<pre><code>class RecyclerUI: AnkoComponent&lt;AndroidAdapter&gt;{
-override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
-    verticalLayout {
-        orientation = LinearLayout.HORIZONTAL
-        lparams {
-            topMargin = dip(10)
-            leftMargin = dip(15)
-            rightMargin = dip(15)
-            bottomMargin = dip(10)
-        }
-        imageView {
-            id = R.id.android_item_iv
-            imageResource = R.mipmap.android_icon
-            lparams {
-                width = dip(90)
-                height = dip(90)
-            }
-        }
-        verticalLayout {
-            textView {
-                id = R.id.android_item_tv1
-                textSize = 18.toFloat()
-
-            }
-
-            textView {
-                id = R.id.android_item_tv2
-                textSize = 16.toFloat()
-                textColor = Color.RED
-                }
-            }
-        }
-    }
-}
-</code></pre><p>至此，小项目的讲解就结束了。</p>
-<p>```<br>坚持总会有结果，总会有收获的</p>
+mPaint.setShader(composeShader);
+//绘制矩形区域用于显示组合之后的效果
+canvas.drawRect(0, 0, width, height, mPaint);
+</code></pre><p>然后我们使用BitmapShader来实现放大镜的效果</p>
+<ul>
+<li><p>得到放大后图片</p>
+<pre><code>//放大后的整个图片
+Bitmap scaleBitmap = Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() * factor, mBitmap.getHeight() * factor, true);
+bitmapShader = new BitmapShader(scaleBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+</code></pre></li>
+<li><p>设置圆形的放大镜并将BitmapShader设置给放大镜Drawable</p>
+<pre><code>mShapeDrawable = new ShapeDrawable(new OvalShape());
+mShapeDrawable.getPaint().setShader(bitmapShader);
+mShapeDrawable.setBounds(0, 0, RADIUS * 2, RADIUS * 2);
+matrix = new Matrix();
+</code></pre></li>
+<li><p>随着手指滑动，放大镜不断移动位置</p>
+<pre><code>//将放大镜的图片往相反的方向挪动
+matrix.setTranslate(-x * factor + RADIUS, -y * factor + RADIUS);
+mShapeDrawable.getPaint().getShader().setLocalMatrix(matrix);
+//切出手势区域的位置的圆
+mShapeDrawable.setBounds(x - RADIUS, y - RADIUS, x + RADIUS, y + RADIUS);
+invalidate();
+</code></pre><p>使用Android的渲染还能做好多的炫酷的效果，这里就不一一进行说明。</p>
+</li>
+</ul>
 </span>
       
 	  
@@ -462,24 +304,18 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Kotlin/" rel="tag">#Kotlin</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/15/Kotlin_第二弹/" rel="prev">Kotlin基础第二弹</a>
+              <a href="/2017/12/15/ui绘制_Paint篇/" rel="prev"></a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/Kotlin_anko的简单使用/" rel="next">Kotlin_anko库简单使用</a>
+              <a href="/2017/12/15/Kotlin_第一弹/" rel="next">Kotlin基础第一弹</a>
             
           </div>
         </div>
@@ -613,7 +449,7 @@ override fun createView(ui: AnkoContext&lt;AndroidAdapter&gt;): View = with(ui){
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Component-组件、管理器、注入器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Component-&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;" class="headerlink" title="Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;"></a>Component:&#x7EC4;&#x4EF6;&#x3001;&#x7BA1;&#x7406;&#x5668;&#x3001;&#x6CE8;&#x5165;&#x5668;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Module：提供者、依赖对象工厂"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;" class="headerlink" title="Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;"></a>Module&#xFF1A;&#x63D0;&#x4F9B;&#x8005;&#x3001;&#x4F9D;&#x8D56;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qualifier-限定符"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Qualifier-&#x9650;&#x5B9A;&#x7B26;" class="headerlink" title="Qualifier:&#x9650;&#x5B9A;&#x7B26;"></a>Qualifier:&#x9650;&#x5B9A;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope-作用域"><span class="nav-number">4.</span> <span class="nav-text"><a href="#Scope-&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="Scope:&#x4F5C;&#x7528;&#x57DF;"></a>Scope:&#x4F5C;&#x7528;&#x57DF;</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
