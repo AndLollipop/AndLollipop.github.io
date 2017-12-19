@@ -1,9 +1,10 @@
 ---
 title: Kotlin基础第三弹
-date: 2016-06-01 23:47:44 #文章生成時間
+date: 2016-08-01 23:47:44 #文章生成時間
 categories: Kotlin
 tags: Kotlin
 ---
+
 Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力
 
 >对于Kotlin的学习网上有好多，现在分享一些
@@ -14,7 +15,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 
 在这里不会像官网那样一一的去讲解，自己也是从官网去学习然后去看别人的博客，对于知识而言可能并不深入，但对于初学者而言也值的一看
 
-###kotlin委托机制
+### kotlin委托机制
+
 委托模式也是代理模式是软件设计模式中的一项基本技巧，在委托模式中，有两个对象参与处理同一个请求，接受请求的对象将请求委托给另一个对象来处理
 
 在java和Android用到委托机制在AOP里，在java中使用继承InvocationHandler接口的方法来实现代理，而在Android中则使用AspectJ的方式来实现。在这里我们来讲解一下Kotlin的委托模式
@@ -89,7 +91,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 	}
 你也可以设置可读的委托机制，继承ReadOnlyProperty类即可
 
-###kotlin lambda表达式
+### kotlin lambda表达式
+
 首先先给出一个小例子
 
 	val action = {i: Int, j: Int -> println("i=$i   j=$j")};
@@ -124,7 +127,7 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 	val list = arrayListOf(1, 2, 3)
     list.forEach { value -> }
 
-###kotlin 运算符重载表达式
+### kotlin 运算符重载表达式
 
 	class Rmb(var num: Int) {
 	    operator fun plus(rmb: Any?) {
@@ -134,7 +137,7 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 
 这样就可以使用Rmb(1) + Rmb(2)进行计算了，是不是很简单。这种操作和前面讲的中缀表达式一样，只不过中间的是运算符了而已
 
-###kotlin 注解与反射
+### kotlin 注解与反射
 
 Kotlin的注解和java是类似的，先确定注解的类型，然后确定生命周期
 

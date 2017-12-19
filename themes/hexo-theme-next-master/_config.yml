@@ -120,11 +120,19 @@ tag_cloud:
     textColour: \#333
     textHeight: 25
     outlineColour: \#E2E1D1
-
+	
 # 文章末尾添加“本文结束”标记
-# passage_end_tag:
-#  enabled: true
+passage_end_tag:
+  enabled: true
 
+# Post wordcount display settings
+# Dependencies: https://github.com/willin/hexo-wordcount
+post_wordcount:
+  item_text: true
+  wordcount: true
+  min2read: true
+
+pace: true
 # Post wordcount display settings
 # Dependencies: https://github.com/willin/hexo-wordcount
 # post_wordcount:

@@ -15,7 +15,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 
 在这里不会像官网那样一一的去讲解，自己也是从官网去学习然后去看别人的博客，对于知识而言可能并不深入，但对于初学者而言也值的一看
 
-###Kotlin集合
+### Kotlin集合
+
 集合无非是list集合和map集合，如下：
 
 	val list = listOf(1, 2, 3, 4)
@@ -64,7 +65,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 
 ok,集合就先到这里，更多操作可以实际去操作
 
-###Kotlin扩展函数 扩展属性
+### Kotlin扩展函数 扩展属性
+
 扩展函数、扩展属性很简单，直接上例子
 
 	val String.lastChar: Char
@@ -75,7 +77,8 @@ ok,集合就先到这里，更多操作可以实际去操作
 	}
 直接使用类名.方法即可，调用的时候就可以"lypop".show()
 
-###Kotlin函数
+### Kotlin函数
+
 kotlin函数有个特点就是可以设置默认值
 
 	fun test(a: Int = 1, str: String = "") {
@@ -92,7 +95,8 @@ kotlin函数有个特点就是可以设置默认值
 
 当你调用test()会执行最匹配的方法fun test(str: String = "")，在kotlin也有java的可变参数，只需要在方法写入vararg item: Int即可
 
-###Kotlin可为空
+### Kotlin可为空
+
 这个比较简单，先上代码
 
 	val str: String? = null
@@ -100,7 +104,8 @@ kotlin函数有个特点就是可以设置默认值
 
 下面的调用也可以使用str!!.length的样式，具体？的使用在之后会经常用到，多多体会就好，这里不做过多的赘述
 
-##Kotlin字符串的使用
+### Kotlin字符串的使用
+
 字符串的操作这里以分割来说一下
 
 	val str = "com.lypop.android"

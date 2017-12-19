@@ -1,9 +1,10 @@
 ---
 title: Kotlin基础第二弹
-date: 2016-06-01 23:47:44 #文章生成時間
+date: 2016-07-01 23:47:44 #文章生成時間
 categories: Kotlin
 tags: Kotlin
 ---
+
 Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力
 
 >对于Kotlin的学习网上有好多，现在分享一些
@@ -15,7 +16,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 在这里不会像官网那样一一的去讲解，自己也是从官网去学习然后去看别人的博客，对于知识而言可能并不深入，但对于初学者而言也值的一看
 
 
-###kotlin类
+### kotlin类
+
 对于类，我们先要说下在Kotlin中接口有啥特点
 
 	interface OnClickListener{
@@ -113,7 +115,8 @@ Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Go
 
 	data class Person(val name: String)
 
-###kotlin类构造方法
+### kotlin类构造方法
+
 类的构造方法和java有些不同，kotlin分为主构造方法和次构造方法
 
 	class User(name: String) {//主构造方法

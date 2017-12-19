@@ -1,6 +1,6 @@
 ---
 title: Kotlin基础第四弹
-date: 2016-06-01 23:47:44 #文章生成時間
+date: 2016-09-01 23:47:44 #文章生成時間
 categories: Kotlin
 tags: Kotlin
 ---
@@ -11,7 +11,8 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 
 >https://github.com/Kotlin/anko/wiki
 
-###调用第三方库使用Kotlin
+### 调用第三方库使用Kotlin
+
 这里我们以ButterKnife为例，配置ButterKnife在Kotlin的环境
 
 首先加入kotlin的classpath
@@ -40,7 +41,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 
 至此环境就配置好了，当然你也可以在网上搜一搜，这里也就是做个笔记
 
-###Anko Dialog
+### Anko Dialog
 
 对于Anko的Dialog用的最多的也Toast的使用，在Anko中使用toast是相当的简单
 
@@ -65,7 +66,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
     }
 当然还有其它的弹框这里就不一一介绍，具体请看官方
 
-###Anko Intent
+### Anko Intent
 相比之前的Intent来说Anko提供的更加的方便，使用如下
 
     startActivity(intentFor<AnkoActivity01>("id" to 5).singleTop())
@@ -74,7 +75,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 
 ![](https://i.imgur.com/2PyCV0L.png)
 
-###Anko Log
+### Anko Log
 对于Log，Anko解释AndroidSDK提供的Log也是非常的简单，尽管方法需要你传递标签参数，但使用起来也是非常的简单，当然你也可以使用AnkoLogger来消除这一点
 
 1. 实现AnkoLogger的方式
@@ -91,7 +92,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 第一种Tag默认是类名，第二种可以自定义其Tag
 	
 
-###Anko helper
+### Anko helper
 你可以在你的项目中使用帮助者来简化你的代码，例如Color、Dimen等，颜色透明度直接色值.opaque就可以，尺寸的话直接使用dip(dipValue)、sp(spValue)就可以。在这里面还有一个就是applyRecursively()用来控制子View的操作，如：
 
         verticalLayout {
@@ -111,7 +112,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 	     	}
         }
 	
-###Anko Coroutines
+### Anko Coroutines
 Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{},具体代码如下：
 
         async(UI){//UI线程
@@ -132,7 +133,7 @@ Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{}
         }
 
 
-###Anko Layout
+### Anko Layout
 那我们先来说一下普通写Android布局有啥缺点
 
 1. 它不是类型安全的和不是空安全
@@ -205,7 +206,7 @@ Activity没有显示调用setContentView，anko会自动为Activity设置Content
 	    }
 	}
 
-###Anko SQLite
+### Anko SQLite
 在之前使用SQLiteOpenHelper，通常调用getReadableDatabase（）或getWritableDatabase（），但是您必须确保在接收的SQLiteDatabase上调用close（）方法。如果您从多个线程中使用它，则必须了解并发访问。 所有这一切都很艰难。
  这就是为什么Android开发人员不太喜欢默认的SQLite API，而是更喜欢使用相当昂贵的包装器，如ORMs。
 
