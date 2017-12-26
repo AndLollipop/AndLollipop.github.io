@@ -1,5 +1,6 @@
 ---
 title: UI绘制_Paint高级渲染
+author: 老头
 date: 2016-11-01 23:47:44 #文章生成時間
 categories: UI绘制
 tags: UI绘制
@@ -18,7 +19,7 @@ ok,在Android中提供了如下的渲染类
 
 1. BitmapShader
 
-		/**
+			 /**
          * TileMode.CLAMP 拉伸最后一个像素去铺满剩下的地方
          * TileMode.MIRROR 通过镜像翻转铺满剩下的地方。
          * TileMode.REPEAT 重复图片平铺整个画面（电脑设置壁纸）
@@ -84,4 +85,3 @@ ok,在Android中提供了如下的渲染类
         mShapeDrawable.setBounds(x - RADIUS, y - RADIUS, x + RADIUS, y + RADIUS);
         invalidate();
 使用Android的渲染还能做好多的炫酷的效果，这里就不一一进行说明。
-

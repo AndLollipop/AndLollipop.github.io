@@ -1,5 +1,6 @@
 ---
 title: Kotlin_anko实现列表页面
+author: 老头
 date: 2016-10-01 23:47:44 #文章生成時間
 tags: Kotlin
 categories: Kotlin
@@ -34,9 +35,9 @@ categories: Kotlin
 	        holder?.tv1?.text = resp.name
 	        holder?.tv2?.text = resp.full_name
 	    }
-	
+
 	    override fun getItemCount(): Int = items.size
-	
+
 	    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHolder {
 	        //with : 在给定对象上调用lambda中的所有方法
 	        val view = with(ctx){
@@ -53,9 +54,9 @@ categories: Kotlin
 	                    }
 	                    //设置默认图片
 	                    imageResource = R.mipmap.ic_launcher
-	
+
 	                }
-	
+
 	                verticalLayout {
 	                    orientation = LinearLayout.VERTICAL
 	                    textView {
@@ -71,12 +72,12 @@ categories: Kotlin
 	                }
 	            }
 	        }
-	
+
 	        val holder = MyViewHolder(view)
 	        return holder
-	
+
 	    }
-	
+
 	    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 	        //在给定的View上查找指定的id视图
 	        val iv: ImageView = itemView.find(R.id.iv)
@@ -100,7 +101,7 @@ categories: Kotlin
 	                    height = dip(80)
 	                }
 	            }
-	
+
 	            verticalLayout {
 	                textView {
 	                    id = R.id.tv1
@@ -126,8 +127,7 @@ categories: Kotlin
 			//将得到的json串解析成对象并返回给data
 	        Gson().fromJson<ArrayList<Resp>>(String(bytes), getType<ArrayList<Resp>>())
 	    }
-		
+
 	    items.clear()
 	    items.addAll(data.await())  //这里通过调用await方法会一直等待后台的执行，当执行完毕将赋值给item集合，并更新适配器
 	    adapter.notifyDataSetChanged()
-

@@ -1,5 +1,6 @@
 ---
 title: Kotlin基础第四弹
+author: 老头
 date: 2016-09-01 23:47:44 #文章生成時間
 categories: Kotlin
 tags: Kotlin
@@ -24,10 +25,10 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-      
+
     }
 然后添加kotlin依赖
-	
+
 	apply plugin: 'kotlin-android'
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
@@ -48,7 +49,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
     fun open_toast(view: View){
 	    toast("toast")
 	    longToast("long toast")
-    }	
+    }
 然后就是AlertDialog的使用也是一看就会用的那种
 
    	fun open_alert(view: View){
@@ -81,7 +82,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 1. 实现AnkoLogger的方式
 
 	    info("this is second log info")
-	
+
 	    //这种带lambda表达式的这种会去计算Log.isLoggable(tag, Log.INFO)是否为true，为true的话才打印
 	    info { "this is third log info" }
 
@@ -90,7 +91,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 		val logWithASpecificTag = AnkoLogger("lypop")
 	 	logWithASpecificTag.info { "this is Log info" }
 第一种Tag默认是类名，第二种可以自定义其Tag
-	
+
 
 ### Anko helper
 你可以在你的项目中使用帮助者来简化你的代码，例如Color、Dimen等，颜色透明度直接色值.opaque就可以，尺寸的话直接使用dip(dipValue)、sp(spValue)就可以。在这里面还有一个就是applyRecursively()用来控制子View的操作，如：
@@ -111,7 +112,7 @@ Kotlin我们也学了一些基础，但怎么用我们还是不知道？今天�
 	            is TextView -> view.textColor = Color.RED
 	     	}
         }
-	
+
 ### Anko Coroutines
 Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{},具体代码如下：
 
@@ -120,7 +121,7 @@ Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{}
 	            // Runs in background
 	            MyBean()
 	        }
-	
+
 	        showData(data.await()) //await方法将一直等待bg返回的数据
         }
 为了防止内存泄漏我们常会使用弱引用，在Anko中使用弱引用方法如下：
@@ -157,7 +158,7 @@ Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{}
 	        width = matchParent
 	        topMargin = dip(10)
 			horizontalMargin = dip(5)
-       
+
 	    }
 	}
 Activity没有显示调用setContentView，anko会自动为Activity设置Content View
@@ -185,7 +186,7 @@ Activity没有显示调用setContentView，anko会自动为Activity设置Content
 
 		class MyView(ctx: Context) : View(ctx) {
 		    fun test() {
-		
+
 		    }
 		}
 使用的时候和上面使用方法一样直接用myView{}
@@ -220,7 +221,7 @@ Activity没有显示调用setContentView，anko会自动为Activity设置Content
 
 	    companion object {
 	        @Volatile private var helper: MySqlHelper? = null
-	
+
 	        fun getInstance(): MySqlHelper {
 	            if (null == helper) {
 	                synchronized(MySqlHelper::class) {
@@ -262,8 +263,3 @@ Activity没有显示调用setContentView，anko会自动为Activity设置Content
 这里使用use来包裹，当里面的代码执行完毕就会自动关闭数据库
 
 至此，Anko就讲解完毕，更多的内容还请阅读官方，Thanks♪(･ω･)ﾉ
-
-
-
-
-

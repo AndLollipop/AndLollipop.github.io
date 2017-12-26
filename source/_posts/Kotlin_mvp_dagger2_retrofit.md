@@ -1,5 +1,6 @@
 ---
 title: Kotlin_mvp_dagger2_retrofit
+author: 老头
 date: 2016-11-01 23:47:44 #文章生成時間
 tags: Kotlin
 categories: Kotlin
@@ -23,7 +24,7 @@ categories: Kotlin
 ### Component:组件、管理器、注入器
 
 功能就是将类中使用@Inject标记的属性和在对应属性类中使用@Inject标记的构造方法，然后将它们关联起来。
-		
+
 而如果构造方法需要参数，或者我们没法再需要注入的对象的构造方法加入@Inject注解的时候就需要使用Module
 
 该注解里面的参数有两个，一个是设置modules所关联的Module类，第二个是dependency所依赖的Component
@@ -31,7 +32,7 @@ categories: Kotlin
 ![](https://i.imgur.com/hG2R6qg.png)
 
 ### Module：提供者、依赖对象工厂
-	
+
 功能是与被@Inject标记的构造方法一样提供生成依赖的对象
 
 因为对于第三方库我们没有办法将它的构造方法加入@Inject标记，这时候我们需要使用Module生成，并提供@provide注解，Component会去查找Module类中@provide的方法获取到对象并通过component返回目标类需要的对象并注入到目标类
@@ -47,16 +48,16 @@ categories: Kotlin
 （2）通过工厂模式的Module来创建
 
 如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果
-	
+
 	@Qualifier
 	@Documented
 	@Retention(RUNTIME)
 	public @interface Named {
-	
+
 	    /** The name. */
 	    String value() default "";
 	}
-	
+
 
 ### Scope:作用域
    管理创建的类实例的生命周期。
@@ -102,21 +103,21 @@ ok,项目比较low，废话不多说，开始我们撸代码时间
 	                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 	                .baseUrl(BASE_URL).build().create(GankService::class.java)
 	    }
-	
+
 	    @Singleton
 	    @Local
 	    @Provides
 	    fun provideLocal(): IDataSource{
 	        return LocalDataSource()
 	    }
-	
+
 	    @Singleton
 	    @Remote
 	    @Provides
 	    fun provideRemote(service: GankService): IDataSource {
 	        return RemoteDataSource(service)
 	    }
-	
+
 	    @Singleton
 	    @Provides
 	    fun provideDataManager(@Remote remote: IDataSource, @Local local: IDataSource): DataManager {
@@ -145,14 +146,14 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 	     * 提供全局注入器的获得
 	     */
 	    lateinit private var appComponent: AppComponent
-	
+
 	    companion object {
 	        lateinit var app: MyApplication
 	        fun getApplication(): MyApplication{
 	            return app
 	        }
 	    }
-	
+
 	    override fun onCreate() {
 	        super.onCreate()
 	        app = this
@@ -178,13 +179,13 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 
 	@Module
 	class MainActivityModule(val view: MainActivity){
-	
+
 	    @ActivityScope
 	    @Provides
 	    fun provide1Presenter(dataManager: DataManager): MainPersenter{
 	        return MainPersenter(view,dataManager)
 	    }
-	
+
 	}
 
 然后我们在来看一下MainPersenter
