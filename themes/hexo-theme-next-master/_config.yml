@@ -132,7 +132,7 @@ post_wordcount:
   wordcount: true
   min2read: true
 
-#livere_uid: MTAyMC8zMjQxNC84OTc1
+livere_uid: MTAyMC8zMjQxNC84OTc1
   
 pace: true
 # Post wordcount display settings
