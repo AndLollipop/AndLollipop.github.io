@@ -20,6 +20,7 @@
           </li>
         </ul>
       {% endif %}
+	 
 
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -27,6 +28,14 @@
           <p class="site-author-name" itemprop="name">{{ theme.author }}</p>
         </div>
         <p class="site-description motion-element" itemprop="description">{{ theme.description }}</p>
+		{# Blogroll #}
+        {% if theme.links %}
+          <div class="links-of-blogroll motion-element {{ "links-of-blogroll-" + theme.links_layout | default('inline') }}">
+            <a href="{{ link }}" title="{{ name }}" target="_blank">{{ name }}</a>
++        {% include '../_custom/sidebar.swig' %}
+          </div>
+         {% endif %}
+        {% include '../_custom/sidebar.swig' %}
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="{{ url_for(theme.menu.archives) }}">

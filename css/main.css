@@ -35,13 +35,15 @@ audio:not([controls]) {
 }
 [hidden],
 template {
-  display: none;
+	display: inline-block;
 }
 a {
+  display: inline-block;
   background-color: transparent;
 }
 a:active,
 a:hover {
+  display: inline-block;
   outline: 0;
 }
 abbr[title] {

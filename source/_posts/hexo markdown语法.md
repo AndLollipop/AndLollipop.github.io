@@ -10,10 +10,11 @@ tags: markdown语法
 [TOC]
 
 #音乐
+
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=25715149&auto=1&height=66"></iframe>
 
 
-# 文字
+## 文字
 
 **粗体**
 
@@ -41,6 +42,46 @@ tags: markdown语法
 
 -------------------
 
+## 分割线
+
+<hr />
+
+## 换行
+今天天气不错<br />我们去玩吧
+
+## 插入颜文字
+
+直接去该网址去copy就可以了
+[颜文字网址](http://www.yanwenzi.com/zan/)
+
+ヽ(￣ω￣(￣ω￣〃)ゝ
+
+## 表情
+
+1. 静态表情表情的话直接去该网址直接copy就可以了
+[好多表情](https://www.emojicopy.com/)
+
+😀😁
+
+2. 动态表情的话可以使用我存入云存储的表情包，如果有其他的可以告诉我，我将其上传去
+
+<img id="github-emoji" src="http://p1q9eyoe7.bkt.clouddn.com/1.gif" height="30" width="30" />
+
+![表情](http://p1q9eyoe7.bkt.clouddn.com/1.gif)
+
+## next主题自带一些样式可以使用
+
+http://fontawesome.io/examples/
+
+<!-- HTML方式: 直接在 Markdown 文件中编写 HTML 来调用 -->
+<!-- 其中 class="blockquote-center" 是必须的 -->
+<blockquote class="blockquote-center">blah blah blah</blockquote>
+
+<!-- 标签 方式，要求版本在0.4.5或以上 -->
+{% centerquote %}blah blah blah{% endcenterquote %}
+
+
+{% note success %} Content (md partial supported) {% endnote %}
 
 # 代码
 

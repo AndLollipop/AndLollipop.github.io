@@ -145,6 +145,7 @@
           {% endfor %}
         </div>
       {% endif %}
+	  
 
       {% if not is_index and (post.prev or post.next) %}
         <div class="post-nav">
@@ -159,8 +160,11 @@
               <a href="{{ url_for(post.next.path) }}" rel="next">{{post.next.title}}</a>
             {% endif %}
           </div>
+		  
         </div>
       {% endif %}
+	  
+
 
       {% set isLast = loop.index % page.per_page === 0 %}
       {% if is_index and not isLast %}

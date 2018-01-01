@@ -40,11 +40,10 @@ mathjax:
 scheme: Mala
 
 
-# Sidebar, available value:
 #  - post    expand on posts automatically. Default.
 #  - always  expand for all pages automatically
 #  - hide    expand only when click on the sidebar toggle icon.
-sidebar: always
+sidebar: post
 #sidebar: always
 #sidebar: hide
 
@@ -124,6 +123,13 @@ tag_cloud:
 # 文章末尾添加“本文结束”标记
 passage_end_tag:
   enabled: true
+  
+# Star rating support to each article.
+# To get your ID visit https://widgetpack.com
+rating:
+  enable: true
+  id: 8779
+  color: f79533
 
 # Post wordcount display settings
 # Dependencies: https://github.com/willin/hexo-wordcount
