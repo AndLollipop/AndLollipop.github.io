@@ -523,3 +523,5 @@ findViewById(R.id.kongjian).setOnClickListener(new View.OnClickListener() {
 &emsp;&emsp;OK，ConstraintLayout就讲解完毕，虽然这些可以通过拖拽来进行操作可能还会完成的更好，但是还是那句话我们要做到知其然又知其所以然。
 
 **我思故我在**
+
+源码下载地址：https://github.com/AndLollipop/ConstraintLayout

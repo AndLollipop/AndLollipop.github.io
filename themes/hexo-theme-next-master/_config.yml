@@ -138,7 +138,14 @@ post_wordcount:
   wordcount: true
   min2read: true
 
-livere_uid: MTAyMC8zMjQxNC84OTc1
+# Local search
+local_search:
+  enable: true
+  
+LiveRe:
+  enable: true
+  LiveReId: MTAyMC8zMjQxNC84OTc1
+
   
 pace: true
 # Post wordcount display settings

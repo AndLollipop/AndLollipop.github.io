@@ -82,6 +82,12 @@ tag_cloud:
     textHeight: 25
     outlineColour: \#E2E1D1
 
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+    
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
