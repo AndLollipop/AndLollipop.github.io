@@ -101,7 +101,7 @@ https://androidstudio.googleblog.com/2017/10/constraintlayout-110-beta-3-is-now.
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent" />
 ```
-&emsp;&emsp;这样理解可能更加深刻一点，当然之所以这么去理解是因为官方又给了叫偏向的属性bias，它的作用就是用来使约束更偏向于哪一边，默认是0.5 <br/>
+&emsp;&emsp;这样理解可能更加深刻一点，当然之所以这么去理解是因为官方又给了叫偏向的属性bias(需要结合约束来使用)，它的作用就是用来使约束更偏向于哪一边，默认是0.5 <br/>
 * layout_constraintHorizontal_bias (0最左边 1最右边)
 * layout_constraintVertical_bias (0最上边 1 最底边)
 
@@ -194,8 +194,34 @@ https://androidstudio.googleblog.com/2017/10/constraintlayout-110-beta-3-is-now.
 * spread_inside - 类似，但链的端点将不会扩展
 * packed - 链的元素将被打包在一起。 孩子的水平或垂直偏差属性将影响包装元素的定位
 
-对于使用该知识点的地方常见的就是底部的TAB平分屏幕
+对于使用该知识点的地方常见的就是底部的TAB平分屏幕,给个代码体会一下
+``` java
+<Button
+    android:id="@+id/button01"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:text="button01"
+    app:layout_constraintHorizontal_chainStyle="spread"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@id/button02"
+    app:layout_constraintHorizontal_bias="1.0"/>
 
+<Button
+    android:id="@+id/button02"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:text="button02"
+    app:layout_constraintLeft_toRightOf="@id/button01"
+    app:layout_constraintRight_toLeftOf="@id/button03" />
+
+<Button
+    android:id="@+id/button03"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:text="button02"
+    app:layout_constraintLeft_toRightOf="@id/button02"
+    app:layout_constraintRight_toRightOf="parent" />
+```
 ### Barrier、Guideline的使用
 &emsp;&emsp;为什么要放在一起来进行讲解呢？因为Barrier和Guideline都是虚拟视图，更重要的是都是用来进行约束控件。当然也有不同之处：
 1. Barrier是有多个View的大小来决定的，通过constraint_referenced_ids 用来指定哪些View来进行约束，barrierDirection 用来Barrier相对于约束View的方向
@@ -525,3 +551,30 @@ findViewById(R.id.kongjian).setOnClickListener(new View.OnClickListener() {
 **我思故我在**
 
 源码下载地址：https://github.com/AndLollipop/ConstraintLayout
+
+-------------------
+### 修正
+1、在头像和下面的名字可以让TextView左右和ImageView进行约束来达到文字和图片中间对齐
+
+``` java
+<ImageView
+    android:id="@+id/img"
+    android:layout_width="62dp"
+    android:layout_height="60dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="20dp"
+    android:src="@mipmap/head"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@id/barrier"
+    app:layout_constraintTop_toTopOf="@id/guideline1" />
+
+<TextView
+    android:id="@+id/name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="hahhjha"
+    app:layout_constraintLeft_toLeftOf="@id/img"
+    app:layout_constraintRight_toRightOf="@id/img"
+    app:layout_constraintTop_toBottomOf="@id/img" />
+```
