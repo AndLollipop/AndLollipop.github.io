@@ -111,7 +111,7 @@ after.clone(this, R.layout.activity_layout02_after);
 通过布局初始化ConstraintSet,其他操作和上面一样就可以来回切换布局了
 
 ### TransitionManager解析
-在上面的例子中都用到了TransitionManager，官方解释到这个类用来管理场景变化所引起的转换集，其中调用对象的setTransition(Scene, Transition) 或setTransition(Scene, Scene, Transition)使一种场景像另一种场景进行转化。TransitionManager的转化有两种形式
+在上面的例子中都用到了TransitionManager，官方解释到这个类用来管理场景变化所引起的转换集，其中调用对象的setTransition(Scene, Transition) 或setTransition(Scene, Scene, Transition)使一种场景向另一种场景进行转化。TransitionManager的转化有两种形式
 1. TransitionManager.go(scene1);
 2. transitionManager.transitionTo(scene3)
 
