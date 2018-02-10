@@ -48,7 +48,7 @@ categories: Kotlin
 （2）通过工厂模式的Module来创建
 
 如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果
-
+```java
 	@Qualifier
 	@Documented
 	@Retention(RUNTIME)
@@ -57,7 +57,7 @@ categories: Kotlin
 	    /** The name. */
 	    String value() default "";
 	}
-
+```
 
 ### Scope:作用域
    管理创建的类实例的生命周期。
@@ -81,7 +81,7 @@ ok,项目比较low，废话不多说，开始我们撸代码时间
 ![](https://i.imgur.com/FtHgC68.png)
 
 在项目中我定义了一个全局的Component类
-
+```java
 	@Singleton
 	@Component(modules = arrayOf(DataSourceModule::class)) //注入器对象提供工厂
 	interface AppComponent{
@@ -90,9 +90,11 @@ ok,项目比较low，废话不多说，开始我们撸代码时间
 	     */
 	    fun dataManager(): DataManager
 	}
+
+```
 这个类为DataSourceModule用来提供DataManager对象的生成，使用DataManager来对网络请求
 会去查询DataSourceModule类中去找生成DataManager对象的方法
-
+```java
 	@Module
 	class DataSourceModule {
 
@@ -124,6 +126,7 @@ ok,项目比较low，废话不多说，开始我们撸代码时间
 	        return DataManager(remote,local)
 	    }
 	}
+```java
 这里推荐使用provide开头，在方法参数里面我有定义两个注解Remote和Local用来区分对应哪个一个IDataSource
 
 	@Qualifier
@@ -132,14 +135,15 @@ ok,项目比较low，废话不多说，开始我们撸代码时间
 provideGankService方法里面的写法使用了Gson转换用于将json转化为对象、Rxjava回调用来对网络请求的结果做不同的处理
 
 然后我们在来看一下DataManager类
-
+```java
 	fun getWelfareList(page: Int): Flowable<WelfareEntity> {
         return remote.getWelfareList(page).onErrorResumeNext(local.getWelfareList(page))
     }
+```
 主要是定义相应的规则，先在网络请求获取，当失败的时候获取本地的数据
 
 ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Application自定一个单例
-
+```java
 	class MyApplication: Application(){
 
 	    /**
@@ -162,21 +166,22 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 
     	fun getAppComponent(): AppComponent = appComponent
 	}
-
+```
 开始我们的主界面，当然这个项目也就一个Activity，既然是MVP就少不了Persenter
 
 	@Inject
     lateinit var presenter: MainPersenter
 
 使用Inject注解来自动去创建MainPersenter对象，然后定义MainAppComponent
-
+```java
 	@ActivityScope
 	@Component(modules = arrayOf(MainActivityModule::class),dependencies = arrayOf(AppComponent::class))
 	interface MainAppComponent{
 	    fun inject(activity: MainActivity)
 	}
+```
 这里对APPComponent进行了依赖，因为在MainPersenter类里面使用到了DataManager的对象
-
+```java
 	@Module
 	class MainActivityModule(val view: MainActivity){
 
@@ -187,9 +192,9 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 	    }
 
 	}
-
+```
 然后我们在来看一下MainPersenter
-
+```java
 	class MainPersenter(val view: MainViews, val dataManager: DataManager) {
 	    //福利
 	    fun getWelfarmList(page: Int) {
@@ -203,22 +208,22 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 	                    view.showWefareList(it.results)
 	                }
     }
-
+```
 在这个类中主要是使用DataManager的对象用来获取数据并针对获取成功和失败调用View层的方法
 
 最后我们需要初始化Dagger2注入器
-
+```java
 	//初始化Dagger2注入器
     DaggerMainAppComponent.builder()
             .appComponent(MyApplication.getApplication().getAppComponent())
             .mainActivityModule(MainActivityModule(this))
             .build().inject(this)
-
+```
 
 另外在写生成ItemView的时候写了两种方式，这里也一并贴出来和大家一起分享
 
 第一种使用with表达式
-
+```java
     val view = with(context){
     verticalLayout {
         gravity = Gravity.CENTER_HORIZONTAL
@@ -237,9 +242,9 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
         	}
     	}
 	}
-
+```
 当然这样写感觉代码太多了，我们需要将生成布局的代码单独使用一个类，我们可以定义一个类来继承AnkoComponent来写独立的一个布局，如果安装插件还可以预览界面的效果
-
+```java
 	class RecyclerUI: AnkoComponent<AndroidAdapter>{
     override fun createView(ui: AnkoContext<AndroidAdapter>): View = with(ui){
         verticalLayout {
@@ -274,10 +279,8 @@ ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Ap
 	        }
 	    }
 	}
-
+```
 
 至此，小项目的讲解就结束了。
 
-
-```
 坚持总会有结果，总会有收获的
