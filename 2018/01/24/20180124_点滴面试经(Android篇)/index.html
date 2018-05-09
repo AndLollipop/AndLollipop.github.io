@@ -1,0 +1,927 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="点滴面试经," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649 &amp;emsp;&amp;emsp;本篇文章用来记录Android面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面1、数据库的操作类型有哪些，如何导入外部数据库？1&amp;">
+<meta name="keywords" content="点滴面试经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="点滴面试经(Android篇)">
+<meta property="og:url" content="http://andlollipop.github.io/2018/01/24/20180124_点滴面试经(Android篇)/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649 &amp;emsp;&amp;emsp;本篇文章用来记录Android面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面1、数据库的操作类型有哪些，如何导入外部数据库？1&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20140805002935859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-01-24T07:01:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="点滴面试经(Android篇)">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649 &amp;emsp;&amp;emsp;本篇文章用来记录Android面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面1、数据库的操作类型有哪些，如何导入外部数据库？1&amp;">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20140805002935859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> 点滴面试经(Android篇) | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              点滴面试经(Android篇)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-01-24T15:01:00+08:00" content="2018-01-24">
+            2018-01-24
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/点滴面试经/" itemprop="url" rel="index">
+                  <span itemprop="name">点滴面试经</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/点滴面试经/Android面试/" itemprop="url" rel="index">
+                  <span itemprop="name">Android面试</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649</p>
+<p>&emsp;&emsp;本篇文章用来记录Android面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。</p>
+<h3 id="开篇面一面"><a href="#开篇面一面" class="headerlink" title="开篇面一面"></a>开篇面一面</h3><h4 id="1、数据库的操作类型有哪些，如何导入外部数据库？"><a href="#1、数据库的操作类型有哪些，如何导入外部数据库？" class="headerlink" title="1、数据库的操作类型有哪些，如何导入外部数据库？"></a>1、数据库的操作类型有哪些，如何导入外部数据库？</h4><p>1&gt; 使用数据库的方式有哪些？<br>（1）openOrCreateDatabase(String path);<br>（2）继承SqliteOpenHelper类对数据库及其版本进行管理(onCreate,onUpgrade)<br>当在程序当中调用这个类的方法getWritableDatabase()或者getReadableDatabase();的时候才会打开数据库。如果当时没有数据库文件的时候，系统就会自动生成一个数据库。<br>2&gt; 操作的类型：增删改查CRUD<br>直接操作SQL语句：SQliteDatabase.execSQL(sql);<br>面向对象的操作方式：SQLiteDatabase.insert(table, nullColumnHack, ContentValues);<br>3&gt;如何导入外部数据库？<br>一般外部数据库文件可能放在SD卡或者res/raw或者assets目录下面。写一个DBManager的类来管理，数据库文件搬家，先把数据库文件复制到/data/data/包名/databases/目录下面，然后通过db.openOrCreateDatabase(db文件),打开数据库使用。<br>比如：多线程操作数据库的时候，我采取的是封装使用互斥锁来解决……</p>
+<hr>
+<h4 id="2、是否使用过本地广播，和全局广播有什么差别？"><a href="#2、是否使用过本地广播，和全局广播有什么差别？" class="headerlink" title="2、是否使用过本地广播，和全局广播有什么差别？"></a>2、是否使用过本地广播，和全局广播有什么差别？</h4><p>引入本地广播的机制是为了解决安全性的问题<br>(1)发送本地广播不会脱离应用程序，比用担心app的数据泄露；<br>(2)其他的程序无法发送到我的应用程序内部，不担心安全漏洞。（比如：如何做一个杀不死的服务—监听火的app 比如微信、友盟、极光的广播，来启动自己。）<br>(3)发送本地广播比发送全局的广播高效。（全局广播要维护的广播集合表 效率更低。全局广播，意味着可以跨进程，就需要底层的支持。）<br>本地广播不能用静态注册。—-静态注册：可以做到程序停止后还能监听。<br>注册<br>LocalBroadcastManager.getInstance(this).registerReceiver(new XXXBroadCastReceiver(), new IntentFilter(action));<br>取消注册<br>LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)</p>
+<hr>
+<h4 id="是否使用过-IntentService，作用是什么，-AIDL-解决了什么问题？"><a href="#是否使用过-IntentService，作用是什么，-AIDL-解决了什么问题？" class="headerlink" title="是否使用过 IntentService，作用是什么， AIDL 解决了什么问题？"></a>是否使用过 IntentService，作用是什么， AIDL 解决了什么问题？</h4><p>1&gt; IntentService作用<br>如果有一个任务，可以分成很多个子任务，需要按照顺序来完成，如果需要放到一个服务中完成，那么使用IntentService是最好的选择。一般我们所使用的Service是运行在主线程当中的，所以在service里面编写耗时的操作代码，则会卡主线程会ANR。为了解决这样的问题，谷歌引入了IntentService.<br>IntentService的优点：<br>（1）它创建一个独立的工作线程来处理所有一个一个intent。<br>（2）创建了一个工作队列，来逐个发送intent给onHandleIntent()<br>（3）不需要主动调用stopSelf()来结束服务，因为源码里面自己实现了自动关闭。<br>（4）默认实现了onBind()返回的null。<br>（5）默认实现的onStartCommand()的目的是将intent插入到工作队列。<br>2&gt; AIDL 解决了什么问题？<br>AIDL的全称：Android Interface Definition Language，安卓接口定义语言。<br>由于Android系统中的进程之间不能共享内存，所以需要提供一些机制在不同的进程之间进行数据通信。远程过程调用：RPC—Remote Procedure Call，安卓就是提供了一种IDL的解决方案来公开自己的服务接口。AIDL:可以理解为双方的一个协议合同。双方都要持有这份协议—文本协议 xxx.aidl文件（安卓内部编译的时候会将aidl协议翻译生成一个xxx.java文件—代理模式：Binder驱动有关的，Linux底层通讯有关的。）<br>在系统源码里面有大量用到aidl，比如系统服务、电视机顶盒系统开发、你的服务要暴露给别的开发者来使用。</p>
+<hr>
+<h4 id="Looper、Handler、Message三者关系"><a href="#Looper、Handler、Message三者关系" class="headerlink" title="Looper、Handler、Message三者关系"></a>Looper、Handler、Message三者关系</h4><p><img src="http://img.blog.csdn.net/20140805002935859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="handler message Looper"></p>
+<p>具体的详情可以看鸿洋大神的博客：<a href="http://blog.csdn.net/lmj623565791/article/details/38377229" target="_blank" rel="noopener">http://blog.csdn.net/lmj623565791/article/details/38377229</a></p>
+<hr>
+<h4 id="进程间通信的几种方式"><a href="#进程间通信的几种方式" class="headerlink" title="进程间通信的几种方式"></a>进程间通信的几种方式</h4><p>进程间通信大概有四种方式：<br>1、应用之间的跳转Intent方式<br>2、应用之间共享数据库方式ContentProvider<br>3、广播方式，如应用接受系统的广播<br>4、AIDL服务方式/Messager信使</p>
+<hr>
+<h4 id="三级缓存"><a href="#三级缓存" class="headerlink" title="三级缓存"></a>三级缓存</h4><p>(1)内存缓存LruCache (2)本地缓存DiskLruCache (3)网络<br>具体的详情可以看郭霖大神的讲解<br>内存：<a href="http://blog.csdn.net/guolin_blog/article/details/9526203" target="_blank" rel="noopener">http://blog.csdn.net/guolin_blog/article/details/9526203</a><br>本地：<a href="http://blog.csdn.net/guolin_blog/article/details/28863651" target="_blank" rel="noopener">http://blog.csdn.net/guolin_blog/article/details/28863651</a><br>这里需要注意一点的是：内存缓存和本地缓存都涉及到存储的问题，内存缓存可以将网络地址转化为hashcode值作为LruCache的key,本地缓存DiskLruCache可以将存储的目录地址用hashcode来存储</p>
+<hr>
+<h4 id="什么是Activity"><a href="#什么是Activity" class="headerlink" title="什么是Activity"></a>什么是Activity</h4><p>Activity是Android程序与用户交互的窗口，具有 生命周期以及一些跳转逻辑</p>
+<hr>
+<h4 id="Activity生命状态"><a href="#Activity生命状态" class="headerlink" title="Activity生命状态"></a>Activity生命状态</h4><p>有四种状态：<br>1、running Activity在前台 交互状态<br>2、paused<br>3、stopped<br>4、killed：已经被回收掉</p>
+<hr>
+<h4 id="Activity生命周期分析"><a href="#Activity生命周期分析" class="headerlink" title="Activity生命周期分析"></a>Activity生命周期分析</h4><p>Activity启动-&gt;onCreate-&gt;onStart-&gt;onResume<br>点击Home键回到主界面(Activity不可见)-&gt;onPause-&gt;onStop<br>当我们再次回到原Activity时-&gt;onRestart-&gt;onStart-&gt;onResume<br>退出当前Activity-&gt;onPause-&gt;onStop-&gt;onDestroy</p>
+<hr>
+<h4 id="android进程优先级"><a href="#android进程优先级" class="headerlink" title="android进程优先级"></a>android进程优先级</h4><p>1、前台进程：与用户交互、优先级最高<br>2、可见进程：如果一个进程不含有任何前台的组件，但仍可被用户在屏幕上可见<br>3、服务进程：startService<br>4、后台进程：不可见<br>5、空进程：不包含任何活跃的组件则认为空进程</p>
+<hr>
+<h4 id="scheme跳转协议"><a href="#scheme跳转协议" class="headerlink" title="scheme跳转协议"></a>scheme跳转协议</h4><p>android中的scheme是一种页面内跳转协议，是一种非常好的实现机制，通过定义自己的scheme协议，可以非常方便跳转app中的各个页面；通过scheme协议，服务器可以定制化告诉app跳转那个页面，可以通过通知栏消息定制化跳转页面，可以通过H5页面跳转页面等</p>
+<hr>
+<h4 id="FragmentPagerAdapter与FragmentStatePageAdapter的区别"><a href="#FragmentPagerAdapter与FragmentStatePageAdapter的区别" class="headerlink" title="FragmentPagerAdapter与FragmentStatePageAdapter的区别"></a>FragmentPagerAdapter与FragmentStatePageAdapter的区别</h4><p>FragmentPagerAdapter中的destroyItem中调用了Fragment的detach方法，并没有释放内存，适用于页面较少情况<br>FragmentStatePageAdapter中的destroyItem中调用了remove方法是真正的释放了，内存适用于页面较多情况</p>
+<hr>
+<h4 id="Fragment通信"><a href="#Fragment通信" class="headerlink" title="Fragment通信"></a>Fragment通信</h4><p>1、在Fragment中调用Activity中的方法 getActivity<br>2、在Activity中调用Fragment中的方法 接口回调<br>3、在Fragment中调用Fragment中的方法 findFragmentById</p>
+<hr>
+<h4 id="Thread和Service的区别"><a href="#Thread和Service的区别" class="headerlink" title="Thread和Service的区别"></a>Thread和Service的区别</h4><p>Thread:Thread是程序执行的最小单元，它是分配CPU的基本单位。可以用Thread来执行一些一步的操作<br>Service:Service是Android的一种机制，当它运行的时候如果是Local Service，那么对应的Service是运行在主进程的main线程上的；如果是Remote Service，那么对应的 Service 则是运行在独立进程的 main 线程上。因此请不要把 Service 理解成线程，它跟线程半毛钱的关系都没有！</p>
+<hr>
+<h4 id="广播种类"><a href="#广播种类" class="headerlink" title="广播种类"></a>广播种类</h4><p>1、普通广播 sendBroadcast<br>2、有序广播 sendOrderedBroadcast<br>3、本地广播 LocalBroadcastManager</p>
+<hr>
+<h4 id="广播的内部实现机制"><a href="#广播的内部实现机制" class="headerlink" title="广播的内部实现机制"></a>广播的内部实现机制</h4><p>1、自定义广播接受者BroadcastReceiver，并复写onRecvice<br>2、通过Binder机制向AMS（ActivityManagerService）进行注册<br>3、广播发送者通过Binder机制向AMS发送广播<br>4、AMS查找符合相应条件(IntentFilter等)的BroadcastReceiver，将广播发送到BroadcastReceiver相应的消息循环队列<br>5、消息循环执行拿到此广播，回调BroadcastReceiver中的onReceive方法</p>
+<hr>
+<h4 id="LocalBroadcastManager详解"><a href="#LocalBroadcastManager详解" class="headerlink" title="LocalBroadcastManager详解"></a>LocalBroadcastManager详解</h4><p>1、使用它发送的广播将只在自身APP内传播，因此你不必担心泄露隐私数据<br>2、其它APP无法对你的APP发送该广播，因为你的APP根本就不可能接受到非自身应用发送的该广播，因此你不必担心有安全漏洞可以利用<br>3、比系统的全局广播更加高效</p>
+<hr>
+<h4 id="LocalBroadcastManager内部详解"><a href="#LocalBroadcastManager内部详解" class="headerlink" title="LocalBroadcastManager内部详解"></a>LocalBroadcastManager内部详解</h4><p>1、LocalBroadcastManager高效的原因主要是因为它内部是通过Handler实现的，它的sendBroadcast方法含义并非和我们平时所用的一样，它的sendBroadcast方法其实是通过handler发送一个Message实现的<br>2、既然是它内部是通过Handler来实现广播发送的，那么相比与系统广播通过Binder实现那肯定是更高效了，同时使用Handler来实现，别的应用无法向我们的应用发送该广播，而我们应用内发送的广播也不会离开我们的应用<br>3、LocalBroadcastManager内部协作主要是靠这两个Map集合：mReceivers和mActions,当然还有一个List集合mPendingBroadcasts，这个主要就是存储待接收的广播对象。</p>
+<hr>
+<h4 id="WebView常见的一些坑"><a href="#WebView常见的一些坑" class="headerlink" title="WebView常见的一些坑"></a>WebView常见的一些坑</h4><p>1、在Android API16及以前版本存在远程代码执行安全漏洞，该漏洞源于程序没有正确限制使用WebView.addJavaScriptInterface方法，远程攻击者可通过使用java Reflection API利用该漏洞执行任意java对象的方法<br>2、WebView在布局文件中的使用需要在onDestroy里面先removeAllViews之后再调用Webview.destroy()<br>3、jsbridge  native端和web的桥<br>4、后台耗电<br>6、WebView硬件加速导致页面渲染的问题</p>
+<hr>
+<h4 id="WebView内存泄漏"><a href="#WebView内存泄漏" class="headerlink" title="WebView内存泄漏"></a>WebView内存泄漏</h4><p>1、创建独立进程，简单暴力，不过可能涉及进程间通信（常用的方法：减少了主进程的内存容量）<br>2、动态添加WebView，对传入WebView中使用的Context使用弱引用，动态添加WebView意思在布局创建个ViewGroup用来放置WebView，Activity创建时add进来，在Activity停止时remove掉</p>
+<hr>
+<h4 id="什么是Binder"><a href="#什么是Binder" class="headerlink" title="什么是Binder"></a>什么是Binder</h4><p>1、通常意义下，Binder指的是一种通信机制<br>2、对于Server进程来说，Binder指的是Binder本地对象/对于Client来说，Binder指的是Binder代理对象<br>3、对于传输过程而言，Binder是可以进行跨进程传递的对象</p>
+<hr>
+<h4 id="为什么要使用Binder"><a href="#为什么要使用Binder" class="headerlink" title="为什么要使用Binder"></a>为什么要使用Binder</h4><p>1、Android使用的Linux内核拥有着非常多的跨进程通信机制<br>2、性能上<br>3、安全上  双方校验</p>
+<hr>
+<h4 id="OkHttp使用"><a href="#OkHttp使用" class="headerlink" title="OkHttp使用"></a>OkHttp使用</h4><p>1、创建一个OkhttpClient对象<br>2、创建一个request对象，通过内部类Builder调用生成Request对象<br>3、创建一个Call对象，调用execute/enqueue</p>
+<hr>
+<h4 id="OkHttp的源码解析"><a href="#OkHttp的源码解析" class="headerlink" title="OkHttp的源码解析"></a>OkHttp的源码解析</h4><hr>
+<h4 id="Retrofit源码解析"><a href="#Retrofit源码解析" class="headerlink" title="Retrofit源码解析"></a>Retrofit源码解析</h4><p>1、在retrofit中通过一个接口作为http请求的api接口<br>2、创建一个retrofit的实例<br>3、调用API接口</p>
+<hr>
+<h4 id="Retrofit-动态代理解析"><a href="#Retrofit-动态代理解析" class="headerlink" title="Retrofit 动态代理解析"></a>Retrofit 动态代理解析</h4><p>1、首先，通过method把它转化成ServiceMethod<br>2、然后，通过serviceMethod，args获取到OKhttpCall对象<br>3、最后，再把OKhttpCall进一步封装并返回Call对象</p>
+<hr>
+<h4 id="Retrofit源码解析-1"><a href="#Retrofit源码解析-1" class="headerlink" title="Retrofit源码解析"></a>Retrofit源码解析</h4><p>1、创建一个Retrofit对象<br>2、通过Retrofit.create方法是怎么把我们所定义的接口转化成接口实例并使用接口中的方法<br>3、最终的网络请求调用的okhttp</p>
+<hr>
+<p>…未完，待续</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/点滴面试经/" rel="tag">#点滴面试经</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/25/20180125_点滴面试经(java篇)/" rel="prev">点滴面试经(java篇)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/23/20180120_Camera方向和尺寸适配/" rel="next">Camera之[方向与尺寸]</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开篇面一面"><span class="nav-number">2.</span> <span class="nav-text">开篇面一面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、数据库的操作类型有哪些，如何导入外部数据库？"><span class="nav-number">2.1.</span> <span class="nav-text">1、数据库的操作类型有哪些，如何导入外部数据库？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、是否使用过本地广播，和全局广播有什么差别？"><span class="nav-number">2.2.</span> <span class="nav-text">2、是否使用过本地广播，和全局广播有什么差别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否使用过-IntentService，作用是什么，-AIDL-解决了什么问题？"><span class="nav-number">2.3.</span> <span class="nav-text">是否使用过 IntentService，作用是什么， AIDL 解决了什么问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Looper、Handler、Message三者关系"><span class="nav-number">2.4.</span> <span class="nav-text">Looper、Handler、Message三者关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程间通信的几种方式"><span class="nav-number">2.5.</span> <span class="nav-text">进程间通信的几种方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三级缓存"><span class="nav-number">2.6.</span> <span class="nav-text">三级缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是Activity"><span class="nav-number">2.7.</span> <span class="nav-text">什么是Activity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Activity生命状态"><span class="nav-number">2.8.</span> <span class="nav-text">Activity生命状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Activity生命周期分析"><span class="nav-number">2.9.</span> <span class="nav-text">Activity生命周期分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#android进程优先级"><span class="nav-number">2.10.</span> <span class="nav-text">android进程优先级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#scheme跳转协议"><span class="nav-number">2.11.</span> <span class="nav-text">scheme跳转协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FragmentPagerAdapter与FragmentStatePageAdapter的区别"><span class="nav-number">2.12.</span> <span class="nav-text">FragmentPagerAdapter与FragmentStatePageAdapter的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fragment通信"><span class="nav-number">2.13.</span> <span class="nav-text">Fragment通信</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Thread和Service的区别"><span class="nav-number">2.14.</span> <span class="nav-text">Thread和Service的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#广播种类"><span class="nav-number">2.15.</span> <span class="nav-text">广播种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#广播的内部实现机制"><span class="nav-number">2.16.</span> <span class="nav-text">广播的内部实现机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LocalBroadcastManager详解"><span class="nav-number">2.17.</span> <span class="nav-text">LocalBroadcastManager详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LocalBroadcastManager内部详解"><span class="nav-number">2.18.</span> <span class="nav-text">LocalBroadcastManager内部详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebView常见的一些坑"><span class="nav-number">2.19.</span> <span class="nav-text">WebView常见的一些坑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebView内存泄漏"><span class="nav-number">2.20.</span> <span class="nav-text">WebView内存泄漏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是Binder"><span class="nav-number">2.21.</span> <span class="nav-text">什么是Binder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要使用Binder"><span class="nav-number">2.22.</span> <span class="nav-text">为什么要使用Binder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OkHttp使用"><span class="nav-number">2.23.</span> <span class="nav-text">OkHttp使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OkHttp的源码解析"><span class="nav-number">2.24.</span> <span class="nav-text">OkHttp的源码解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Retrofit源码解析"><span class="nav-number">2.25.</span> <span class="nav-text">Retrofit源码解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Retrofit-动态代理解析"><span class="nav-number">2.26.</span> <span class="nav-text">Retrofit 动态代理解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Retrofit源码解析-1"><span class="nav-number">2.27.</span> <span class="nav-text">Retrofit源码解析</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

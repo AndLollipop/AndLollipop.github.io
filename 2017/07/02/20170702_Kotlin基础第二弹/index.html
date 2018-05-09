@@ -1,0 +1,1000 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="Kotlin," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些   官方网址 http://kotlinlang.org/docs/reference/   别人的总结 https://github.com/youxin1">
+<meta name="keywords" content="Kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin基础第二弹">
+<meta property="og:url" content="http://andlollipop.github.io/2017/07/02/20170702_Kotlin基础第二弹/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些   官方网址 http://kotlinlang.org/docs/reference/   别人的总结 https://github.com/youxin1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/2PyCV0L.png">
+<meta property="og:updated_time" content="2018-03-14T02:25:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin基础第二弹">
+<meta name="twitter:description" content="Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力  对于Kotlin的学习网上有好多，现在分享一些   官方网址 http://kotlinlang.org/docs/reference/   别人的总结 https://github.com/youxin1">
+<meta name="twitter:image" content="https://i.imgur.com/2PyCV0L.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> Kotlin基础第二弹 | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Kotlin基础第二弹
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-07-02T23:47:44+08:00" content="2017-07-02">
+            2017-07-02
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Kotlin/" itemprop="url" rel="index">
+                  <span itemprop="name">Kotlin</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><p>Kotlin是一个基于JVM的新的编程语言，由JetBrains开发，由于是Google推荐使用的，可见其重要性，当你真正深入的时候也会发现kotlin的优雅，让你在写代码的时候省时又省力</p>
+<blockquote>
+<p>对于Kotlin的学习网上有好多，现在分享一些</p>
+</blockquote>
+<blockquote>
+<p>官方网址 <a href="http://kotlinlang.org/docs/reference/" target="_blank" rel="noopener">http://kotlinlang.org/docs/reference/</a></p>
+</blockquote>
+<blockquote>
+<p>别人的总结 <a href="https://github.com/youxin11544/Kotlin-learning" target="_blank" rel="noopener">https://github.com/youxin11544/Kotlin-learning</a></p>
+</blockquote>
+<blockquote>
+<p>anto库 <a href="https://github.com/Kotlin/anko/wiki" target="_blank" rel="noopener">https://github.com/Kotlin/anko/wiki</a></p>
+</blockquote>
+<p>在这里不会像官网那样一一的去讲解，自己也是从官网去学习然后去看别人的博客，对于知识而言可能并不深入，但对于初学者而言也值的一看</p>
+<h3 id="kotlin委托机制"><a href="#kotlin委托机制" class="headerlink" title="kotlin委托机制"></a>kotlin委托机制</h3><p>委托模式也是代理模式是软件设计模式中的一项基本技巧，在委托模式中，有两个对象参与处理同一个请求，接受请求的对象将请求委托给另一个对象来处理</p>
+<p>在java和Android用到委托机制在AOP里，在java中使用继承InvocationHandler接口的方法来实现代理，而在Android中则使用AspectJ的方式来实现。在这里我们来讲解一下Kotlin的委托模式</p>
+<ol>
+<li>类委托<br>也就是上面讲的委托模式定义，然而在Kotlin中实现起来更加的方便更加的灵活，如：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class MyList(list: ArrayList&lt;String&gt;) : Collection&lt;String&gt; by list &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种也是替代继承的方式，直接使用by关键字就将Collection的方法委托给list对象</p>
+<ol>
+<li><p>属性委托<br>在Kotlin中Delegates类内置了三种委托的方法，分别是lazy、notNull()、observable(“”)、vetoable(“”)、Map形式</p>
+<ul>
+<li>lazy 用于进行懒加载，即第一次使用的时候才执行初始化操作</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当使用的时候才进行初始化（线程安全的）</span></span><br><span class="line">val list: ArrayList&lt;String&gt; by lazy &#123;</span><br><span class="line">   	ArrayList&lt;String&gt;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>notNull() 使用于那些无法再初始化阶段就确定属性值的场合</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化str,用于为空属性进行初始化的场景</span></span><br><span class="line">var str: String by Delegates.notNull&lt;String&gt;()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>observable() 观察者和java的观察者模式差不多</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//oldValue是变化之前的值  newValue最新的值</span></span><br><span class="line">var str: String by Delegates.observable(<span class="string">""</span>)&#123;<span class="comment">//初始值</span></span><br><span class="line">   	property, oldValue, newValue -&gt;</span><br><span class="line">   	println(<span class="string">"$&#123;property.name&#125;  old=$oldValue  new=$newValue"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>vetoable（）带条件的委托机制，通过返回的true和false来确定oldValue是上一个还是最初的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回true和observable是一样的效果</span></span><br><span class="line">var str1: String by Delegates.vetoable(<span class="string">""</span>)&#123;</span><br><span class="line">    property, oldValue, newValue -&gt;</span><br><span class="line">    println(<span class="string">"$&#123;property.name&#125;  old=$oldValue  new=$newValue"</span>)</span><br><span class="line">    <span class="keyword">true</span>   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回false则标志oldValue永远为初始值</span></span><br><span class="line">var str2: String by Delegates.vetoable(<span class="string">""</span>)&#123;</span><br><span class="line">    property, oldValue, newValue -&gt;</span><br><span class="line">    println(<span class="string">"$&#123;property.name&#125;  old=$oldValue  new=$newValue"</span>)</span><br><span class="line">    <span class="keyword">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Map 通过一种全新的赋值方法给类属性进行赋值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class User(val map: Map&lt;String,Any?&gt;)&#123;</span><br><span class="line">    val name: String by map</span><br><span class="line">    val age: Int by map</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">val user = User(mapOf(<span class="string">"a"</span> to <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>除此之外我们也可以自定义委托，具体定义可仿照notNull()委托</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private class NotNullVar&lt;T: Any&gt;() : ReadWriteProperty&lt;Any?, T&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> var value: T? = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> override fun <span class="title">getValue</span><span class="params">(thisRef: Any?, property: KProperty&lt;*&gt;)</span>: T </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value ?: <span class="keyword">throw</span> IllegalStateException(<span class="string">"Property $&#123;property.name&#125; should be initialized before get."</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> override fun <span class="title">setValue</span><span class="params">(thisRef: Any?, property: KProperty&lt;*&gt;, value: T)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你也可以设置可读的委托机制，继承ReadOnlyProperty类即可</p>
+<h3 id="kotlin-lambda表达式"><a href="#kotlin-lambda表达式" class="headerlink" title="kotlin lambda表达式"></a>kotlin lambda表达式</h3><p>首先先给出一个小例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val action = &#123;i: Int, j: Int -&gt; println(<span class="string">"i=$i   j=$j"</span>)&#125;;</span><br><span class="line">action(<span class="number">1</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>注意的是lambda表达式用{}包裹，箭头前面是参数的参数，箭头后面是函数体；从调用上来说比java简单并且优雅了许多，但是实际用途呢？我们可以为一个函数传一个lambda，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fun <span class="title">lambdaTest</span><span class="params">(arg1: Int, arg2: Int, oper: (a: Int, b: Int)</span> -&gt; Int): Int </span>&#123;</span><br><span class="line">    var result: Int = Int.MIN_VALUE</span><br><span class="line">    <span class="keyword">if</span> (arg2 != <span class="number">0</span>) &#123;</span><br><span class="line">        result = oper(arg1, arg2)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">main</span><span class="params">(args: Array&lt;String&gt;)</span> </span>&#123;</span><br><span class="line">    lambdaTest(<span class="number">1</span>, <span class="number">2</span>, &#123; a: Int, b: Int -&gt; a / b &#125;)</span><br></pre></td></tr></table></figure>
+<p>既然是传函数当然也可以传递一个函数进去，常使用::，这里延伸出函数的引用，另外还有属性的引用，这里</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).forEach(::println)</span><br><span class="line"></span><br><span class="line">var name = <span class="string">"1"</span></span><br><span class="line">val p = ::name</span><br><span class="line">p.set/get</span><br></pre></td></tr></table></figure>
+<p>当最后一个参数为lambda的时候，可以将大括号放在外面，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lambdaTest(<span class="number">1</span>, <span class="number">2</span>)&#123; a: Int, b: Int -&gt; a / b &#125;</span><br></pre></td></tr></table></figure>
+<p>用lambda表达式的情况还是挺多的，例如在集合中遍历等操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val list = arrayListOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">  list.forEach &#123; value -&gt; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="kotlin-运算符重载表达式"><a href="#kotlin-运算符重载表达式" class="headerlink" title="kotlin 运算符重载表达式"></a>kotlin 运算符重载表达式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Rmb(var num: Int) &#123;</span><br><span class="line">    <span class="function">operator fun <span class="title">plus</span><span class="params">(rmb: Any?)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以使用Rmb(1) + Rmb(2)进行计算了，是不是很简单。这种操作和前面讲的中缀表达式一样，只不过中间的是运算符了而已</p>
+<h3 id="kotlin-注解与反射"><a href="#kotlin-注解与反射" class="headerlink" title="kotlin 注解与反射"></a>kotlin 注解与反射</h3><p>Kotlin的注解和java是类似的，先确定注解的类型，然后确定生命周期<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(AnnotationTarget.FIELD,</span><br><span class="line">        AnnotationTarget.CLASS,</span><br><span class="line">        AnnotationTarget.FUNCTION)</span><br><span class="line"><span class="meta">@Retention</span>(AnnotationRetention.SOURCE)</span><br><span class="line">annotation <span class="class"><span class="keyword">class</span> <span class="title">Path</span></span></span><br></pre></td></tr></table></figure></p>
+<p>使用的话直接在class前 fun前面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Path class UsePath(val p: String) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Kotlin反射则通过<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span></span></span><br><span class="line"><span class="class">   <span class="title">String</span>.<span class="title">javaClass</span></span></span><br></pre></td></tr></table></figure></p>
+<p>这两种方式来得到Class&lt;?&gt;对象，进一步可反射得到相应的属性和方法</p>
+<h3 id="调用第三方库使用Kotlin"><a href="#调用第三方库使用Kotlin" class="headerlink" title="调用第三方库使用Kotlin"></a>调用第三方库使用Kotlin</h3><p>这里我们以ButterKnife为例，配置ButterKnife在Kotlin的环境</p>
+<p>首先加入kotlin的classpath<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ext.kotlin_version = <span class="string">'1.1.2-3'</span></span><br><span class="line">   repositories &#123;</span><br><span class="line">       jcenter()</span><br><span class="line">   &#125;</span><br><span class="line">   dependencies &#123;</span><br><span class="line">       classpath <span class="string">'com.android.tools.build:gradle:2.3.1'</span></span><br><span class="line">       classpath <span class="string">"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"</span></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后添加kotlin依赖<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'kotlin-android'</span></span><br><span class="line">compile <span class="string">"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"</span></span><br></pre></td></tr></table></figure></p>
+<p>最后加入ButterKnife依赖，这里需要注意的是另外也添加kapt插件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'kotlin-kapt'</span></span><br><span class="line">   compile <span class="string">'com.jakewharton:butterknife:8.6.0'</span></span><br><span class="line">   kapt <span class="string">'com.jakewharton:butterknife-compiler:8.6.0'</span></span><br></pre></td></tr></table></figure></p>
+<p>这样kapt会将ButterKnife的java代码转化为kotlin代码</p>
+<p>至此环境就配置好了，当然你也可以在网上搜一搜，这里也就是做个笔记</p>
+<h3 id="Anko-Dialog"><a href="#Anko-Dialog" class="headerlink" title="Anko Dialog"></a>Anko Dialog</h3><p>对于Anko的Dialog用的最多的也Toast的使用，在Anko中使用toast是相当的简单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fun <span class="title">open_toast</span><span class="params">(view: View)</span></span>&#123;</span><br><span class="line"> toast(<span class="string">"toast"</span>)</span><br><span class="line"> longToast(<span class="string">"long toast"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后就是AlertDialog的使用也是一看就会用的那种<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fun <span class="title">open_alert</span><span class="params">(view: View)</span></span>&#123;</span><br><span class="line">alert(<span class="string">"Hi,I'm Roy"</span>,<span class="string">"Have you tried turning it off and on again?"</span>)&#123;</span><br><span class="line">    yesButton &#123; toast(<span class="string">"yes"</span>) &#125;</span><br><span class="line">    noButton &#123; toast(<span class="string">"no"</span>) &#125;</span><br><span class="line">&#125;.show()</span><br><span class="line"></span><br><span class="line"><span class="comment">//当然你也可以使用自定义的View</span></span><br><span class="line">alert&#123;</span><br><span class="line">    customView&#123;</span><br><span class="line">        editText()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然还有其它的弹框这里就不一一介绍，具体请看官方</p>
+<h3 id="Anko-Intent"><a href="#Anko-Intent" class="headerlink" title="Anko Intent"></a>Anko Intent</h3><p>相比之前的Intent来说Anko提供的更加的方便，使用如下</p>
+<pre><code>startActivity(intentFor&lt;AnkoActivity01&gt;(&quot;id&quot; to 5).singleTop())
+</code></pre><p>其他的一些使用如下：</p>
+<p><img src="https://i.imgur.com/2PyCV0L.png" alt=""></p>
+<h3 id="Anko-Log"><a href="#Anko-Log" class="headerlink" title="Anko Log"></a>Anko Log</h3><p>对于Log，Anko解释AndroidSDK提供的Log也是非常的简单，尽管方法需要你传递标签参数，但使用起来也是非常的简单，当然你也可以使用AnkoLogger来消除这一点</p>
+<ol>
+<li><p>实现AnkoLogger的方式</p>
+<pre><code>info(&quot;this is second log info&quot;)
+
+//这种带lambda表达式的这种会去计算Log.isLoggable(tag, Log.INFO)是否为true，为true的话才打印
+info { &quot;this is third log info&quot; }
+</code></pre></li>
+<li><p>使用其对象的方式</p>
+<pre><code>val logWithASpecificTag = AnkoLogger(&quot;lypop&quot;)
+ logWithASpecificTag.info { &quot;this is Log info&quot; }
+</code></pre><p>第一种Tag默认是类名，第二种可以自定义其Tag</p>
+</li>
+</ol>
+<h3 id="Anko-helper"><a href="#Anko-helper" class="headerlink" title="Anko helper"></a>Anko helper</h3><p>你可以在你的项目中使用帮助者来简化你的代码，例如Color、Dimen等，颜色透明度直接色值.opaque就可以，尺寸的话直接使用dip(dipValue)、sp(spValue)就可以。在这里面还有一个就是applyRecursively()用来控制子View的操作，如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">   verticalLayout &#123;</span><br><span class="line">    textView&#123;</span><br><span class="line">        text = <span class="string">"EditText01"</span></span><br><span class="line">        backgroundColor = <span class="number">0xff000</span>.opaque</span><br><span class="line">        textSize = <span class="number">14f</span></span><br><span class="line">    &#125;</span><br><span class="line">    textView &#123;</span><br><span class="line">        text = <span class="string">"EditText02"</span></span><br><span class="line">        backgroundColor = <span class="number">0x99</span>.gray.opaque</span><br><span class="line">        textSize = <span class="number">23f</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;.applyRecursively &#123;<span class="comment">//如果是ViewGroup的话可以使用applyRecursively来为每个Child View进行设置</span></span><br><span class="line">    view -&gt; when(view)&#123;</span><br><span class="line">        is TextView -&gt; view.textColor = Color.RED</span><br><span class="line"> 	&#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Anko-Coroutines"><a href="#Anko-Coroutines" class="headerlink" title="Anko Coroutines"></a>Anko Coroutines</h3><p>Anko还提供了协程的用来做一些耗时的操作，提供的操作为bg{},具体代码如下：</p>
+<pre><code>async(UI){//UI线程
+    val data: Deferred&lt;MyBean&gt; = bg {//后台线程
+        // Runs in background
+        MyBean()
+    }
+
+    showData(data.await()) //await方法将一直等待bg返回的数据
+}
+</code></pre><p>为了防止内存泄漏我们常会使用弱引用，在Anko中使用弱引用方法如下：</p>
+<pre><code>val ref: Ref&lt;AnkoActivity05&gt; = this.asReference()
+
+ async(UI){
+     //ref替代了this@AnkoActivity05
+     ref().showData()
+ }
+</code></pre><h3 id="Anko-Layout"><a href="#Anko-Layout" class="headerlink" title="Anko Layout"></a>Anko Layout</h3><p>那我们先来说一下普通写Android布局有啥缺点</p>
+<ol>
+<li>它不是类型安全的和不是空安全</li>
+<li>它迫使您为每个布局都编写相同的代码</li>
+<li>在设备上解析xml浪费CPU时间和电池</li>
+<li>最重要的是它不允许代码重用</li>
+</ol>
+<p>那Kotlin不行吗?为什么还要用anko呢？</p>
+<p>官方解释说Kotlin那种是解决了不能编程生成UI，但是用Kotlin代码写出来的UI难以维护所以才出现了anko库，具体相应的代码还请看官网。（其实也没必要看，毕竟出来了一种库必然有其存在的原因）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">   verticalLayout &#123;</span><br><span class="line">	padding = dip(<span class="number">30</span>)</span><br><span class="line">    button(<span class="string">"say"</span>)&#123;</span><br><span class="line">        onClick &#123;toast(<span class="string">"Hello,$&#123;if (it is TextView) it.text else "</span><span class="string">"&#125;"</span>) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    button(R.string.app_name)</span><br><span class="line">    button&#123;</span><br><span class="line">        textResource = R.string.app_name</span><br><span class="line">    &#125;.lparams &#123; <span class="comment">//如果指定了 lparams 但是没有指定 width 或者 height，那么默认是 “wrapContent”</span></span><br><span class="line">        width = matchParent</span><br><span class="line">        topMargin = dip(<span class="number">10</span>)</span><br><span class="line">		horizontalMargin = dip(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Activity没有显示调用setContentView，anko会自动为Activity设置Content View</p>
+<p>这里列举了button的三种创建形式和为其设置参数<br>当然在Activity/Fragment也会使用xml布局，anko也为我们提供了简单的创建控件对象的方式</p>
+<ol>
+<li>对象的名字就是控件的ID</li>
+<li>使用find<textview>(R.id.name)也可以</textview></li>
+</ol>
+<p>可以看出这几种都比Android的findViewById要舒适的多</p>
+<p>当然代码中还可能会有</p>
+<ol>
+<li><p>include</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">include&lt;View&gt;(R.layout.something) &#123;</span><br><span class="line">   	backgroundColor = Color.RED</span><br><span class="line">&#125;.lparams(width = matchParent) &#123; margin = dip(<span class="number">12</span>) &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义View</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">inline fun ViewManager.myView(init: MyView.() -&gt; Unit): MyView &#123;</span><br><span class="line">   	<span class="keyword">return</span> ankoView(&#123; MyView(it) &#125;, <span class="number">0</span>, init)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyView(ctx: Context) : View(ctx) &#123;</span><br><span class="line">    <span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>使用的时候和上面使用方法一样直接用myView{}</p>
+<p>但是非常遗憾的是没有预览界面，虽然anko提供了支持插件，但非常遗憾的是仅支持AndroidStudio2.4+</p>
+<p>这样我们就创建了一个简单的布局<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun Context.sendSMS(number: String, text: String = <span class="string">""</span>): Boolean &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(<span class="string">"sms:$number"</span>))</span><br><span class="line">        intent.putExtra(<span class="string">"sms_body"</span>, text)</span><br><span class="line">        startActivity(intent)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Anko-SQLite"><a href="#Anko-SQLite" class="headerlink" title="Anko SQLite"></a>Anko SQLite</h3><p>在之前使用SQLiteOpenHelper，通常调用getReadableDatabase（）或getWritableDatabase（），但是您必须确保在接收的SQLiteDatabase上调用close（）方法。如果您从多个线程中使用它，则必须了解并发访问。 所有这一切都很艰难。<br> 这就是为什么Android开发人员不太喜欢默认的SQLite API，而是更喜欢使用相当昂贵的包装器，如ORMs。</p>
+<p> Anko提供了ManagedSQLiteOpenHelper 可以无缝替代默认的,当操作完毕之后就会自动关闭，在使用的时候需要去继承ManagedSQLiteOpenHelper<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">	class MySqlHelper(ctx: Context = MyApplication.getApplication(),</span><br><span class="line">                  name: String? = <span class="string">"db"</span>,</span><br><span class="line">                  factory: SQLiteDatabase.CursorFactory? = <span class="keyword">null</span>,</span><br><span class="line">                  version: Int = <span class="number">1</span>) : ManagedSQLiteOpenHelper(ctx, name, factory, version) &#123;</span><br><span class="line">我们如果想让它成为线程安全的可以</span><br><span class="line"></span><br><span class="line">	    companion object &#123;</span><br><span class="line">	        <span class="meta">@Volatile</span> <span class="keyword">private</span> var helper: MySqlHelper? = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">	        <span class="function">fun <span class="title">getInstance</span><span class="params">()</span>: MySqlHelper </span>&#123;</span><br><span class="line">	            <span class="keyword">if</span> (<span class="keyword">null</span> == helper) &#123;</span><br><span class="line">	                <span class="keyword">synchronized</span>(MySqlHelper::<span class="class"><span class="keyword">class</span>) </span>&#123;</span><br><span class="line">	                    <span class="keyword">if</span> (<span class="keyword">null</span> == helper) &#123;</span><br><span class="line">	                        helper = MySqlHelper()</span><br><span class="line">	                    &#125;</span><br><span class="line">	                &#125;</span><br><span class="line">	            &#125;</span><br><span class="line">	            <span class="keyword">return</span> helper!!</span><br><span class="line">	        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们就可以使用Anko提供的数据库操作了<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function">fun <span class="title">queryAll</span><span class="params">()</span>: List&lt;Gps&gt; </span>= use &#123;</span><br><span class="line">    select(Gps.TABEL_NAME).exec &#123;</span><br><span class="line">        parseList(classParser&lt;Gps&gt;()) <span class="comment">//查询使用parserXX方法需要存在查询字段的相应构造方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">fun <span class="title">queryLonAfter</span><span class="params">(id: Long)</span>: List&lt;Double&gt; </span>= use &#123;</span><br><span class="line">       select(Gps.TABEL_NAME, Gps.LON).whereArgs(<span class="string">"$&#123;Gps._ID&#125; &gt; &#123;id&#125;"</span>, <span class="string">"id"</span> to id)</span><br><span class="line">               .exec &#123;</span><br><span class="line">                   parseList(DoubleParser)</span><br><span class="line">               &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">fun <span class="title">deleteById</span><span class="params">(id: Long)</span></span>&#123;</span><br><span class="line">       use &#123;</span><br><span class="line">           delete(Gps.TABEL_NAME, <span class="string">"$&#123;Gps._ID&#125; = &#123;id&#125;"</span>, <span class="string">"id"</span> to id)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function">fun <span class="title">updateById</span><span class="params">(id: Long)</span> </span>&#123;</span><br><span class="line">       use &#123;</span><br><span class="line">           update(Gps.TABEL_NAME, Gps.PROVIDER to <span class="string">"lbs"</span>).whereArgs(<span class="string">"$&#123;Gps._ID&#125; = &#123;id&#125;"</span>, <span class="string">"id"</span> to id).exec()</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里使用use来包裹，当里面的代码执行完毕就会自动关闭数据库</p>
+<p>至此，Anko就讲解完毕，更多的内容还请阅读官方，Thanks♪(･ω･)ﾉ</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kotlin/" rel="tag">#Kotlin</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/03/20170703_Kotlin实战(数据列表)/" rel="prev">Kotlin实战(数据列表)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/01/20170701_Kotlin基础第一弹/" rel="next">Kotlin基础第一弹</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin委托机制"><span class="nav-number">1.</span> <span class="nav-text">kotlin委托机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-lambda表达式"><span class="nav-number">2.</span> <span class="nav-text">kotlin lambda表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-运算符重载表达式"><span class="nav-number">3.</span> <span class="nav-text">kotlin 运算符重载表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-注解与反射"><span class="nav-number">4.</span> <span class="nav-text">kotlin 注解与反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用第三方库使用Kotlin"><span class="nav-number">5.</span> <span class="nav-text">调用第三方库使用Kotlin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-Dialog"><span class="nav-number">6.</span> <span class="nav-text">Anko Dialog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-Intent"><span class="nav-number">7.</span> <span class="nav-text">Anko Intent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-Log"><span class="nav-number">8.</span> <span class="nav-text">Anko Log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-helper"><span class="nav-number">9.</span> <span class="nav-text">Anko helper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-Coroutines"><span class="nav-number">10.</span> <span class="nav-text">Anko Coroutines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-Layout"><span class="nav-number">11.</span> <span class="nav-text">Anko Layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Anko-SQLite"><span class="nav-number">12.</span> <span class="nav-text">Anko SQLite</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

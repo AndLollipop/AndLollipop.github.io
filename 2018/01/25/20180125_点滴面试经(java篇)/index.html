@@ -1,0 +1,909 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="点滴面试经," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649   &amp;emsp;&amp;emsp;本篇文章用来记录java面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面接口的意义(1)重要性在java语言中，abstrac">
+<meta name="keywords" content="点滴面试经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="点滴面试经(java篇)">
+<meta property="og:url" content="http://andlollipop.github.io/2018/01/25/20180125_点滴面试经(java篇)/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649   &amp;emsp;&amp;emsp;本篇文章用来记录java面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面接口的意义(1)重要性在java语言中，abstrac">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-25T07:01:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="点滴面试经(java篇)">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649   &amp;emsp;&amp;emsp;本篇文章用来记录java面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。 开篇面一面接口的意义(1)重要性在java语言中，abstrac">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> 点滴面试经(java篇) | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              点滴面试经(java篇)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-01-25T15:01:00+08:00" content="2018-01-25">
+            2018-01-25
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/点滴面试经/" itemprop="url" rel="index">
+                  <span itemprop="name">点滴面试经</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/点滴面试经/java面试/" itemprop="url" rel="index">
+                  <span itemprop="name">java面试</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;博客是记录记忆的地方，是查漏补缺的地方，更是志同道合成长的地方。现在开启面试文章的入口，欢迎大家学习并指点，由于目前本博客还没有加入评论的功能，可以先加我QQ：2414923649  </p>
+<p>&emsp;&emsp;本篇文章用来记录java面试的一些东西，我会不断的在里面加入新的知识，新的花样，希望大家喜欢。</p>
+<h3 id="开篇面一面"><a href="#开篇面一面" class="headerlink" title="开篇面一面"></a>开篇面一面</h3><h4 id="接口的意义"><a href="#接口的意义" class="headerlink" title="接口的意义"></a>接口的意义</h4><p>(1)重要性<br>在java语言中，abstract class和interface是支持抽象类定义的两种机制<br>(2)简单、规范性<br>如果项目比较庞大就需要来定义一些接口，这些接口不仅仅告诉开发人员你需要实现那些业务，而且也将命名的规范也给限制住了，防止程序员错误的命名。<br>(3)维护、扩展性<br>比如你要做一个画板程序，其中里面有一个面板类，主要负责绘画功能，然后你就这样定义了这个类。可是在不久将来，你突然发现这个类满足不了你了，然后你又要重新设计这个类，更糟糕是你可能要放弃这个类，那么其他地方可能有引用他，这样修改起来很麻烦。<br>如果你一开始定义一个接口，把绘制功能放在接口里，然后定义类时实现这个接口，然后你只要用这个接口去引用实现它的类就行了，以后要换的话只不过是引用另一个类而已，这样就达到维护、拓展的方便性。<br>(4)安全、严密性<br>接口是实现软件解耦合的重要手段</p>
+<hr>
+<h4 id="抽象类的意义"><a href="#抽象类的意义" class="headerlink" title="抽象类的意义"></a>抽象类的意义</h4><p>本质上是相同具体概念的抽象<br>1、因为抽象类不能实例化对象，必须有子类来实现才可以使用。这样就可以把一些具有相同属性和方法的组件进行抽象，这样有利于代码和程序的维护。<br>2、当又有一个具有相似组件产生的时候，只需要实现该抽象类就可以获得该抽象类的那些属性和方法</p>
+<hr>
+<h4 id="抽象类接口区别"><a href="#抽象类接口区别" class="headerlink" title="抽象类接口区别"></a>抽象类接口区别</h4><p>1）抽象类要被子类继承，接口要被类实现<br>2）接口只能做方法声明，抽象类中既可以做方法声明，也可以做方法实现<br>3）接口里定义的变量只能是公共的静态的常量，抽象类中的变量是普通变量。<br>4）抽象类里的抽象方法必须全部被子类所实现，如果子类不能全部实现父类抽象方法，那么该子类只能是抽象类。同样，一个实现接口的时候，如不能全部实现接口方法，那么该类也只能为抽象类。<br>5）抽象方法只能声明，不能实现，接口是设计的结果 ，抽象类是重构的结果<br>6）接口可继承接口，并可多继承接口，但类只能单根继承。</p>
+<hr>
+<h4 id="内部类的作用"><a href="#内部类的作用" class="headerlink" title="内部类的作用"></a>内部类的作用</h4><p>放在一个类的内部的类我们叫做内部类,作用：<br>1、内部类可以很好的实现隐藏，一般的非内部类，是不允许有<br>2、private 与protected权限的，但内部类可以<br>3、内部类拥有外部类的所有元素的访问权限<br>4、可是实现多重继承<br>5、可以避免修改接口去实现同一个类中两种同名方法的调用</p>
+<hr>
+<h4 id="父类的静态方法能否被子类重写，为什么？"><a href="#父类的静态方法能否被子类重写，为什么？" class="headerlink" title="父类的静态方法能否被子类重写，为什么？"></a>父类的静态方法能否被子类重写，为什么？</h4><p>父类的静态方法是不能被子类重写的，重写只能适用于实例方法，不能用于静态方法，并且static方法不是后期绑定的，它在编译期就绑定了。换句话说，这个方法不会进行多态的判断，只与声明的类有关。</p>
+<hr>
+<h4 id="哪些情况下的对象会被垃圾回收机制处理掉"><a href="#哪些情况下的对象会被垃圾回收机制处理掉" class="headerlink" title="哪些情况下的对象会被垃圾回收机制处理掉"></a>哪些情况下的对象会被垃圾回收机制处理掉</h4><p>(1)超出对象的引用作用域的时候，这个对象就会变成垃圾<br>(2)没有超出对象的引用作用域，给这个引用赋值为空的时候，这个引用的对象也会变成垃圾<br>(3)创建匿名对象时候，匿名对象用完之后会变成垃圾</p>
+<hr>
+<h4 id="进程和线程的区别"><a href="#进程和线程的区别" class="headerlink" title="进程和线程的区别"></a>进程和线程的区别</h4><p>进程和线程都是一个时间段的描述，是CPU工作时间段的描述，不过是颗粒大小不同<br>(1)一个程序至少有一个进程，一个进程至少有一个线程<br>(2)线程的划分尺度小于进程，使得多线程程序的并发性高<br>(3)另外，进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大的提高了程序的运行效率<br>(4)线程在执行过程中与进程还是有区别的。每个独立的进程有一个程序运行的入口、顺序执行序列和程序的出口。但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制<br>(5)多线程的意义在于一个应用程序中，有多个执行部分可以同时执行。但操作系统并没有将多个线程看做多个独立的应用，来实现进程的调度和管理以及资源分配。这就是进程和线程的重要区别</p>
+<hr>
+<h4 id="Java-中-和-equals-的区别，-equals-和-hashCode-的区别"><a href="#Java-中-和-equals-的区别，-equals-和-hashCode-的区别" class="headerlink" title="Java 中==和 equals 的区别， equals 和 hashCode 的区别"></a>Java 中==和 equals 的区别， equals 和 hashCode 的区别</h4><p>(1) ==操作符基本类型变量比较的是值；引用类型变量比较的是引用的地址<br>(2) equals方法是基类Object的方法，用于比较两个对象的内容是否相同，实际开发过程中，我们会重写equals方法，重新定义比较规则<br>(3) hashCode当涉及到像HashMap等与哈希表结构相关的一些类时会使用到hashCode方法，默认的hashCode实现一般是内存地址对应的数字，所以不同的对象，hashCode()的返回值是不一样的<br>equals(object)相同时，hashCode()的返回值也要尽量相同，当equals(object)不相同时，hashCode()也是尽量不相同以获取好的性能</p>
+<hr>
+<h4 id="java-int-与-integer-的区别"><a href="#java-int-与-integer-的区别" class="headerlink" title="java int 与 integer 的区别"></a>java int 与 integer 的区别</h4><p>int 是基本数据类型，integer是包装数据类型（引用类型），JDK1.5之后，自动装包/拆包大大方便了基本类型数据和它们包装类地使用。</p>
+<hr>
+<h4 id="string-stringbuffer-stringbuilder-区别"><a href="#string-stringbuffer-stringbuilder-区别" class="headerlink" title="string stringbuffer stringbuilder 区别"></a>string stringbuffer stringbuilder 区别</h4><p>共同点：String StringBuffer StringBuilder 都是字符串相关函数，StringBuffer StringBuilder是AbstractStringBuilder的子类<br>不同点：String内容不可变，StringBuffer StringBuilder内容可变String与StringBuffer线程安全，StringBuilder非线程安全<br>如果程序不是多线程的，那么使用StringBuilder效率高于StringBuffer</p>
+<hr>
+<h4 id="Java-多态"><a href="#Java-多态" class="headerlink" title="Java 多态"></a>Java 多态</h4><p>静态多态：方法重载<br>动态多态：方法重写<br>多态发生的条件：<br>1）要有继承<br>2）要有重写<br>3）父类引用指向子类对象<br>多态的好处：<br>1）可替换性<br>2）可扩充性<br>3）接口性<br>4）简化性</p>
+<hr>
+<h4 id="容器类之间的区别"><a href="#容器类之间的区别" class="headerlink" title="容器类之间的区别"></a>容器类之间的区别</h4><p>1&gt; Vector和ArrayList<br>(1)vector是线程安全的，ArrayList是线程不安全的，如果不考虑线程的安全因素使用ArrayList的效率比较高<br>(2)vector增长率为目前数组长度的100%，而ArrayList增长率为当前数组长度的50%，如果数据特别的大的时候使用Vector占一定的优势<br>(3)ArrayList 和Vector是采用数组方式存储数据，所以索引数据快插入数据慢，Vector由于使synchronized方法（线程安全）所以性能上比ArrayList要差<br>2&gt; ArrayList和LinkedList<br>(1)ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构<br>(2)ArrayList适合改查，LinkedList适合增删<br>3&gt; HashMap与TreeMap<br>(1)HashMap通过hashcode对其内容进行快速查找，而TreeMap中所有的元素都保持着某种固定的顺序，如果你需要得到一个有序的结果你就应该使用TreeMap（HashMap中元素的排列顺序是不固定的），TreeMap实现SortedMap接口<br>(2)在Map 中插入、删除和定位元素，HashMap 是最好的选择。但如果您要按自然顺序或自定义顺序遍历键，那么TreeMap会更好。使用HashMap要求添加的键类明确定义了hashCode()和 equals()的实现<br>4&gt; HashTable与HashMap<br>(1)HashTable是基于陈旧的Dictionary类的，HashMap是Java1.2引进的Map接口的一个实现<br>(2)Hashtable是线程安全的，也就是说是同步的，而HashMap是线程序不安全的，不是同步的<br>(3)HashMap可以让你将空值作为一个表的条目的key或value<br>5&gt; Set与List<br>Set中的数据对象没有顺序且不可以重复，List中的数据对象有顺序且可以重复。</p>
+<hr>
+<h4 id="死锁的四个必要条件"><a href="#死锁的四个必要条件" class="headerlink" title="死锁的四个必要条件"></a>死锁的四个必要条件</h4><p>(1)互斥条件，即某个资源在一段时间内只能由一个线程占有，不能同时被两个或两个以上的线程占有<br>(2)不可抢占条件，线程所获得的资源在未使用完毕之前，资源申请者不能强行地从资源占有者手中夺取资源，而只能由该资源的占有者线程自行释放<br>(3)占有且申请条件，线程至少已经占有一个资源，但又申请新的资源；由于该资源已被另外线程占有，此时该线程阻塞；但是，它在等待新资源之时，仍继续占用已占有的资源。<br>(4)循环等待条件，存在一个线程等待序列{P1，P2，…，Pn}，其中P1等待P2所占有的某一资源，P2等待P3所占有的某一源，……，而Pn等待P1所占有的的某一资源，形成一个线程循环等待环</p>
+<hr>
+<h4 id="处理死锁的基本方法"><a href="#处理死锁的基本方法" class="headerlink" title="处理死锁的基本方法"></a>处理死锁的基本方法</h4><p>(1)预防死锁：通过设置一些限制条件，去破坏产生死锁的必要条件<br>(2)避免死锁：在资源分配过程中，使用某种方法避免系统进入不安全的状态，从而避免发生死锁<br>(3)检测死锁：允许死锁的发生，但是通过系统的检测之后，采取一些措施，将死锁清除掉<br>(4)解除死锁：该方法与检测死锁配合使用</p>
+<hr>
+<h4 id="常见编码方式；-utf-8-编码中的中文占几个字节；数字几个字节"><a href="#常见编码方式；-utf-8-编码中的中文占几个字节；数字几个字节" class="headerlink" title="常见编码方式； utf-8 编码中的中文占几个字节；数字几个字节"></a>常见编码方式； utf-8 编码中的中文占几个字节；数字几个字节</h4><p>一个utf8数字占1个字节，一个utf8英文字母占1个字节，少数是汉字每个占用3个字节，多数占用4个字节。</p>
+<hr>
+<h4 id="Http和Https的不同之处"><a href="#Http和Https的不同之处" class="headerlink" title="Http和Https的不同之处"></a>Http和Https的不同之处</h4><p>1、Http的URL以http://开头，而https的URL以https://开头<br>2、Http是不安全的，而Https是安全的<br>3、Http标准端口是80，而Https的标准端口是443<br>4、在OSI网络模型中，Http工作于应用层，而Https工作在传输层<br>5、Http无需加密，而Https需要认证证书</p>
+<hr>
+<h4 id="Socket服务端-客户端通信步骤"><a href="#Socket服务端-客户端通信步骤" class="headerlink" title="Socket服务端/客户端通信步骤"></a>Socket服务端/客户端通信步骤</h4><p>1、创建ServerSocket和Socket<br>2、打开连接到Socket的输入/输出流<br>3、按照协议对socket进行读/写操作<br>4、关闭输入输出流、关闭Socket</p>
+<hr>
+<h4 id="java的IO接口"><a href="#java的IO接口" class="headerlink" title="java的IO接口"></a>java的IO接口</h4><p>1、基于字节操作的IO接口 inputStream outputStream<br>2、基于字符操作的IO接口 BufferedReader BufferWriter<br>3、基于磁盘操作的IO接口 File<br>4、基于网络操作的IO接口 Socket</p>
+<hr>
+<h4 id="阻塞式IO发生条件"><a href="#阻塞式IO发生条件" class="headerlink" title="阻塞式IO发生条件"></a>阻塞式IO发生条件</h4><p>1、BIO数据在写入outputStream或者inputStream读取时可能会阻塞<br>2、当前一些需要大量Http长连接的情况<br>3、需要另外一种新的IO操作方式</p>
+<h3 id="Char型变量中能不能存储一个中文汉字？为什么？"><a href="#Char型变量中能不能存储一个中文汉字？为什么？" class="headerlink" title="Char型变量中能不能存储一个中文汉字？为什么？"></a>Char型变量中能不能存储一个中文汉字？为什么？</h3><p>char型变量是用来存储Unicode编码字符的，Unicode编码字符集中包含了汉字，所以char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在Unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊的汉字。Unicode编码占用两个字节，所以char型变量也是占用两个字节</p>
+<p>….未完待续</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/点滴面试经/" rel="tag">#点滴面试经</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/27/20180127_点滴面试经(算法篇)/" rel="prev">点滴面试经(算法篇)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/24/20180124_点滴面试经(Android篇)/" rel="next">点滴面试经(Android篇)</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开篇面一面"><span class="nav-number">2.</span> <span class="nav-text">开篇面一面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#接口的意义"><span class="nav-number">2.1.</span> <span class="nav-text">接口的意义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象类的意义"><span class="nav-number">2.2.</span> <span class="nav-text">抽象类的意义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象类接口区别"><span class="nav-number">2.3.</span> <span class="nav-text">抽象类接口区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内部类的作用"><span class="nav-number">2.4.</span> <span class="nav-text">内部类的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#父类的静态方法能否被子类重写，为什么？"><span class="nav-number">2.5.</span> <span class="nav-text">父类的静态方法能否被子类重写，为什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哪些情况下的对象会被垃圾回收机制处理掉"><span class="nav-number">2.6.</span> <span class="nav-text">哪些情况下的对象会被垃圾回收机制处理掉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程和线程的区别"><span class="nav-number">2.7.</span> <span class="nav-text">进程和线程的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-中-和-equals-的区别，-equals-和-hashCode-的区别"><span class="nav-number">2.8.</span> <span class="nav-text">Java 中==和 equals 的区别， equals 和 hashCode 的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-int-与-integer-的区别"><span class="nav-number">2.9.</span> <span class="nav-text">java int 与 integer 的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#string-stringbuffer-stringbuilder-区别"><span class="nav-number">2.10.</span> <span class="nav-text">string stringbuffer stringbuilder 区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-多态"><span class="nav-number">2.11.</span> <span class="nav-text">Java 多态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容器类之间的区别"><span class="nav-number">2.12.</span> <span class="nav-text">容器类之间的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#死锁的四个必要条件"><span class="nav-number">2.13.</span> <span class="nav-text">死锁的四个必要条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理死锁的基本方法"><span class="nav-number">2.14.</span> <span class="nav-text">处理死锁的基本方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见编码方式；-utf-8-编码中的中文占几个字节；数字几个字节"><span class="nav-number">2.15.</span> <span class="nav-text">常见编码方式； utf-8 编码中的中文占几个字节；数字几个字节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Http和Https的不同之处"><span class="nav-number">2.16.</span> <span class="nav-text">Http和Https的不同之处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Socket服务端-客户端通信步骤"><span class="nav-number">2.17.</span> <span class="nav-text">Socket服务端/客户端通信步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java的IO接口"><span class="nav-number">2.18.</span> <span class="nav-text">java的IO接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻塞式IO发生条件"><span class="nav-number">2.19.</span> <span class="nav-text">阻塞式IO发生条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Char型变量中能不能存储一个中文汉字？为什么？"><span class="nav-number">3.</span> <span class="nav-text">Char型变量中能不能存储一个中文汉字？为什么？</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

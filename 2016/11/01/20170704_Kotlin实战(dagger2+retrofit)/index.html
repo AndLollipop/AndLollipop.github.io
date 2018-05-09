@@ -1,0 +1,911 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="Kotlin," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d   retrofit http://www.jianshu.com/p/308f3c54a">
+<meta name="keywords" content="Kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin_mvp_dagger2_retrofit">
+<meta property="og:url" content="http://andlollipop.github.io/2016/11/01/20170704_Kotlin实战(dagger2+retrofit)/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d   retrofit http://www.jianshu.com/p/308f3c54a">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/hG2R6qg.png">
+<meta property="og:image" content="https://i.imgur.com/wXXrpDy.png">
+<meta property="og:image" content="https://i.imgur.com/k0GOOed.png">
+<meta property="og:image" content="https://i.imgur.com/Td4O8Op.png">
+<meta property="og:image" content="https://i.imgur.com/FtHgC68.png">
+<meta property="og:updated_time" content="2018-03-14T02:25:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin_mvp_dagger2_retrofit">
+<meta name="twitter:description" content="上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码 在学习这篇文章之前需要掌握下面的知识，如下：  dagger2 http://www.jianshu.com/p/39d1df6c877d   retrofit http://www.jianshu.com/p/308f3c54a">
+<meta name="twitter:image" content="https://i.imgur.com/hG2R6qg.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> Kotlin_mvp_dagger2_retrofit | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              Kotlin_mvp_dagger2_retrofit
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-11-01T23:47:44+08:00" content="2016-11-01">
+            2016-11-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/Kotlin/" itemprop="url" rel="index">
+                  <span itemprop="name">Kotlin</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><p>上一篇我们学习了anko库的使用，到这里我们来做一个简单的小项目吧！<br>那使用什么架构来写呢，这里我们使用Kotlin+dagger2+retrofit+MVP架构来撸码</p>
+<p>在学习这篇文章之前需要掌握下面的知识，如下：</p>
+<blockquote>
+<p>dagger2 <a href="http://www.jianshu.com/p/39d1df6c877d" target="_blank" rel="noopener">http://www.jianshu.com/p/39d1df6c877d</a></p>
+</blockquote>
+<blockquote>
+<p>retrofit <a href="http://www.jianshu.com/p/308f3c54abdd" target="_blank" rel="noopener">http://www.jianshu.com/p/308f3c54abdd</a></p>
+</blockquote>
+<blockquote>
+<p>API <a href="http://gank.io/api" target="_blank" rel="noopener">http://gank.io/api</a></p>
+</blockquote>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>因为项目中用的Dagger2比较多，这里来讲解一下项目中用到的几个注解，更多的详情可以看上面的地址</p>
+<h3 id="Component-组件、管理器、注入器"><a href="#Component-组件、管理器、注入器" class="headerlink" title="Component:组件、管理器、注入器"></a>Component:组件、管理器、注入器</h3><p>功能就是将类中使用@Inject标记的属性和在对应属性类中使用@Inject标记的构造方法，然后将它们关联起来。</p>
+<p>而如果构造方法需要参数，或者我们没法再需要注入的对象的构造方法加入@Inject注解的时候就需要使用Module</p>
+<p>该注解里面的参数有两个，一个是设置modules所关联的Module类，第二个是dependency所依赖的Component</p>
+<p><img src="https://i.imgur.com/hG2R6qg.png" alt=""></p>
+<h3 id="Module：提供者、依赖对象工厂"><a href="#Module：提供者、依赖对象工厂" class="headerlink" title="Module：提供者、依赖对象工厂"></a>Module：提供者、依赖对象工厂</h3><p>功能是与被@Inject标记的构造方法一样提供生成依赖的对象</p>
+<p>因为对于第三方库我们没有办法将它的构造方法加入@Inject标记，这时候我们需要使用Module生成，并提供@provide注解，Component会去查找Module类中@provide的方法获取到对象并通过component返回目标类需要的对象并注入到目标类</p>
+<h3 id="Qualifier-限定符"><a href="#Qualifier-限定符" class="headerlink" title="Qualifier:限定符"></a>Qualifier:限定符</h3><p>功能是在同一纬度下存在多个依赖对象的提供方式(多个构造方法)，则会迷失。这时，可以使用Qualifier</p>
+<p>提供依赖对象有两种方式</p>
+<p>（1）通过使用Inject注解标注的构造函数来创建</p>
+<p>（2）通过工厂模式的Module来创建</p>
+<p>如果一个依赖对象以上两种方式都能够提供，它会优先使用Module。Qualifier有一个@Named 指定相同的参数和自定义Qualifier注解一样的效果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Qualifier</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention</span>(RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Named &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The name. */</span></span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Scope-作用域"><a href="#Scope-作用域" class="headerlink" title="Scope:作用域"></a>Scope:作用域</h3><p>   管理创建的类实例的生命周期。<br>   可以通过Scope来限定通过Module和Inject方式创建的类的实例的生命周期能够与目标类的生命周期相同。<br>   Scope本身没有制定生命周期的能力，它的存在一是为了可读性,二是更好的管理Component和Module的关系</p>
+<p>如果你想了解Dagger2具体调用的流程可以查看</p>
+<p><img src="https://i.imgur.com/wXXrpDy.png" alt=""></p>
+<p>接下来我们开始看一下要做的小项目的效果图</p>
+<p><img src="https://i.imgur.com/k0GOOed.png" alt=""></p>
+<p><img src="https://i.imgur.com/Td4O8Op.png" alt=""></p>
+<p>ok,项目比较low，废话不多说，开始我们撸代码时间</p>
+<p>我是这样分包的</p>
+<p><img src="https://i.imgur.com/FtHgC68.png" alt=""></p>
+<p>在项目中我定义了一个全局的Component类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span>(modules = arrayOf(DataSourceModule::<span class="class"><span class="keyword">class</span>)) //注入器对象提供工厂</span></span><br><span class="line"><span class="class"><span class="title">interface</span> <span class="title">AppComponent</span></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 全局注入器能够提供的对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">fun <span class="title">dataManager</span><span class="params">()</span>: DataManager</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个类为DataSourceModule用来提供DataManager对象的生成，使用DataManager来对网络请求<br>会去查询DataSourceModule类中去找生成DataManager对象的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">	<span class="meta">@Module</span></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">DataSourceModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	    <span class="meta">@Singleton</span></span><br><span class="line">	    <span class="meta">@Provides</span></span><br><span class="line">	    <span class="function">fun <span class="title">provideGankService</span><span class="params">()</span>: GankService </span>&#123;</span><br><span class="line">	        <span class="keyword">return</span> Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())</span><br><span class="line">	                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())</span><br><span class="line">	                .baseUrl(BASE_URL).build().create(GankService::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></span><br><span class="line"><span class="class">	    &#125;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">	    @<span class="title">Singleton</span></span></span><br><span class="line"><span class="class">	    @<span class="title">Local</span></span></span><br><span class="line"><span class="class">	    @<span class="title">Provides</span></span></span><br><span class="line">	    fun provideLocal(): IDataSource&#123;</span><br><span class="line">	        <span class="keyword">return</span> LocalDataSource()</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">	    <span class="meta">@Singleton</span></span><br><span class="line">	    <span class="meta">@Remote</span></span><br><span class="line">	    <span class="meta">@Provides</span></span><br><span class="line">	    <span class="function">fun <span class="title">provideRemote</span><span class="params">(service: GankService)</span>: IDataSource </span>&#123;</span><br><span class="line">	        <span class="keyword">return</span> RemoteDataSource(service)</span><br><span class="line">	    &#125;</span><br><span class="line"></span><br><span class="line">	    <span class="meta">@Singleton</span></span><br><span class="line">	    <span class="meta">@Provides</span></span><br><span class="line">	    <span class="function">fun <span class="title">provideDataManager</span><span class="params">(@Remote remote: IDataSource, @Local local: IDataSource)</span>: DataManager </span>&#123;</span><br><span class="line">	        <span class="keyword">return</span> DataManager(remote,local)</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">```java</span><br><span class="line">这里推荐使用provide开头，在方法参数里面我有定义两个注解Remote和Local用来区分对应哪个一个IDataSource</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Qualifier</span></span><br><span class="line">	annotation <span class="class"><span class="keyword">class</span> <span class="title">Remote</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">provideGankService</span>方法里面的写法使用了<span class="title">Gson</span>转换用于将<span class="title">json</span>转化为对象、<span class="title">Rxjava</span>回调用来对网络请求的结果做不同的处理</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">然后我们在来看一下<span class="title">DataManager</span>类</span></span><br><span class="line"><span class="class">```<span class="title">java</span></span></span><br><span class="line">	fun getWelfareList(page: Int): Flowable&lt;WelfareEntity&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> remote.getWelfareList(page).onErrorResumeNext(local.getWelfareList(page))</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>主要是定义相应的规则，先在网络请求获取，当失败的时候获取本地的数据</p>
+<p>ok,前期的工作准备完毕，为了更好去使用APPComponent，我们在Application自定一个单例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class MyApplication: Application()&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 提供全局注入器的获得</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    lateinit <span class="keyword">private</span> var appComponent: AppComponent</span><br><span class="line"></span><br><span class="line">    companion object &#123;</span><br><span class="line">        lateinit var app: MyApplication</span><br><span class="line">        <span class="function">fun <span class="title">getApplication</span><span class="params">()</span>: MyApplication</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> app</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate()</span><br><span class="line">        app = <span class="keyword">this</span></span><br><span class="line">        appComponent = DaggerAppComponent.builder().dataSourceModule(DataSourceModule()).build()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   	<span class="function">fun <span class="title">getAppComponent</span><span class="params">()</span>: AppComponent </span>= appComponent</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>开始我们的主界面，当然这个项目也就一个Activity，既然是MVP就少不了Persenter</p>
+<pre><code>@Inject
+lateinit var presenter: MainPersenter
+</code></pre><p>使用Inject注解来自动去创建MainPersenter对象，然后定义MainAppComponent<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ActivityScope</span></span><br><span class="line"><span class="meta">@Component</span>(modules = arrayOf(MainActivityModule::<span class="class"><span class="keyword">class</span>),<span class="title">dependencies</span> </span>= arrayOf(AppComponent::<span class="class"><span class="keyword">class</span>))</span></span><br><span class="line"><span class="class"><span class="title">interface</span> <span class="title">MainAppComponent</span></span>&#123;</span><br><span class="line">    <span class="function">fun <span class="title">inject</span><span class="params">(activity: MainActivity)</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里对APPComponent进行了依赖，因为在MainPersenter类里面使用到了DataManager的对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line">class MainActivityModule(val view: MainActivity)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ActivityScope</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function">fun <span class="title">provide1Presenter</span><span class="params">(dataManager: DataManager)</span>: MainPersenter</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> MainPersenter(view,dataManager)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们在来看一下MainPersenter<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class MainPersenter(val view: MainViews, val dataManager: DataManager) &#123;</span><br><span class="line">    <span class="comment">//福利</span></span><br><span class="line">    <span class="function">fun <span class="title">getWelfarmList</span><span class="params">(page: Int)</span> </span>&#123;</span><br><span class="line">        dataManager.getWelfareList(page)</span><br><span class="line">                .subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">                .doOnSubscribe &#123; view.startLoading() &#125;</span><br><span class="line">                .doOnError &#123; view.stopLoading() &#125;</span><br><span class="line">                .subscribe &#123;</span><br><span class="line">                    view.stopLoading()</span><br><span class="line">                    view.showWefareList(it.results)</span><br><span class="line">                &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个类中主要是使用DataManager的对象用来获取数据并针对获取成功和失败调用View层的方法</p>
+<p>最后我们需要初始化Dagger2注入器<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化Dagger2注入器</span></span><br><span class="line">   DaggerMainAppComponent.builder()</span><br><span class="line">           .appComponent(MyApplication.getApplication().getAppComponent())</span><br><span class="line">           .mainActivityModule(MainActivityModule(<span class="keyword">this</span>))</span><br><span class="line">           .build().inject(<span class="keyword">this</span>)</span><br></pre></td></tr></table></figure></p>
+<p>另外在写生成ItemView的时候写了两种方式，这里也一并贴出来和大家一起分享</p>
+<p>第一种使用with表达式<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   val view = with(context)&#123;</span><br><span class="line">   verticalLayout &#123;</span><br><span class="line">       gravity = Gravity.CENTER_HORIZONTAL</span><br><span class="line">       imageView &#123;</span><br><span class="line">           id = R.id.welfare_item_iv</span><br><span class="line">           imageResource = R.mipmap.ic_launcher</span><br><span class="line">           scaleType = ImageView.ScaleType.FIT_XY</span><br><span class="line">           lparams &#123;</span><br><span class="line">               height = dip(<span class="number">250</span>)</span><br><span class="line">               width = matchParent</span><br><span class="line">               leftMargin = dip(<span class="number">20</span>)</span><br><span class="line">               rightMargin = dip(<span class="number">20</span>)</span><br><span class="line">               topMargin = dip(<span class="number">15</span>)</span><br><span class="line">               bottomMargin = dip(<span class="number">15</span>)</span><br><span class="line">          		 &#125;</span><br><span class="line">       	&#125;</span><br><span class="line">   	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然这样写感觉代码太多了，我们需要将生成布局的代码单独使用一个类，我们可以定义一个类来继承AnkoComponent来写独立的一个布局，如果安装插件还可以预览界面的效果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class RecyclerUI: AnkoComponent&lt;AndroidAdapter&gt;&#123;</span><br><span class="line">   <span class="function">override fun <span class="title">createView</span><span class="params">(ui: AnkoContext&lt;AndroidAdapter&gt;)</span>: View </span>= with(ui)&#123;</span><br><span class="line">       verticalLayout &#123;</span><br><span class="line">           orientation = LinearLayout.HORIZONTAL</span><br><span class="line">           lparams &#123;</span><br><span class="line">               topMargin = dip(<span class="number">10</span>)</span><br><span class="line">               leftMargin = dip(<span class="number">15</span>)</span><br><span class="line">               rightMargin = dip(<span class="number">15</span>)</span><br><span class="line">               bottomMargin = dip(<span class="number">10</span>)</span><br><span class="line">           &#125;</span><br><span class="line">           imageView &#123;</span><br><span class="line">               id = R.id.android_item_iv</span><br><span class="line">               imageResource = R.mipmap.android_icon</span><br><span class="line">               lparams &#123;</span><br><span class="line">                   width = dip(<span class="number">90</span>)</span><br><span class="line">                   height = dip(<span class="number">90</span>)</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           verticalLayout &#123;</span><br><span class="line">               textView &#123;</span><br><span class="line">                   id = R.id.android_item_tv1</span><br><span class="line">                   textSize = <span class="number">18</span>.toFloat()</span><br><span class="line"></span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               textView &#123;</span><br><span class="line">                   id = R.id.android_item_tv2</span><br><span class="line">                   textSize = <span class="number">16</span>.toFloat()</span><br><span class="line">                   textColor = Color.RED</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>至此，小项目的讲解就结束了。</p>
+<p>坚持总会有结果，总会有收获的</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kotlin/" rel="tag">#Kotlin</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/01/20170601_性能优化利器(内存泄漏篇)/" rel="prev">性能优化利器(内存泄漏篇)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/01/20180211_设计模式(工厂模式)/" rel="next">UI绘制_Paint高级渲染</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">1.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Component-组件、管理器、注入器"><span class="nav-number">2.</span> <span class="nav-text">Component:组件、管理器、注入器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Module：提供者、依赖对象工厂"><span class="nav-number">3.</span> <span class="nav-text">Module：提供者、依赖对象工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qualifier-限定符"><span class="nav-number">4.</span> <span class="nav-text">Qualifier:限定符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope-作用域"><span class="nav-number">5.</span> <span class="nav-text">Scope:作用域</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

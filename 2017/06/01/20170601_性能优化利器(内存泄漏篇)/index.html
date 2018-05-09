@@ -1,0 +1,897 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="性能优化," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言程序开发是一个混乱又疯狂的过程，内存通常都没有办法完全被释放，这些被囚禁的内存叫做内存泄漏。 Android工程师花费大量时间降低干扰，确保这些程序以最快的速度运行，即便是这样当有许多的GC或一大串指令一个接着一个操作，帧像时间很可能会超过16毫秒的呈像障碍，这会导致隐形的碰撞或闪躲。就是这样，如果要减少任意帧内启动GC的次数，需要着重优化程序的内存使用量,从指令的角度很难追踪这些问题的起因">
+<meta name="keywords" content="性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能优化利器(内存泄漏篇)">
+<meta property="og:url" content="http://andlollipop.github.io/2017/06/01/20170601_性能优化利器(内存泄漏篇)/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="前言程序开发是一个混乱又疯狂的过程，内存通常都没有办法完全被释放，这些被囚禁的内存叫做内存泄漏。 Android工程师花费大量时间降低干扰，确保这些程序以最快的速度运行，即便是这样当有许多的GC或一大串指令一个接着一个操作，帧像时间很可能会超过16毫秒的呈像障碍，这会导致隐形的碰撞或闪躲。就是这样，如果要减少任意帧内启动GC的次数，需要着重优化程序的内存使用量,从指令的角度很难追踪这些问题的起因">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p1chajscf.bkt.clouddn.com/20180207_usage1.png">
+<meta property="og:updated_time" content="2017-06-01T07:01:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="性能优化利器(内存泄漏篇)">
+<meta name="twitter:description" content="前言程序开发是一个混乱又疯狂的过程，内存通常都没有办法完全被释放，这些被囚禁的内存叫做内存泄漏。 Android工程师花费大量时间降低干扰，确保这些程序以最快的速度运行，即便是这样当有许多的GC或一大串指令一个接着一个操作，帧像时间很可能会超过16毫秒的呈像障碍，这会导致隐形的碰撞或闪躲。就是这样，如果要减少任意帧内启动GC的次数，需要着重优化程序的内存使用量,从指令的角度很难追踪这些问题的起因">
+<meta name="twitter:image" content="http://p1chajscf.bkt.clouddn.com/20180207_usage1.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> 性能优化利器(内存泄漏篇) | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              性能优化利器(内存泄漏篇)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2017-06-01T15:01:00+08:00" content="2017-06-01">
+            2017-06-01
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/性能优化/" itemprop="url" rel="index">
+                  <span itemprop="name">性能优化</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>程序开发是一个混乱又疯狂的过程，内存通常都没有办法完全被释放，这些被囚禁的内存叫做内存泄漏。</p>
+<p>Android工程师花费大量时间降低干扰，确保这些程序以最快的速度运行，即便是这样当有许多的GC或一大串指令一个接着一个操作，帧像时间很可能会超过16毫秒的呈像障碍，这会导致隐形的碰撞或闪躲。就是这样，如果要减少任意帧内启动GC的次数，需要着重优化程序的内存使用量,从指令的角度很难追踪这些问题的起因，但是好在Android SDk 内置了不错的一些工具帮助开发者迅速定位发生内存泄漏的代码</p>
+<h3 id="java的四种引用"><a href="#java的四种引用" class="headerlink" title="java的四种引用"></a>java的四种引用</h3><blockquote>
+<p>StrongReference强引用<br>在程序代码中普遍存在，只要某对象有强引用与之关联，JVM必定不会回收这个对象，即使在内存不足的情况下，JVM宁愿抛出OOM也不会回收这种对象</p>
+</blockquote>
+<blockquote>
+<p>SoftReference软引用<br>在java中使用SoftReference类来表示，对于软引用关联着的对象，只有内存不足的时候JVM才会回收该对象。因此这一点可以很好地用来解决OOM的问题，并且这个特性很适合用来实现缓存：比如网页缓存、图片缓存<br>软引用可以和一个引用队列ReferenceQueue联合使用，如果软引用所引用的对象呗JVM回收，这个软引用就会被加入到与之关联的引用队列中</p>
+</blockquote>
+<blockquote>
+<p>WeakReference弱引用<br>在java中使用WeakReference类来表示，弱引用也是用来描述非必需对象，当JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象</p>
+</blockquote>
+<blockquote>
+<p>PhantomReference虚引用<br>虚引用和前面软引用、弱引用不同，它并不影响对象生命周期。在java中用PhantomReference类表示，如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收<br>虚引用必须和引用队列关联使用，当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否真已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动</p>
+</blockquote>
+<h3 id="判断一个应用内存泄漏避免得很好"><a href="#判断一个应用内存泄漏避免得很好" class="headerlink" title="判断一个应用内存泄漏避免得很好"></a>判断一个应用内存泄漏避免得很好</h3><p>当App退出的时候，这个进程里面所有的对象应该就都被回收了，尤其是很容易被泄漏的(View、Activity)是否还在内存中，可以让app退出以后查看系统该进程里面的所有的View、Activity对象是否为0。<br>工具使用AndroidStudio-&gt;Android Monitor-&gt;System Information-&gt;Memory Usage看Objects里面的views和Activity的数量是否为0。</p>
+<p><img src="http://p1chajscf.bkt.clouddn.com/20180207_usage1.png" alt="Usage"></p>
+<h3 id="Heap-Snapshot的使用"><a href="#Heap-Snapshot的使用" class="headerlink" title="Heap Snapshot的使用"></a>Heap Snapshot的使用</h3><p>在使用工具之前我们需要知道这个工具是来做什么用的？Heap SnapShot是用来获取Java堆内存详细信息通过分析可以验证自己的一些猜想，为什么是验证自己猜想呢？<br>因为我们在实际项目中会通过Android Monitor工具来查看某个操作是否存在内存泄漏。例如：最直观的是查看内存增长情况，知道该动作是否发生内存泄漏，动作发生之前：GC完后内存1.4M；动作发生之后：GC完后内存1.6M<br>对于Heap SnapShot的使用网上已经有了明确的介绍，这里我便不在重复造轮子了<br><a href="http://blog.csdn.net/itfootball/article/details/48786275" target="_blank" rel="noopener">http://blog.csdn.net/itfootball/article/details/48786275</a></p>
+<p>发一下我们测试的代码，很简单，就是静态对象持有Ativity的对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CommUtil instance;</span><br><span class="line">    <span class="keyword">private</span> Context context;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">CommUtil</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CommUtil <span class="title">getInstance</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> CommUtil(context);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们不断的去横竖屏切换，当然我们已经知道了结果（内存中至少会有2个MainActivity的实例），通过Heap SnapShot工具就可以验证在内存中确实会持有至少2个MainActivity对象，最后就是对这段代码进行改进就可以了（将Context改成ApplicationContext）。在我们实际开发中也会通过去猜测哪些类可能发生内存泄漏然后通过Heap SnapShot去验证</p>
+<h3 id="MAT的使用"><a href="#MAT的使用" class="headerlink" title="MAT的使用"></a>MAT的使用</h3><p>可能是我的技术有限，个人觉得MAT工具基本上和heap SnapShot差不多，MAT突出的优势就是我们可以通过和频繁执行一个操作的Prof进行比较通过Total Size的值是否越来越大来初步判断这个操作导致了内存泄漏。</p>
+<p>如果发生了内存泄漏也可以通过这个工具判断出具体是哪些对象（通过定位操作前后所持有的对象增加了），技巧：使用Histogram中对对象Group，例如选择Group By Package更方便查看自己Package中的对象信息</p>
+<p>Ok，MAT的工具在网上已经有了明确介绍，这里我也不再重复造轮子<br><a href="http://blog.csdn.net/itfootball/article/details/48834711" target="_blank" rel="noopener">http://blog.csdn.net/itfootball/article/details/48834711</a></p>
+<p>既然通过MAT工具查找出了哪些对象可能发生内存泄漏，接下来我们就需要对这些对象逐个进行排查。步骤：<br>(1)进入Histogram，过滤出某一个嫌疑对象类<br>(2)然后分析持有此类对象引用的外部对象（在该类上面点击右键List Objects—&gt;with incoming references）<br>(3)再过滤掉一些弱引用、软引用、虚引用，因为它们迟早可以被GC干掉不属于内存泄露(在类上面点击右键Merge Shortest Paths to GC Roots—&gt;exclude all phantom/weak/soft etc.references)<br>(4)进入代码分析此时这个对象的引用持有是否合理，这就要考经验和体力了！</p>
+<h3 id="Heap-Viewer的使用"><a href="#Heap-Viewer的使用" class="headerlink" title="Heap Viewer的使用"></a>Heap Viewer的使用</h3><p>这个工具只能判断是否有内存的泄漏操作起来比较方便，我们需要注意的就是Heap Viewer的使用条件<br>(1)5.0以上的系统，包括5.0<br>(2)开发者选项可用<br>具体工具的使用，网上已经有很多文章，这里就不再重复的造轮子了<br><a href="http://blog.csdn.net/itfootball/article/details/48734553" target="_blank" rel="noopener">http://blog.csdn.net/itfootball/article/details/48734553</a></p>
+<p>具体实际的应用<br>MainActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyView myView = <span class="keyword">new</span> MyView(<span class="keyword">this</span>);</span><br><span class="line">setContentView(myView);</span><br></pre></td></tr></table></figure></p>
+<p>ListenerCollector.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListenerCollector</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">private</span> WeakHashMap&lt;View,MyView.MyListener&gt; sListener = <span class="keyword">new</span> WeakHashMap&lt;&gt;();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setsListener</span><span class="params">(View view, MyView.MyListener listener)</span></span>&#123; sListener.put(view,listener);&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clearListeners</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//移除所有监听。</span></span><br><span class="line">        sListener.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MyView.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyView</span> <span class="keyword">extends</span> <span class="title">View</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">MyView</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyListener</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">myListenerCallback</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        ListenerCollector collector = <span class="keyword">new</span> ListenerCollector();</span><br><span class="line">        collector.setsListener(<span class="keyword">this</span>,myListener);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> MyListener myListener = <span class="keyword">new</span> MyListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">myListenerCallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.print(<span class="string">"有被调用"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ok,不停的去旋转屏幕，如果不再onStop中移除掉上一次的监听，就会在HashMap集合中不停的去添加监听对象，这样使用Heap Viewer工具就会发现data object-&gt;Total Size会不断的增加，于是就可以得出该操作发生了内存泄漏，具体的定位将会使用上面的工具</p>
+<h3 id="Allocation-Tracker的使用"><a href="#Allocation-Tracker的使用" class="headerlink" title="Allocation Tracker的使用"></a>Allocation Tracker的使用</h3><p>Ok，Allocation Tracker的工具在网上已经有了明确介绍，这里我也不再重复造轮子<br><a href="http://blog.csdn.net/itfootball/article/details/48750849" target="_blank" rel="noopener">http://blog.csdn.net/itfootball/article/details/48750849</a></p>
+<h3 id="LeakCanary的使用"><a href="#LeakCanary的使用" class="headerlink" title="LeakCanary的使用"></a>LeakCanary的使用</h3><p>Ok，LeakCanary的工具在网上已经有了明确介绍，这里我也不再重复造轮子<br><a href="http://blog.csdn.net/itfootball/article/details/49361401" target="_blank" rel="noopener">http://blog.csdn.net/itfootball/article/details/49361401</a></p>
+<h3 id="引起内存泄漏的情况"><a href="#引起内存泄漏的情况" class="headerlink" title="引起内存泄漏的情况"></a>引起内存泄漏的情况</h3><p>内存泄露(Memory Leak):进程中某些对象已经没有使用价值了，但是他们却还可以直接或者间接地被引用到GC Root导致无法回收。当内存泄露过多的时候，再加上应用本身占用的内存，日积月累最终就会导致内存溢出OOM.<br>内存溢出(OOM):当应用占用的heap资源超过了Dalvik虚拟机分配的内存就会内存溢出。比如：加载大图片。</p>
+<p>1、静态变量引起的内存泄露<br>当调用getInstance时，如果传入的context是Activity的context。只要这个单例没有被释放，那么这个Activity也不会被释放，直到进程退出才会被释放</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CommUtil instance;</span><br><span class="line">    <span class="keyword">private</span> Context context;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">CommUtil</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CommUtil <span class="title">getInstance</span><span class="params">(Context mcontext)</span></span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">          instance = <span class="keyword">new</span> CommUtil(mcontext);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>2、非静态内部类引起内存泄露(包括匿名内部类)<br>错误的示范<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadData</span><span class="params">()</span></span>&#123;<span class="comment">//隐士持有MainActivity实例</span></span><br><span class="line">		<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">		    <span class="meta">@Override</span></span><br><span class="line">		    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">          <span class="keyword">int</span> b=a;</span><br><span class="line">          Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">		    &#125;</span><br><span class="line">		 &#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解决方案：loadData方法修改为静态方法<br>除了上面的写法，在实际的开发中会用到Handler，我们需要自定义Handler并设置为static，但是大多数我们需要在里面使用MainActivity的引用，那该怎么办呢？这时候我们可以定义MainActivity的软引用/弱引用，然后再handleMessage里面判断如果activity为空或者finish了则不向下执行。这样就避免了handle一直持有activity引用导致的内存泄漏</p>
+<p>3、不需要用的监听未移除会发生内存泄漏<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SensorManager sensorManager = getSystemService(SENSOR_SERVICE);</span><br><span class="line">Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);</span><br><span class="line">sensorManager.registerListener(<span class="keyword">this</span>,sensor,SensorManager.SENSOR_DELAY_FASTEST);</span><br></pre></td></tr></table></figure></p>
+<p>所以在onDestroy方法里面移除监听<br>sensorManager.unregisterListener(listener);</p>
+<p>4、资源未关闭引起的内存泄漏情况<br>例如：BroadcastReceiver、Cursor、Bitmap、IO流、自定义属性等，要记得不使用的时候及时释放资源避免内存泄漏</p>
+<p>5、无限循环动画<br>当使用动画的时候没有在onDestroy里面停止动画导致内存泄漏</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/性能优化/" rel="tag">#性能优化</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/02/20170602_性能优化利器(内存抖动篇)/" rel="prev">性能优化利器(内存抖动篇)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/01/20170704_Kotlin实战(dagger2+retrofit)/" rel="next">Kotlin_mvp_dagger2_retrofit</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java的四种引用"><span class="nav-number">2.</span> <span class="nav-text">java的四种引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断一个应用内存泄漏避免得很好"><span class="nav-number">3.</span> <span class="nav-text">判断一个应用内存泄漏避免得很好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heap-Snapshot的使用"><span class="nav-number">4.</span> <span class="nav-text">Heap Snapshot的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAT的使用"><span class="nav-number">5.</span> <span class="nav-text">MAT的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heap-Viewer的使用"><span class="nav-number">6.</span> <span class="nav-text">Heap Viewer的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Allocation-Tracker的使用"><span class="nav-number">7.</span> <span class="nav-text">Allocation Tracker的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LeakCanary的使用"><span class="nav-number">8.</span> <span class="nav-text">LeakCanary的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引起内存泄漏的情况"><span class="nav-number">9.</span> <span class="nav-text">引起内存泄漏的情况</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

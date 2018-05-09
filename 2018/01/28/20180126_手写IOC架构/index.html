@@ -1,0 +1,898 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="我思故我在" />
+
+
+
+  <meta name="keywords" content="Android架构," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="前言&amp;emsp;&amp;emsp;这篇我们来讲解一下IOC架构，IOC名为控制反转（Inversion of Control，英文缩写为IoC），IOC的原则就是无需自己来new对象，等待加载这个类的时候，IOC帮你注入（new）进去，好啦！网上已经有好多的文章了，那还为啥还要写呢，感觉别人写的是别人的，自己写了之后才是自己的，所以自己坚持也要写一下，下面有一些写的不错的文章供大家观摩。 Androi">
+<meta name="keywords" content="Android架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写IOC架构">
+<meta property="og:url" content="http://andlollipop.github.io/2018/01/28/20180126_手写IOC架构/index.html">
+<meta property="og:site_name" content="花花世界博客">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;这篇我们来讲解一下IOC架构，IOC名为控制反转（Inversion of Control，英文缩写为IoC），IOC的原则就是无需自己来new对象，等待加载这个类的时候，IOC帮你注入（new）进去，好啦！网上已经有好多的文章了，那还为啥还要写呢，感觉别人写的是别人的，自己写了之后才是自己的，所以自己坚持也要写一下，下面有一些写的不错的文章供大家观摩。 Androi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p1chajscf.bkt.clouddn.com/20180126_proxypattern.png">
+<meta property="og:image" content="http://p1chajscf.bkt.clouddn.com/20180129_onclick.png">
+<meta property="og:updated_time" content="2018-01-28T07:01:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="手写IOC架构">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这篇我们来讲解一下IOC架构，IOC名为控制反转（Inversion of Control，英文缩写为IoC），IOC的原则就是无需自己来new对象，等待加载这个类的时候，IOC帮你注入（new）进去，好啦！网上已经有好多的文章了，那还为啥还要写呢，感觉别人写的是别人的，自己写了之后才是自己的，所以自己坚持也要写一下，下面有一些写的不错的文章供大家观摩。 Androi">
+<meta name="twitter:image" content="http://p1chajscf.bkt.clouddn.com/20180126_proxypattern.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'hide'
+  };
+</script>
+
+  <title> 手写IOC架构 | 花花世界博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+<a href="https://www.andly.vip"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"
+ data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">逗比的小码农</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              手写IOC架构
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2018-01-28T15:01:00+08:00" content="2018-01-28">
+            2018-01-28
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术周/" itemprop="url" rel="index">
+                  <span itemprop="name">技术周</span>
+                </a>
+              </span>
+
+              
+              
+                ， 
+              
+
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术周/Android架构/" itemprop="url" rel="index">
+                  <span itemprop="name">Android架构</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+
+            &nbsp; | &nbsp; 作者:
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">老</span>
+              </span>
+
+            
+              <span itemprop="author" itemscope itemtype="https://schema.org/Thing">
+                  <span itemprop="author">头</span>
+              </span>
+
+            
+
+          </span>
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><script src="/assets/js/APlayer.min.js"> </script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;这篇我们来讲解一下IOC架构，IOC名为控制反转（Inversion of Control，英文缩写为IoC），IOC的原则就是无需自己来new对象，等待加载这个类的时候，IOC帮你注入（new）进去，好啦！网上已经有好多的文章了，那还为啥还要写呢，感觉别人写的是别人的，自己写了之后才是自己的，所以自己坚持也要写一下，下面有一些写的不错的文章供大家观摩。</p>
+<p>Android 进阶 教你打造 Android 中的 IOC 框架 【ViewInject】 （上）<a href="http://blog.csdn.net/lmj623565791/article/details/39269193" target="_blank" rel="noopener">http://blog.csdn.net/lmj623565791/article/details/39269193</a><br>Android 进阶 教你打造 Android 中的 IOC 框架 【ViewInject】 （上）<a href="http://blog.csdn.net/lmj623565791/article/details/39269193" target="_blank" rel="noopener">http://blog.csdn.net/lmj623565791/article/details/39269193</a></p>
+<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><p>原本代理模式应该放到设计模式板块，但是在本文中使用到了，这里也介绍一下吧，代理模式分为动态代理和静态代理，当然在Javaweb中也有CGLib动态代理，这里我们来详细介绍一下它们的区别和演进过程，let’s go<br>在开始之前我们先来从无代理开始讲起<br><strong>无代理</strong><br>先来看一下代码，很简单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Humen</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">(String food)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HumenImpl</span> <span class="keyword">extends</span> <span class="title">Humen</span></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">eat</span><span class="params">(String food)</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"eat"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码可以理解为一个人吃饭，如果我们要在吃饭前和吃饭后需要做一些事该怎么做呢？或者修改HumenImpl内部的代码或者重写一个eat方法等等，这些都设定了死的业务逻辑，在代码复用和业务拓展的角度看这是非常不好的做法<br><strong>静态代理</strong><br>对上面的代码进行改造<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HumenProxy</span> <span class="keyword">implements</span> <span class="title">Humen</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Humen humen;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">HumenProxy</span><span class="params">(Humen humen)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.humen = humen;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">(String food)</span> </span>&#123;</span><br><span class="line">		before();</span><br><span class="line">		humen.eat(food);</span><br><span class="line">		after();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>静态代理为我们带来了一定的灵活性，在不修改被代理类的基础上，实现修改少量的代码来获得额外的功能。那静态代理是否真正就能满足所有的需求呢？答案是no,我们来举个例子，如果我们还有其他的逻辑并且before和after是一样的，那该怎么办呢？我们可能让这个代理类来实现别的接口的方法，但这些方法的调用逻辑基本上相似，我们就需要写很多的代码来完成相应的需求，这样就衍生出了动态代理</p>
+<p><strong>动态代理</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Object target;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		before();</span><br><span class="line">		Object result = method.invoke(target, args);</span><br><span class="line">		after();</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  Humen humen = <span class="keyword">new</span> HumenImpl();</span><br><span class="line">  DynamicProxy dynamicProxy = <span class="keyword">new</span> DynamicProxy(humen);</span><br><span class="line"></span><br><span class="line">  Humen humenProxy = (Humen) Proxy.newProxyInstance(</span><br><span class="line">      humen.getClass().getClassLoader(),</span><br><span class="line">      humen.getClass().getInterfaces(),</span><br><span class="line">      dynamicProxy);</span><br><span class="line">  humenProxy.eat(<span class="string">"rice"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>静态代理和动态代理都讲完了，总结一下</p>
+<p><img src="http://p1chajscf.bkt.clouddn.com/20180126_proxypattern.png" alt="代理模式"></p>
+<p>然而，Proxy已经设计的非常的完美了，但是还是有一点点小小的遗憾之处，那就是它无法仅支持interface的桎梏。不完美并不等于不伟大，伟大是一种本质，Java 动态代理就是一个例子。</p>
+<p><strong>CGLib动态代理</strong><br>链接地址：<a href="https://sourceforge.net/projects/cglib/files/" target="_blank" rel="noopener">https://sourceforge.net/projects/cglib/files/</a><br>CGlib动态代理是通过继承业务类，生成的动态代理类是业务类的子类，通过重写业务方法进行代理。CGLib是一个类库<br> 被代理类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookFace</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"add BookFace"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>GCLib代理类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CGLibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Object target;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">getInstance</span><span class="params">(Object target)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target = target; <span class="comment">// 给业务对象赋值</span></span><br><span class="line">		Enhancer enhancer = <span class="keyword">new</span> Enhancer(); <span class="comment">// 创建加速器，用来创建动态代理</span></span><br><span class="line">		enhancer.setSuperclass(<span class="keyword">this</span>.target.getClass()); <span class="comment">// 为加速器指定要代理的业务类</span></span><br><span class="line">		enhancer.setCallback(<span class="keyword">this</span>);<span class="comment">// 对于代理类上的所有方法的调用都会调用CallBack，而CallBack则需要实现intercept方法进行拦截</span></span><br><span class="line">		<span class="keyword">return</span> enhancer.create(); <span class="comment">// 创建动态代理类对象并返回</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object arg0, Method arg1, Object[] arg2, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		before();</span><br><span class="line">		Object result = proxy.invokeSuper(arg0, arg2);<span class="comment">// 注意这里调用的是invokeSuper方法</span></span><br><span class="line">		after();</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"before"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"after"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  BookFace bookface = <span class="keyword">new</span> BookFace();</span><br><span class="line">  CGLibProxy cgLibProxy = <span class="keyword">new</span> CGLibProxy();</span><br><span class="line">  BookFace bookFaceProxy = (BookFace) cgLibProxy.getInstance(bookface);</span><br><span class="line">  bookFaceProxy.add();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在使用CGLib动态代理的优势是很明显了，对它我们就可以我没有接口的类包装前置和后置方法了，虽然CGLib不需要接口信息，但是它拦截并包装被代理类的所有方法。<br>综上，各有优势，灵活掌握</p>
+<h3 id="手写IOC架构"><a href="#手写IOC架构" class="headerlink" title="手写IOC架构"></a>手写IOC架构</h3><p>XUtils的使用：<a href="https://github.com/wyouflf/xUtils3" target="_blank" rel="noopener">https://github.com/wyouflf/xUtils3</a><br>当然在本文中并非将XUtils中的所有内容都讲解一遍，这里主要针对三个模块：setContentView、findViewById初始化View、事件</p>
+<h4 id="setContentView初始化布局"><a href="#setContentView初始化布局" class="headerlink" title="setContentView初始化布局"></a>setContentView初始化布局</h4><p>比较简单，就是简单的反射规则<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> layoutId = <span class="number">0</span>;</span><br><span class="line">    Class&lt;?&gt; clazz = context.getClass();</span><br><span class="line">    <span class="comment">//拿到MainActivity类上面的注解</span></span><br><span class="line">    ContentView contentView = clazz.getAnnotation(ContentView.class);</span><br><span class="line">    <span class="keyword">if</span> (contentView != <span class="keyword">null</span>) &#123;</span><br><span class="line">        layoutId = contentView.value();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Method method = clazz.getMethod(<span class="string">"setContentView"</span>, <span class="keyword">int</span>.class);</span><br><span class="line">            method.invoke(context, layoutId);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="findViewById初始化View"><a href="#findViewById初始化View" class="headerlink" title="findViewById初始化View"></a>findViewById初始化View</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    Class&lt;?&gt; aClass = context.getClass();</span><br><span class="line">    <span class="comment">//获取到MainActivity里面所有的成员变量 包含 textView</span></span><br><span class="line">    Field[] fields = aClass.getDeclaredFields();</span><br><span class="line">    <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">        <span class="comment">//得到成员变量的注解</span></span><br><span class="line">        ViewInject viewInject = field.getAnnotation(ViewInject.class);</span><br><span class="line">        <span class="keyword">if</span> (viewInject != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//拿到id  R.id.text</span></span><br><span class="line">            <span class="keyword">int</span> valueId = viewInject.value();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//View view=activity.findViewById()</span></span><br><span class="line">                Method method = aClass.getMethod(<span class="string">"findViewById"</span>, <span class="keyword">int</span>.class);</span><br><span class="line">                <span class="comment">//反射调用方法</span></span><br><span class="line">                View view = (View) method.invoke(context, valueId);</span><br><span class="line">                field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                field.set(context, view);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h4><p>事件处理就有必要了解一下事件三要素：事件源、事件、事件回调，如下图：<br><img src="http://p1chajscf.bkt.clouddn.com/20180129_onclick.png" alt=""></p>
+<p>为了存储事件的三要素，这里使用了注解中的注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.ANNOTATION_TYPE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> EventBase &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置监听的方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">listenerSetter</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 事件类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Class&lt;?&gt; listenerType();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 回调方法</span></span><br><span class="line"><span class="comment">     * 事件被触发后，执行回调方法名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">callBackMethod</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@EventBase</span>(listenerSetter = <span class="string">"setOnClickListener"</span>,</span><br><span class="line">        listenerType = View.OnClickListener.class,</span><br><span class="line">        callBackMethod = <span class="string">"onClick"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> OnClick</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span>[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当在方法上写了@OnClick({R.id.a,R.id.b})这种，该怎么取出相应的ID和知道该ID的控件要设置哪个点击事件，这时候就需要对Method进行遍历了<br>取出事件三要素<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取Activity里面 所有方法</span></span><br><span class="line">Method[] methods = clazz.getDeclaredMethods();</span><br><span class="line"><span class="comment">//遍历Activity所有方法</span></span><br><span class="line"><span class="keyword">for</span> (Method method : methods) &#123;</span><br><span class="line"><span class="comment">//获取方法上所有的注解</span></span><br><span class="line">Annotation[] annotations = method.getAnnotations();</span><br><span class="line"><span class="keyword">for</span> (Annotation annotation : annotations) &#123;</span><br><span class="line">    <span class="comment">//获取注解 anntionType   OnClick  OnLongClck</span></span><br><span class="line">    Class&lt;?&gt; anntionType = annotation.annotationType();</span><br><span class="line">    <span class="comment">//获取注解的注解   onClick 注解上面的EventBase</span></span><br><span class="line">    EventBase eventBase = anntionType.getAnnotation(EventBase.class);</span><br><span class="line">    <span class="keyword">if</span> (eventBase == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    开始获取事件三要素  通过反射注入进去</span></span><br><span class="line"><span class="comment">    1 listenerSetter  返回     setOnClickListener字符串</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String listenerSetter = eventBase.listenerSetter();</span><br><span class="line">    <span class="comment">//得到 listenerType--》 View.OnClickListener.class,</span></span><br><span class="line">    Class&lt;?&gt; listenerType = eventBase.listenerType();</span><br><span class="line">    <span class="comment">//callMethod---&gt;onClick</span></span><br><span class="line">    String callMethod = eventBase.callBackMethod();</span><br></pre></td></tr></table></figure></p>
+<p>取出onClick的IDs<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Method valueMethod = anntionType.getDeclaredMethod(<span class="string">"value"</span>);</span><br><span class="line"><span class="keyword">int</span>[] viewIds = (<span class="keyword">int</span>[]) valueMethod.invoke(annotation);</span><br></pre></td></tr></table></figure></p>
+<p>使用动态代理Invocation</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment">  listenerSetter  setOnClickLitener</span></span><br><span class="line"><span class="comment">  listenerType   View.OnClickListener.class</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Method setOnClickListener = view.getClass().getMethod(listenerSetter, listenerType);</span><br><span class="line">ListenerInvocationHandler handler = <span class="keyword">new</span> ListenerInvocationHandler(context, methodMap);</span><br><span class="line"><span class="comment">//proxyy已经实现了listenerType接口</span></span><br><span class="line">Object proxy = Proxy.newProxyInstance</span><br><span class="line">        (listenerType.getClassLoader(),</span><br><span class="line">                <span class="keyword">new</span> Class[]&#123;listenerType&#125;, handler);</span><br><span class="line">setOnClickListener.invoke(view, proxy);</span><br></pre></td></tr></table></figure>
+<p>ok,这样你就可以在代码里面使用注解来代替setOnClickListener了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@OnClick</span>(R.id.text2)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Toast.makeText(<span class="keyword">this</span>,<span class="string">"单击"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里相应的效果就不贴了，非常简单。经过一段学习之后感觉IOC的架构也不过如此嘛！Fighting</p>
+</span>
+      
+    </div>
+	
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束，<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+	</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android架构/" rel="tag">#Android架构</a>
+          
+        </div>
+      
+	  
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/30/20180128_决战UI绘制(上篇)/" rel="prev">决战UI绘制(上篇)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/27/20180127_点滴面试经(算法篇)/" rel="next">点滴面试经(算法篇)</a>
+            
+          </div>
+		  
+        </div>
+      
+	  
+
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff;
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        // background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="/WeChat.png" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+            <table>
+                <tr>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:25%;margin-right:10px;">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a> 
+                         
+                    </td>
+                    <td>
+                        
+                            <a href="/WeChat.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="margin-right:30%">
+                                <img src="/WeChat.png" title="" height="164px" width="164px">
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+	 
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars0.githubusercontent.com/u/14291988?s=460&v=4" alt="花花世界" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">花花世界</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">我思故我在</p>
+		
+        
+        <div id="days"></div>
+</script>
+<script language="javascript">
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("12/25/2017 00:00:00");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML=daysold+"天"+hrsold+"小时"+minsold+"分";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+
+<script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+<div class="widget-wrap">
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width=100%">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android架构/">Android架构</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android框架/">Android框架</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android源码分析/">Android源码分析</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Camera开发/">Camera开发</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UI绘制/">UI绘制</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown语法/">markdown语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/时光追溯/">时光追溯</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/点滴面试经/">点滴面试经</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/玩转UI/">玩转UI</a><span class="tag-list-count">3</span></li></ul>
+        </canvas>
+    </div>
+</div>
+
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式"><span class="nav-number">2.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手写IOC架构"><span class="nav-number">3.</span> <span class="nav-text">手写IOC架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setContentView初始化布局"><span class="nav-number">3.1.</span> <span class="nav-text">setContentView初始化布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#findViewById初始化View"><span class="nav-number">3.2.</span> <span class="nav-text">findViewById初始化View</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件处理"><span class="nav-number">3.3.</span> <span class="nav-text">事件处理</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">花花世界
+  </span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站总访问量<span id="busuanzi_value_site_uv"></span>次
+</span>
+</div>
+<!--
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme by <a class="theme-link" href="http://blog.idhyt.com">idhyt</a>.<a class="theme-link" href="https://github.com/idhyt/hexo-theme-next/tree/magiclamp">Mala</a>
+</div>
+-->
+<!-- busuanzi -->
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共46.0k字</span>
+</div>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
